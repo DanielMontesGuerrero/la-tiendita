@@ -1,0 +1,26 @@
+# to run whole app: docker-compose up --build
+
+version: "3.9"
+services:
+  db:
+    build: ./db/
+    restart: always
+    ports:
+      - 3306
+  cliente:
+    build: ./cliente/
+    restart: always
+    ports:
+      - "3000:3000"
+  servidor:
+    build: ./servidor/
+    restart: always
+    ports:
+      - "8080:8080"
+  # misma funcion de phpMyAdmin
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8000:8080"
+  
