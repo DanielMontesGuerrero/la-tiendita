@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql2');
+const logger = require('./src/common/logger.js');
 
 const app = express();
 
@@ -9,5 +9,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(8080, () => {
-	console.log('Listening on port 8080');
+	logger.info({message: 'Listening on port 8080'});
 });

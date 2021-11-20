@@ -6,20 +6,19 @@ const connection = mysql.createConnection({
 	host: config.HOST,
 	user: config.USER,
 	password: config.PASSWORD,
-	database: config.DATABASE
+	database: config.DATABASE,
 });
 
-connection.connect(error => {
+connection.connect((error) => {
 	if (error) {
 		logger.error({
 			message: 'Error conectandose a la base de datos',
-			error: errorror
+			error: errorror,
 		});
 		throw error;
-	}
-	else {
+	} else {
 		logger.info({
-			message: 'Conexión a la base de datos exitosa!'
+			message: 'Conexión a la base de datos exitosa!',
 		});
 	}
 });

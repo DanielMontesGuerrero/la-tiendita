@@ -4,5 +4,5 @@ module.exports = {
 	HOST: dbHost,
 	USER: 'root',
 	PASSWORD: 'admin',
-	DATABASE: 'la_tiendita'
+	DATABASE: 'la_tiendita',
 };
