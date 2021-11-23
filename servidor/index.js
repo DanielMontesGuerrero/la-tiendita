@@ -3,6 +3,13 @@ const logger = require('./src/common/logger.js');
 
 const app = express();
 
+// parse application/json
+app.use(express.json());
+
+// routers
+const usuario = require('./src/routers/usuario.js');
+app.use(usuario);
+
 
 app.get('/', (req, res) => {
 	res.send('Hello world! :)');
