@@ -1,0 +1,19 @@
+// para indentar el codigo y verificar errores:
+// ./node_modules/.bin/eslint <file>
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+        "google"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        "indent": [1, "tab"],
+        "no-tabs": 0
+    }
+}
