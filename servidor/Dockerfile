@@ -1,5 +1,5 @@
-# to build container: docker build -t mi_tiendita_servidor:1 .
-# to run container: docker run -it -p 8080:8080 mi_tiendita_servidor:1 
+# to build container: docker build -t la_tiendita_servidor:1 .
+# to run container: docker run -it -p 8080:8080 la_tiendita_servidor:1 
 # to connect to container:
 #     docker ps
 #     copy container_id

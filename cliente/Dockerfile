@@ -1,5 +1,5 @@
-# to build container: docker build -t mi_tiendita_cliente:1 .
-# to run container: docker run -it -p 3000:3000 mi_tiendita_cliente:1
+# to build container: docker build -t la_tiendita_cliente:1 .
+# to run container: docker run -it -p 3000:3000 la_tiendita_cliente:1
 # to connect to container:
 #     docker ps
 #     copy container_id
@@ -18,4 +18,4 @@ RUN npm install
 
 COPY ./ ./
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start-prod"]

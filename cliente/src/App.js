@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Home from './home/Home.js';
+import Login from './login/Login.js';
+import PageNotFound from './common/PageNotFound.js';
+import Hemlet from 'react-helmet';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
+
+library.add(faUser);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          En construcción U.U
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Hemlet>
+        <style>{'body { background-color: #fafafa; }'}</style>
+      </Hemlet>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />}/>
+          <Route path='/login' element={<Login />}/>
+          <Route path='*' element={<PageNotFound/>}/>
+        </Routes>
+      </Router>
     </div>
   );
 }
