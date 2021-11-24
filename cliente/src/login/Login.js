@@ -4,9 +4,9 @@ import LoginForm from './LoginForm.js';
 import RegisterForm from './RegisterForm.js';
 
 const actions = {
-  LOGIN: "login",
-  REGISTER: "register",
-}
+  LOGIN: 'login',
+  REGISTER: 'register',
+};
 
 class Login extends Component {
   state = {
@@ -16,19 +16,22 @@ class Login extends Component {
     console.log('toggleAction');
     this.setState((prevState, prevProps) => {
       let newAction = actions.LOGIN;
-      if(prevState.action === actions.LOGIN){
+      if (prevState.action === actions.LOGIN) {
         newAction = actions.REGISTER;
       }
-      return { action: newAction };
+      return {action: newAction};
     });
   };
 
-  render () {
+  render() {
     return (
       <div>
         <NavigationBar/>
         <br/>
-        {this.state.action === actions.LOGIN ? <LoginForm toggleAction={() => this.toggleAction()}/> : <RegisterForm toggleAction={() => this.toggleAction()}/>}
+        {
+        this.state.action === actions.LOGIN ?
+        <LoginForm toggleAction={() => this.toggleAction()}/> :
+        <RegisterForm toggleAction={() => this.toggleAction()}/>}
       </div>
     );
   }
