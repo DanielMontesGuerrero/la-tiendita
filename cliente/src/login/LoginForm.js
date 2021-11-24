@@ -3,6 +3,7 @@ import React from 'react';
 import {Container, Card, Button, Row, Col, Form} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import './Login.css';
+import PropTypes from 'prop-types';
 
 class LoginForm extends Component {
   static get propTypes() {
