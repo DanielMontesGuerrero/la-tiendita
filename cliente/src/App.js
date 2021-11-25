@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './home/Home.js';
 import Login from './login/Login.js';
+import User from './user/User.js';
 import PageNotFound from './common/PageNotFound.js';
 import Hemlet from 'react-helmet';
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -18,7 +19,8 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Home />}/>
-          <Route path='/login' element={<Login />}/>
+          <Route path='/login' exact element={<Login />}/>
+          <Route path='/user' exact element={<User />}/>
           <Route path='*' element={<PageNotFound/>}/>
         </Routes>
       </Router>
