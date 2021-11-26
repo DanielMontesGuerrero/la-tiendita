@@ -12,8 +12,8 @@ class NavigationBar extends Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/productos">Productos</Nav.Link>
-              <Nav.Link href="/tienditas">Tienditas</Nav.Link>
+              <Nav.Link href="/products">Productos</Nav.Link>
+              <Nav.Link href="/stores">Tienditas</Nav.Link>
             </Nav>
             <Nav>
               <Nav.Link href="/login">

@@ -1,39 +1,24 @@
 import React, {Component} from 'react';
-import {Row, Col, Form, Card, Badge, Stack, Button} from 'react-bootstrap';
+import {Row, Col, Form, Card, Stack, Button, Badge} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import Score from '../common/Score.js';
 
-const UserTypes = {
-  user: 'user',
-  vendor: 'vendor',
-  admin: 'admin',
-};
-
-class UserSettings extends Component {
-  state = {
-    userType: UserTypes.user,
-  }
-
-  getBadge() {
-    let color = 'secondary';
-    if (this.state.userType === UserTypes.vendor) {
-      color = 'success';
-    } else if (this.state.userType === UserTypes.admin) {
-      color = 'danger';
-    }
-    return (<Badge bg={color} className="mt-3">{this.state.userType}</Badge>);
-  }
-
+class StoreSettings extends Component {
   render() {
     return (
       <div>
         <Card className="pt-3">
           <Row className="justify-content-center px-4">
             <Col md="auto">
-              <Stack>
+              <Stack gap={2}>
+                <Badge
+                  bg="dark">
+                  Tienda de Daniel
+                </Badge>
                 <center>
-                  <FontAwesomeIcon icon="user" size="10x"/>
+                  <FontAwesomeIcon icon="store" size="10x"/>
                 </center>
-                {this.getBadge()}
+                <Score score={4.2}/>
               </Stack>
             </Col>
             <Col md="auto">
@@ -50,22 +35,22 @@ class UserSettings extends Component {
                     <Form.Control
                       plaintext
                       readOnly
-                      defaultValue="Daniel" />
+                      defaultValue="Tienda de fulano" />
                   </Col>
                 </Form.Group>
 
                 <Form.Group
                   as={Row}
                   className="mb-3"
-                  controlId="email">
+                  controlId="descripcion">
                   <Form.Label column sm="4">
-                    Email
+                    Descripción
                   </Form.Label>
                   <Col sm="8">
                     <Form.Control
                       plaintext
                       readOnly
-                      defaultValue="email@example.com" />
+                      defaultValue="Bueno bonito y barato ;)" />
                   </Col>
                 </Form.Group>
 
@@ -102,9 +87,10 @@ class UserSettings extends Component {
               </Form>
             </Col>
           </Row>
-          <Stack gap={2} className="col-md-5 mx-auto mb-3">
-            <Button variant="primary">Mis Pedidos</Button>
-            <Button variant="primary">Solicitar cuenta de vendor</Button>
+          <Stack gap={2} className="col-md-5 mx-auto mb-3 mt-4">
+            <Button variant="primary">Inventario</Button>
+            <Button variant="primary">Métodos de entrega</Button>
+            <Button variant="primary">Métodos de pago</Button>
           </Stack>
         </Card>
       </div>
@@ -112,6 +98,6 @@ class UserSettings extends Component {
   }
 }
 
-export default UserSettings;
+export default StoreSettings;
 
 

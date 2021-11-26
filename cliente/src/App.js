@@ -3,12 +3,13 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './home/Home.js';
 import Login from './login/Login.js';
 import User from './user/User.js';
+import ProductShop from './product/ProductShop.js';
 import PageNotFound from './common/PageNotFound.js';
 import Hemlet from 'react-helmet';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
+import {faUser, faStore, faStar} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faUser);
+library.add(faUser, faStore, faStar);
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
       </Hemlet>
       <Router>
         <Routes>
-          <Route path='/' element={<Home />}/>
-          <Route path='/login' exact element={<Login />}/>
-          <Route path='/user' exact element={<User />}/>
-          <Route path='*' element={<PageNotFound/>}/>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/login" exact element={<Login/>}/>
+          <Route path="/user" exact element={<User/>}/>
+          <Route path="/products" exact element={<ProductShop/>}/>
+          <Route path="*" element={<PageNotFound/>}/>
         </Routes>
       </Router>
     </div>

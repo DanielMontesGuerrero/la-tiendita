@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Row, Col, Container, Tabs, Tab} from 'react-bootstrap';
 import NavigationBar from '../common/NavigationBar.js';
 import UserSettings from './UserSettings.js';
+import StoreSettings from './StoreSettings.js';
+import AdminSettings from './AdminSettings.js';
 
 class User extends Component {
   render() {
@@ -21,8 +23,10 @@ class User extends Component {
                   <UserSettings/>
                 </Tab>
                 <Tab eventKey="mi_tiendita" title="Mi tiendita">
+                  <StoreSettings/>
                 </Tab>
                 <Tab eventKey="admin" title="Soy admin">
+                  <AdminSettings/>
                 </Tab>
               </Tabs>
             </Col>
