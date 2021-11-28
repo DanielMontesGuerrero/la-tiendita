@@ -9,9 +9,21 @@ import Cart from './cart/Cart.js';
 import PageNotFound from './common/PageNotFound.js';
 import Hemlet from 'react-helmet';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faUser, faStore, faStar} from '@fortawesome/free-solid-svg-icons';
+import {faUser,
+  faStore,
+  faStar,
+  faAngleLeft,
+  faAngleRight,
+  faChevronLeft,
+  faChevronRight} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faUser, faStore, faStar);
+library.add(faUser,
+    faStore,
+    faStar,
+    faAngleLeft,
+    faAngleRight,
+    faChevronRight,
+    faChevronLeft);
 
 function App() {
   return (
