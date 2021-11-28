@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Stack, Container} from 'react-bootstrap';
-import ProductBanner from './ProductBanner.js';
+import {Stack, Container, Button} from 'react-bootstrap';
+import ProductBanner from '../product/ProductBanner.js';
 import NavigationBar from '../common/NavigationBar.js';
 
-class ProductShop extends Component {
+class Cart extends Component {
   getProducts() {
     const data = require('../common/products.json');
     const products = data.products;
@@ -15,6 +15,7 @@ class ProductShop extends Component {
         description={item.description}
         quantity={item.quantity}
         unity={item.unity}
+        inCart={true}
         key={index}/>);
     });
   }
@@ -27,6 +28,9 @@ class ProductShop extends Component {
           <div className="p-5">
             <Stack gap={3}>
               {this.getProducts()}
+              <Container>
+                <Button variant="primary">Confirmar pedido</Button>
+              </Container>
             </Stack>
           </div>
         </Container>
@@ -35,6 +39,4 @@ class ProductShop extends Component {
   }
 }
 
-export default ProductShop;
-
-
+export default Cart;

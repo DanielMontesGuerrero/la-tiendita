@@ -1,0 +1,19 @@
+{
+	"stores": [
+		{
+			"name": "Tienda de Fulano",
+			"description": "Una tienda prrona",
+			"score": 2.5
+		},
+		{
+			"name": "Tienda qlera",
+			"description": "Dulces qleros, pero precios chingones",
+			"score": 4.4
+		},
+		{
+			"name": "OKZO",
+			"description": "Todo lo que necesites, yo te lo vendo B)",
+			"score": 3.7
+		}
+	]
+}

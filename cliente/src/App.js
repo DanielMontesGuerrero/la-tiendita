@@ -4,6 +4,8 @@ import Home from './home/Home.js';
 import Login from './login/Login.js';
 import User from './user/User.js';
 import ProductShop from './product/ProductShop.js';
+import MarketPlace from './store/MarketPlace.js';
+import Cart from './cart/Cart.js';
 import PageNotFound from './common/PageNotFound.js';
 import Hemlet from 'react-helmet';
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -23,6 +25,8 @@ function App() {
           <Route path="/login" exact element={<Login/>}/>
           <Route path="/user" exact element={<User/>}/>
           <Route path="/products" exact element={<ProductShop/>}/>
+          <Route path="/stores" exact element={<MarketPlace/>}/>
+          <Route path="/cart" exact element={<Cart/>}/>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
       </Router>

@@ -1,20 +1,17 @@
 import React, {Component} from 'react';
 import {Stack, Container} from 'react-bootstrap';
-import ProductBanner from './ProductBanner.js';
 import NavigationBar from '../common/NavigationBar.js';
+import StoreBanner from './StoreBanner.js';
 
-class ProductShop extends Component {
-  getProducts() {
-    const data = require('../common/products.json');
-    const products = data.products;
-    return products.map((item, index) => {
-      return (<ProductBanner
+class MarketPlace extends Component {
+  getStores() {
+    const data = require('../common/stores.json');
+    const stores = data.stores;
+    return stores.map((item, index) => {
+      return (<StoreBanner
         name={item.name}
-        image={item.image}
-        score={item.score}
         description={item.description}
-        quantity={item.quantity}
-        unity={item.unity}
+        score={item.score}
         key={index}/>);
     });
   }
@@ -26,7 +23,7 @@ class ProductShop extends Component {
         <Container className="mt-4">
           <div className="p-5">
             <Stack gap={3}>
-              {this.getProducts()}
+              {this.getStores()}
             </Stack>
           </div>
         </Container>
@@ -35,6 +32,6 @@ class ProductShop extends Component {
   }
 }
 
-export default ProductShop;
+export default MarketPlace;
 
 

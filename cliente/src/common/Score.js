@@ -12,7 +12,7 @@ class Score extends Component {
   }
 
   genStars() {
-    const numStars = Math.floor(this.props.score);
+    const numStars = Math.round(this.props.score);
     return Array.from(Array(5)).map((item, index) => {
       const color = (index + 1) <= numStars ? 'rating-color' : 'null-color';
       return (
