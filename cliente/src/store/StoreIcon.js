@@ -8,6 +8,7 @@ class ProductIcon extends Component {
   static get propTypes() {
     return {
       name: PropTypes.text,
+      price: PropTypes.number,
     };
   }
 
@@ -16,6 +17,10 @@ class ProductIcon extends Component {
       <Badge pill bg="light" text="dark" className="storeIcon align-middle">
         <FontAwesomeIcon icon="store" size="2x"/>
         <span>{' '}{this.props.name}</span>
+        {this.props.price !== undefined ?
+          <span>{' | $' + this.props.price}</span> :
+          <span>Hola</span>
+        }
       </Badge>
     );
   }

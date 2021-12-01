@@ -15,6 +15,7 @@ class Cart extends Component {
         description={item.description}
         quantity={item.quantity}
         unity={item.unity}
+        price={item.price}
         inCart={true}
         key={index}/>);
     });

@@ -15,7 +15,8 @@ import {faUser,
   faAngleLeft,
   faAngleRight,
   faChevronLeft,
-  faChevronRight} from '@fortawesome/free-solid-svg-icons';
+  faChevronRight,
+  faCartPlus} from '@fortawesome/free-solid-svg-icons';
 
 library.add(faUser,
     faStore,
@@ -23,7 +24,8 @@ library.add(faUser,
     faAngleLeft,
     faAngleRight,
     faChevronRight,
-    faChevronLeft);
+    faChevronLeft,
+    faCartPlus);
 
 function App() {
   return (

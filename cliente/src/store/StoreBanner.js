@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
-import {Stack, Card, Container, Col, Row} from 'react-bootstrap';
+import {Stack, Card, Container, Col, Row, Button} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import Score from '../common/Score.js';
 import ProductIcon from '../product/ProductIcon.js';
+import StoreInfo from './StoreInfo';
 
 class ProductBanner extends Component {
+  state = {
+    modalShow: false,
+  };
+
+  setModalShow(modalShow) {
+    this.setState({modalShow: modalShow});
+  }
+
   static get propTypes() {
     return {
       name: PropTypes.text,
@@ -47,11 +56,29 @@ class ProductBanner extends Component {
             </Col>
           </Row>
           <Row className="px-3 my-2">
-            <Stack gap={3} direction="horizontal" className="overflow-auto">
-              {this.getProductIcons()}
-            </Stack>
+            <Col>
+              <Stack gap={3} direction="horizontal" className="overflow-auto">
+                {this.getProductIcons()}
+              </Stack>
+            </Col>
+            <Col md={3}>
+              <center>
+                <Button
+                  variant="outline-dark"
+                  onClick={() => this.setModalShow(true)}>
+                  Ver mas...
+                </Button>
+              </center>
+            </Col>
           </Row>
         </Card>
+        <StoreInfo
+          show={this.state.modalShow}
+          name={this.props.name}
+          description={this.props.description}
+          score={this.props.score}
+          onHide={() => this.setModalShow(false)}
+        />
       </Container>
     );
   }

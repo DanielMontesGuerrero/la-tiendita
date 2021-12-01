@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Card, Container, Col, Row, Stack} from 'react-bootstrap';
+import {Card, Container, Col, Row, Stack, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Score from '../common/Score.js';
 import StoreIcon from '../store/StoreIcon.js';
 import {QuantityPicker} from 'react-qty-picker';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class ProductBanner extends Component {
   static get propTypes() {
@@ -15,6 +16,8 @@ class ProductBanner extends Component {
       unity: PropTypes.text,
       description: PropTypes.text,
       inCart: PropTypes.bool,
+      inInfo: PropTypes.bool,
+      price: PropTypes.number,
     };
   }
 
@@ -33,6 +36,7 @@ class ProductBanner extends Component {
       return (
         <StoreIcon
           name={item.name}
+          price={item.price}
           key={index}
         />
       );
@@ -51,7 +55,7 @@ class ProductBanner extends Component {
               <Card.Title>{this.getTitle()}</Card.Title>
               <Card.Text>{this.props.description}</Card.Text>
             </Col>
-            <Col md={3} className="mb-2">
+            <Col md={4} className="mb-2">
               {this.props.inCart ?
                 <center>
                   <QuantityPicker smooth min={0}/>
@@ -60,18 +64,38 @@ class ProductBanner extends Component {
               }
             </Col>
           </Row>
-          {this.props.inCart ? <div></div> :
-          <Row className="mb-3">
-            <Col md={2} className="mx-3">
-              Disponible en:
-            </Col>
-            <Col className="px-3">
-              <Stack gap={3} direction="horizontal" className="overflow-auto">
-                {this.getStores()}
-              </Stack>
+          {this.props.inCart || this.props.inInfo ?
+            <Row className="justify-content-md-center mb-2">
+              <Col md="auto" className="fw-bold fs-5 text-center">
+                {'$ '}{this.props.price}
+              </Col>
+            </Row> :
+            <Row className="mb-3">
+              <Col md={2} className="mx-3">
+                Disponible en:
+              </Col>
+              <Col className="px-3">
+                <Stack gap={3} direction="horizontal" className="overflow-auto">
+                  {this.getStores()}
+                </Stack>
+              </Col>
+            </Row>
+          }
+          <Row className="mb-3 justify-content-md-center">
+            {this.props.inInfo ?
+              <Col md="auto">
+                <Button>
+                  <FontAwesomeIcon icon="cart-plus"/>{' '}Añadir al carrito
+                </Button>
+              </Col>:
+              <></>
+            }
+            <Col md="auto">
+              <Button variant="outline-warning">
+                <FontAwesomeIcon icon="star"/>{' '}Calificar
+              </Button>
             </Col>
           </Row>
-          }
         </Card>
       </Container>
     );

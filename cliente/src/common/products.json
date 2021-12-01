@@ -6,7 +6,8 @@
       "score": 4.7,
       "description": "Los mejores cheetos ;)",
       "quantity": 150,
-      "unity": "g"
+      "unity": "g",
+      "price": 12
     },
     {
       "name": "Halls",
@@ -14,7 +15,8 @@
       "score": 3.2,
       "description": "Halls negras 7u7r",
       "quantity": 25.2,
-      "unity": "g"
+      "unity": "g",
+      "price": 8
     },
     {
       "name": "Pulparindo",
@@ -22,7 +24,8 @@
       "score": 4.4,
       "description": "",
       "quantity": 14,
-      "unity": "g"
+      "unity": "g",
+      "price": 5
     }
   ]
 }

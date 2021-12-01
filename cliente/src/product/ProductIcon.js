@@ -15,7 +15,7 @@ class ProductIcon extends Component {
     return (
       <Badge pill bg="light" text="dark" className="productIcon">
         <Image src={this.props.image} roundedCircle className="mh-100"/>
-        <span>{' '}{this.props.name}</span>
+        <span>{' '}{this.props.name}{' '}</span>
       </Badge>
     );
   }
