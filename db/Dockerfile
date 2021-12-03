@@ -7,7 +7,7 @@
 # to stop container:
 #     docker stop $CONTAINER_ID
 
-FROM mysql
+FROM mysql:5.6
 
 ENV MYSQL_ROOT_PASSWORD admin
 ENV MYSQL_DATABASE la_tiendita

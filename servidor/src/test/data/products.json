@@ -1,0 +1,136 @@
+[
+	{
+		"name": "Cheetos flaming hot",
+		"description": "Cheetos flaming hot, los mejores cheetos que existen",
+		"image": "https://cdn.shopify.com/s/files/1/0297/6812/2412/products/Cheetos_flaimn_hot_sabritas_150_grs_600x.jpg?v=1599585044",
+		"quantity": 150,
+		"unity": "g"
+	},
+	{
+		"name": "Chocolates Nestlé Crunch",
+		"description": "El chocolate CRUNCH® es la combinación única de cremoso chocolate con leche y arroz inflado. Vive una crujiente experiencia que solo el ruido de CRUNCH® te puede dar.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00750105928890L.jpg",
+		"quantity": 180,
+		"unity": "g"
+	},
+	{
+		"name": "Chocolate Ferrero Rocher",
+		"description": "Chocolate Ferrero Rocher, galleta cubierta con trocitos de avellanas y relleno cremoso 16 pzas de 12.5 g c/u.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00789802439010L.jpg",
+		"quantity": 12.5,
+		"unity": "g"
+	},
+	{
+		"name": "Oblea Nestlé KitKat",
+		"description": "Deleita tu paladar con el delicioso sabor de KitKat®",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00789100024836L.jpg",
+		"quantity": 41.5,
+		"unity": "g"
+	},
+	{
+		"name": "Doritos Nacho",
+		"description": "No hay nada como disfrutar de un sabor intenso y único cuando estás de antojo, prueba los Doritos Nacho,",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00750101111523L.jpg",
+		"quantity": 370,
+		"unity": "g"
+	},
+	{
+		"name": "Takis fuego",
+		"description": "No podrás resistirte al sabor único y atrevido de los Takis fuego Barcel.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00075752802703L.jpg",
+		"quantity": 280,
+		"unity": "g"
+	},
+	{
+		"name": "Chip's sabor jalapeño",
+		"description": "Chips jalapeño, una botana a base de papa sabor jalapeño. Una presentación que Barcel te ofrece para que puedas compartir.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00750301854471L.jpg",
+		"quantity": 160,
+		"unity": "g"
+	},
+	{
+		"name": "Trident sin azucar sabor menta",
+		"description": "El único chicle formato stick con 5 piezas perfectas para el consumidor que busca disfrutar algo durante el camino con microcápsulas de sabor. \"Con Trident, Mastica tu mundo con Actitud Fresca\".",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00762221058191L.jpg"
+	},
+	{
+		"name": "Clorets Adams",
+		"description": "Goma de mascar Clorets sabor menta con clorofila 30 pzas",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00750105690115L.jpg",
+		"quantity": 42,
+		"unity": "g"
+	},
+	{
+		"name": "Panditas clásicos",
+		"description": "Disfruta de tus Panditas Ricolino favoritos gracias a esta presentación que tenemos para ti. Ideal para satisfacer tus antojos a cualquier hora del día.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00075752804204L.jpg",
+		"quantity": 65,
+		"unity": "g"
+	},
+	{
+		"name": "Pulparindo",
+		"description": "Si eres fan de los dulces picositos, no puedes dejar de probar el delicioso sabor de Pulparindo de De la Rosa. ¡Siente ese sabor dulce y picoso a la vez y sorprende tu paladar!",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00072522600191L.jpg",
+		"quantity": 28,
+		"unity": "g"
+	},
+	{
+		"name": "Rockaleta",
+		"description": "Sonrics trae para ti la deliciosa Rockabola.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00750101118678L.jpg",
+		"quantity": 16,
+		"unity": "g"
+	},
+	{
+		"name": "Pelon Pelonazo",
+		"description": "¡No te quedes con las ganas de un Pelón Pelonazo!",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00071988621189L.jpg",
+		"quantity": 80,
+		"unity": "g"
+	},
+	{
+		"name": "Pelon Pelonetes",
+		"description": "¡Nos encanta que disfrutes más! Pelón Pelonetes es el dulce perfecto para ti",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00000007506463L.jpg",
+		"quantity": 30,
+		"unity": "g"
+	},
+	{
+		"name": "Halls",
+		"description": "El sabor original de Halls con un balance perfecto de frescura mentolada en forma de pastillas de caramelo macizo. Su práctico tamaño hace que las puedas cargar en tu bolsillo y así llevar su dulce frescura a cualquier lado y disfrutar de ellas en cualquier momento. ¡Pruébalas!",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00762221042710L.jpg"
+	},
+	{
+		"name": "Halls sabor menta",
+		"description": "¡Refresca tu día con Halls Menta! El sabor original de Halls con un balance perfecto de frescura mentolada en forma de pastillas de caramelo macizo.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00762221056797L.jpg",
+		"quantity": 6,
+		"unity": "pzas"
+	},
+	{
+		"name": "Monster low carb ",
+		"description": "Monster low carb",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00007084703600L.jpg",
+		"quantity": 473,
+		"unity": "ml"
+	},
+	{
+		"name": "Gatorade Fierce sabor uva ",
+		"description": "¡Permanece fresco e hidratado con Gatorade!",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00003673132400L.jpg"
+	},
+	{
+		"name": "Mazapán",
+		"description": "¡El favorito de todos! Mazapán de la Rosa, un clásico mexicano.",
+		"image": "https://res.cloudinary.com/walmart-labs/image/upload/w_960,dpr_auto,f_auto,q_auto:best/gr/images/product-images/img_large/00072486900138L.jpg",
+		"quantity": 50,
+		"unity": "g"
+	},
+	{
+		"name": "Galletas con chispas de chocolate",
+		"description": "Galletas caseras con chispas de chocolate",
+		"image": "https://cdn7.kiwilimon.com/recetaimagen/3329/1900x1080/38990.jpg.webp",
+		"quantity": 100,
+		"unity": "g"
+	}
+]

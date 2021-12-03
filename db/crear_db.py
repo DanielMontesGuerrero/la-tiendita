@@ -32,7 +32,7 @@ def main():
 
     for i, file in enumerate(files):
         logger.info(f"[{i + 2}/{len(files) + 1}] Concatenating: {file}.sql")
-        os.system(f"cat ./definiciones//{file}.sql >> {SCRIPT_NAME}.sql")
+        os.system(f"cat ./definiciones/{file}.sql >> {SCRIPT_NAME}.sql")
 
     logger.info(f"Created script {SCRIPT_NAME}")
 

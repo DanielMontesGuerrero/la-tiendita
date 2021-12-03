@@ -1,26 +1,24 @@
-const mysql = require('mysql2');
 const config = require('./config.js');
 const logger = require('../common/logger.js');
+const QueryBuilder = require('node-querybuilder');
 
-const connection = mysql.createConnection({
+const settings = {
 	host: config.HOST,
 	user: config.USER,
 	password: config.PASSWORD,
 	database: config.DATABASE,
-});
+};
 
-connection.connect((error) => {
-	if (error) {
-		logger.error({
-			message: 'Error conectandose a la base de datos',
-			error: errorror,
-		});
-		throw error;
-	} else {
-		logger.info({
-			message: 'Conexión a la base de datos exitosa!',
-		});
-	}
-});
+let pool = null;
 
-module.exports = connection;
+try {
+	pool = new QueryBuilder(settings, 'mysql', 'pool');
+} catch (error) {
+	logger.error({
+		message: 'Error conectandose a la base de datos',
+		error: error,
+	});
+	throw error;
+}
+
+module.exports = pool;

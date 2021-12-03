@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('../common/logger.js');
 const router = new express.Router();
 
-router.post('/usuario/peticion', (req, res) => {
+router.post('/user/request', (req, res) => {
 	const data = req.body;
 	logger.info({
 		message: `Creando petición para usuario con id: ${data.id_usuario}`,
@@ -13,7 +13,7 @@ router.post('/usuario/peticion', (req, res) => {
 	});
 });
 
-router.get('/usuario/peticion', (req, res) => {
+router.get('/user/request', (req, res) => {
 	const data = req.body;
 	logger.info({
 		message: 'Obteniendo las peticiones',
@@ -33,7 +33,7 @@ router.get('/usuario/peticion', (req, res) => {
 	});
 });
 
-router.patch('/usuario/peticion/:id', (req, res) => {
+router.patch('/user/request/:id', (req, res) => {
 	const data = req.body;
 	logger.info({
 		message: `Modificando petición con id: ${req.params.id}`,
@@ -45,9 +45,9 @@ router.patch('/usuario/peticion/:id', (req, res) => {
 });
 
 
-router.get('/usuario/:identificador', (req, res) => {
+router.get('/user/:id', (req, res) => {
 	// TODO: buscar usuario ya sea por id o por nombre
-	logger.info(`Getting usuario: ${req.params.identificador}`);
+	logger.info(`Getting usuario: ${req.params.id}`);
 	res.send({
 		result: true,
 		data: {
@@ -62,7 +62,7 @@ router.get('/usuario/:identificador', (req, res) => {
 	});
 });
 
-router.post('/usuario', (req, res) => {
+router.post('/user', (req, res) => {
 	// TODO: registrar usuario
 	const usuario = req.body;
 	logger.info({
@@ -74,7 +74,7 @@ router.post('/usuario', (req, res) => {
 	});
 });
 
-router.patch('/usuario/:identificador', (req, res) => {
+router.patch('/user/:id', (req, res) => {
 	const usuario = req.body;
 	logger.info({
 		message: `Actualizandon usuario con id: ${usuario.id}`,
