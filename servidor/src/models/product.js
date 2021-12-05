@@ -56,14 +56,14 @@ class Product {
 	}
 
 	/**
-	 * convierte el product a un objecto donde los nombres de cada campo coinciden
-	 * con los de la DB
+	 * convierte el producto a un objecto donde los nombres de cada campo
+	 *  coinciden con los de la DB
 	 * @param {Product} product - producto a convertir
 	 * @return {any} - objecto con los mismos datos
-	*/
+	 */
 	static parseToColumnNamesObject(product) {
 		const columnNameObject = {};
-		if (product.id !== undefined) {
+		if (product.id_product !== undefined) {
 			columnNameObject.id_producto = product.id_product;
 		}
 		if (product.name !== undefined) {
@@ -88,12 +88,30 @@ class Product {
 	}
 
 	/**
+	 * Verifica que el producto sea valido
+	 * nota: usar en objecto con los nombres de las columnas de la base de datos
+	 * @throw Lanza un error si contiene información no válida
+	 */
+	isValid() {
+		const re = new RegExp('^[a-zA-Z]+[a-zA-Z0-9]*$');
+		if (!re.test(this.nombre)) {
+			throw new Error('Producto no valido: el nombre debe comenzar con letras');
+		}
+	}
+
+	/**
 	* crea un nuevo producto en la base de datos
 	* @param {Product} data - información a insertar
 	* @param {func} callback - función de callback
+	* @return {void} void
 	*/
 	static create(data, callback) {
-		data = Product.parseToColumnNamesObject(data);
+		data = this.parseToColumnNamesObject(data);
+		try {
+			data.isValid();
+		} catch (err) {
+			return callback(err, null);
+		}
 		connection.get_connection((qb) => {
 			qb.insert(
 				productsTable,
@@ -120,7 +138,7 @@ class Product {
 	 * obtiene los datos de un producto
 	 * @param {int} id - id del producto a obtener
 	 * @param {func} callback - función de callback
-	*/
+	 */
 	static getById(id, callback) {
 		connection.get_connection((qb) => {
 			qb.select('*').where('id_producto', id);
@@ -137,7 +155,7 @@ class Product {
 					message: `Producto consultado: ${id}`,
 					result: res,
 				});
-				callback(null, res);
+				callback(null, new Product(res));
 			});
 		});
 	}
@@ -146,7 +164,7 @@ class Product {
 	 * actualiza los datos de un producto
 	 * @param {Request} request - petición con el id y los datos a actualizar
 	 * @param {func} callback - función de callback
-	*/
+	 */
 	static update(request, callback) {
 		const data = this.parseToColumnNamesObject(request.data);
 		connection.get_connection((qb) => {

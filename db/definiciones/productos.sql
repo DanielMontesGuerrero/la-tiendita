@@ -3,7 +3,7 @@ CREATE TABLE productos (
 	nombre VARCHAR(50) NOT NULL UNIQUE,
 	descripcion VARCHAR(255) NOT NULL,
 	imagen VARCHAR(255),
-	cantidad INT(10),
+	cantidad INT(10) CHECK (cantidad > 0),
 	unidad TINYTEXT,
 	PRIMARY KEY (id_producto, nombre)
 );
