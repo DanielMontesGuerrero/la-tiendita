@@ -14,7 +14,7 @@ class Product {
 	* @param {any} product - información del producto
 	*/
 	constructor(product) {
-		if (product.id !== undefined) {
+		if (product.id_product !== undefined) {
 			this.id_product = product.id_product;
 		}
 		if (product.name !== undefined) {
@@ -34,6 +34,24 @@ class Product {
 		}
 		if (product.score !== undefined) {
 			this.score = product.score;
+		}
+		if (product.id_producto !== undefined) {
+			this.id_product = product.id_producto;
+		}
+		if (product.nombre !== undefined) {
+			this.name = product.nombre;
+		}
+		if (product.descripcion !== undefined) {
+			this.description = product.descripcion;
+		}
+		if (product.imagen !== undefined) {
+			this.image = product.imagen;
+		}
+		if (product.cantidad !== undefined) {
+			this.quantity = product.cantidad;
+		}
+		if (product.unidad !== undefined) {
+			this.unity = product.unidad;
 		}
 	}
 

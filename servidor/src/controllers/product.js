@@ -12,17 +12,13 @@ const insertProductToDB = (product, res) => {
 		}
 		res.send({
 			result: true,
+			data: result,
 		});
 	});
 };
 
 exports.create = (req, res) => {
 	const data = req.body;
-	logger.info({
-		message: 'Create request',
-		data: data,
-		request: req,
-	});
 	if (data.name === undefined) {
 		return res.status(400).send({
 			result: false,

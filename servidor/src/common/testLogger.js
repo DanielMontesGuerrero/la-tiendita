@@ -13,7 +13,7 @@ const logger = winston.createLogger({
 			),
 		}),
 		new winston.transports.File({
-			filename: '../../logs/test-logs.log',
+			filename: './logs/test-logs.log',
 			format: winston.format.json(),
 		}),
 	],

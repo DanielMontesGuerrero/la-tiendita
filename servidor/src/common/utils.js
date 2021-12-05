@@ -29,7 +29,7 @@ exports.uploadImage = (buffer, callback) => {
 		}
 		if (response.body.success) {
 			logger.info({
-				message: `Imangen insertada, url: ${response.body.data.url_viewer}`,
+				message: `Imangen insertada, url: ${response.body.data.url}`,
 				response: response.body,
 			});
 			callback(null, response.body);
