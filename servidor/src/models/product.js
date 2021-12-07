@@ -167,7 +167,7 @@ class Product {
 					message: `Producto consultado: ${id}`,
 					result: res,
 				});
-				callback(null, new Product(res));
+				callback(null, new Product(res[0]));
 			});
 		});
 	}
