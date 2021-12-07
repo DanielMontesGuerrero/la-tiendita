@@ -1,19 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-const request = require('postman-request');
 const logger = require('../common/testLogger.js');
 const config = require('../common/config');
+const utils = require('../common/utils');
 
 const imgFolderPath = '/data/img/';
 
-const insertUsers = () => {
+const insertUsers = async () => {
 	const raw = fs.readFileSync(
 		path.join(__dirname, '/data/users.json'));
 	const user = JSON.parse(raw);
 
 	logger.info('Insertando productos');
 
-	user.forEach((item) => {
+	const userIds = await Promise.all(user.map(async (item) => {
 		// TODO: quitar esta linea cuando se agregen las operaciones
 		// CRUD de las escuelas
 		item.id_school = undefined;
@@ -21,14 +21,10 @@ const insertUsers = () => {
 			url: `${config.host}/user`,
 			json: true,
 			body: item,
+			method: 'POST',
 		};
-		request.post(options, (error, response) => {
-			if (error) {
-				return logger.error({
-					message: `Error insertando: ${item.name}`,
-					error: error,
-				});
-			}
+		try {
+			const response = await utils.promisfiedRequest(options);
 			const respData = response.body;
 			if (respData.result) {
 				logger.info({
@@ -44,29 +40,38 @@ const insertUsers = () => {
 						formData: {
 							image: fs.createReadStream(imagePath),
 						},
+						method: 'POST',
 					};
-					request.post(options, (error, responseImg) => {
-						if (error || !responseImg.body.result) {
-							return logger.error({
-								message: `Error enviando imagen de: ${item.name}`,
-								error: error,
-							});
-						} else {
-							return logger.info({
-								message: `Imagen enviada del producto: ${item.name}`,
-								response: responseImg.body,
-							});
-						}
-					});
+					const responseImg = await utils.promisfiedRequest(options);
+					if (!responseImg.body.result) {
+						logger.error({
+							message: `Error enviando imagen de: ${item.name}`,
+							error: error,
+						});
+					} else {
+						logger.info({
+							message: `Imagen enviada del producto: ${item.name}`,
+							response: responseImg.body,
+						});
+					}
 				}
+				return respData.response.insertId;
 			} else {
-				return logger.error({
+				logger.error({
 					message: `Error insertando: ${item.name}`,
 					error: response.description,
 				});
+				return -1;
 			}
-		});
-	});
+		} catch (error) {
+			logger.error({
+				message: `Error insertando: ${item.name}`,
+				error: error,
+			});
+			return -1;
+		}
+	}));
+	return userIds;
 };
 
 module.exports = insertUsers;
