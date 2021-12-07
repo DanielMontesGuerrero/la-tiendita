@@ -109,6 +109,10 @@ class User {
 		try {
 			this.isValid(data);
 		} catch (err) {
+			logger.error({
+				message: `Error al crear el usuario: ${data.nombre}`,
+				error: err.message,
+			});
 			return callback(err, null);
 		}
 		connection.get_connection((qb) => {

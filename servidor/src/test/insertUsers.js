@@ -4,15 +4,18 @@ const request = require('postman-request');
 const logger = require('../common/testLogger.js');
 const config = require('../common/config');
 
-const insertProducts = () => {
-	const raw = fs.readFileSync(path.join(__dirname, '/data/products.json'));
-	const products = JSON.parse(raw);
+const insertUsers = () => {
+	const raw = fs.readFileSync(path.join(__dirname, '/data/users.json'));
+	const user = JSON.parse(raw);
 
 	logger.info('Insertando productos');
 
-	products.forEach((item) => {
+	user.forEach((item) => {
+		// TODO: quitar esta linea cuando se agregen las operaciones
+		// CRUD de las escuelas
+		item.id_school = undefined;
 		let options = {
-			url: `${config.host}/product`,
+			url: `${config.host}/user`,
 			json: true,
 			body: item,
 		};
@@ -33,7 +36,7 @@ const insertProducts = () => {
 				if (item.imageFile !== undefined) {
 					imagePath = path.join(__dirname, './data/', item.imageFile);
 					options = {
-						url: `${config.host}/product/image/${respData.response.insertId}`,
+						url: `${config.host}/user/image/${respData.response.insertId}`,
 						json: true,
 						formData: {
 							image: fs.createReadStream(imagePath),
@@ -63,4 +66,4 @@ const insertProducts = () => {
 	});
 };
 
-module.exports = insertProducts;
+module.exports = insertUsers;

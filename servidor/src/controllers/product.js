@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 		name: data.name,
 		description: data.description,
 		image: data.imageURL || undefined,
-		quantity: data.quantity || '',
+		quantity: data.quantity || undefined,
 		unity: data.unity || '',
 	});
 	insertProductToDB(product, res);

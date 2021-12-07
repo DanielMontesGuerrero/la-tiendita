@@ -99,6 +99,10 @@ class Store {
 		try {
 			this.isValid(data);
 		} catch (err) {
+			logger.error({
+				message: `Error al crear la tienda: ${data.nombre}`,
+				error: err.message,
+			});
 			return callback(err, null);
 		}
 		connection.get_connection((qb) => {

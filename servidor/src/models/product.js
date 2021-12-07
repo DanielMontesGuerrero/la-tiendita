@@ -92,7 +92,7 @@ class Product {
 	 * Verifica que el producto sea valido
 	 * nota: usar en objecto con los nombres de las columnas de la base de datos
 	 * @param {Producto} product - datos del producto
-	 * @throws Lanza un error si contiene información no válida
+	 * @throws Error Lanza un error si contiene información no válida
 	 */
 	static isValid(product) {
 		const re = new RegExp('^[a-zA-Z]+.*$');
@@ -120,7 +120,7 @@ class Product {
 		} catch (err) {
 			logger.error({
 				message: `Error al crear producto: ${data.nombre}`,
-				error: err,
+				error: err.message,
 			});
 			return callback(err, null);
 		}
