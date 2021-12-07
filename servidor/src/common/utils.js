@@ -42,3 +42,14 @@ exports.uploadImage = (buffer, callback) => {
 		}
 	});
 };
+
+exports.promisfiedRequest = (options) => {
+	return new Promise((resolve, reject) => {
+		request(options, (error, response) => {
+			if (error) {
+				return reject(error);
+			}
+			return resolve(response);
+		});
+	});
+};

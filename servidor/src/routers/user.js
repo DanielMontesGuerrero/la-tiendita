@@ -1,6 +1,13 @@
 const express = require('express');
+const multer = require('multer');
 const logger = require('../common/logger.js');
+const User = require('../controllers/user.js');
 const router = new express.Router();
+
+router.post('/user/image/:id',
+	multer().single('image'),
+	User.uploadImage,
+);
 
 router.post('/user/request', (req, res) => {
 	const data = req.body;
@@ -44,50 +51,10 @@ router.patch('/user/request/:id', (req, res) => {
 	});
 });
 
+router.post('/user', User.create);
 
-router.get('/user/:id', (req, res) => {
-	// TODO: buscar usuario ya sea por id o por nombre
-	logger.info(`Getting usuario: ${req.params.id}`);
-	res.send({
-		result: true,
-		data: {
-			id_usuario: 123,
-			nombre: 'Fulano',
-			email: 'fulano@gmail.com',
-			boleta: 2019630000,
-			id_institucion: 1,
-			tipo_usuario: 'usuario',
-			verificado: false,
-		},
-	});
-});
+router.get('/user/:id', User.get);
 
-router.post('/user', (req, res) => {
-	// TODO: registrar usuario
-	const usuario = req.body;
-	logger.info({
-		message: `Registrando usuario ${usuario.nombre}`,
-		usuario: usuario,
-	});
-	res.send({
-		result: true,
-	});
-});
-
-router.patch('/user/:id', (req, res) => {
-	const usuario = req.body;
-	logger.info({
-		message: `Actualizandon usuario con id: ${usuario.id}`,
-		data: usuario,
-	});
-	res.send({
-		result: true,
-	});
-});
-
-
-// TODO:
-// Implementar funcionalidad
+router.patch('/user/:id', User.update);
 
 module.exports = router;
-

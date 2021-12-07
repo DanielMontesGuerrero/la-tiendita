@@ -1,0 +1,97 @@
+[
+	{
+		"name": "Daniel Montes",
+		"email": "danimontesguerrero17@gmail.com",
+		"id_school": 1,
+		"userType": "admin",
+		"imageURL": "https://ih1.redbubble.net/image.720515105.7521/flat,750x,075,f-pad,750x1000,f8f8f8.u6.jpg"
+	},
+	{
+		"name": "Patsy Kaufman",
+		"email": "patsykaufman@netplode.com",
+		"id_school": 1,
+		"userType": "vendedor",
+		"imageFile": "mujer1.jpg"
+	},
+	{
+		"name": "Cornelia Conrad",
+		"email": "corneliaconrad@netplode.com",
+		"id_school": 1,
+		"userType": "usuario",
+		"imageFile": "mujer2.jpg"
+	},
+	{
+		"name": "Whitney Franks",
+		"email": "whitneyfranks@netplode.com",
+		"id_school": 3,
+		"userType": "vendedor"
+	},
+	{
+		"name": "Rose Schneider",
+		"email": "roseschneider@netplode.com",
+		"id_school": 1,
+		"userType": "vendedor"
+	},
+	{
+		"name": "Gabriela Albert",
+		"email": "gabrielaalbert@netplode.com",
+		"id_school": 1,
+		"userType": "vendedor"
+	},
+	{
+		"name": "Sabrina Hooper",
+		"email": "sabrinahooper@netplode.com",
+		"id_school": 2,
+		"userType": "usuario"
+	},
+	{
+		"name": "Hurst Holman",
+		"email": "hurstholman@netplode.com",
+		"id_school": 1,
+		"userType": "usuario",
+		"imageFile": "hombre1.jpg"
+	},
+	{
+		"name": "Gwendolyn Stanton",
+		"email": "gwendolynstanton@netplode.com",
+		"id_school": 2,
+		"userType": "vendedor"
+	},
+	{
+		"name": "Hill West",
+		"email": "hillwest@netplode.com",
+		"id_school": 5,
+		"userType": "vendedor",
+		"imageFile": "hombre2.jpg"
+	},
+	{
+		"name": "Cantrell Fulton",
+		"email": "cantrellfulton@netplode.com",
+		"id_school": 5,
+		"userType": "usuario"
+	},
+	{
+		"name": "Holder Langley",
+		"email": "holderlangley@netplode.com",
+		"id_school": 2,
+		"userType": "usuario"
+	},
+	{
+		"name": "Dale Mccormick",
+		"email": "dalemccormick@netplode.com",
+		"id_school": 3,
+		"userType": "vendedor"
+	},
+	{
+		"name": "Mitchell Peck",
+		"email": "mitchellpeck@netplode.com",
+		"id_school": 4,
+		"userType": "usuario"
+	},
+	{
+		"name": "Murphy Duran",
+		"email": "murphyduran@netplode.com",
+		"id_school": 2,
+		"userType": "usuario"
+	}
+]

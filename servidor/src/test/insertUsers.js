@@ -1,21 +1,24 @@
 const fs = require('fs');
 const path = require('path');
-const utils = require('../common/utils.js');
 const logger = require('../common/testLogger.js');
 const config = require('../common/config');
+const utils = require('../common/utils');
 
 const imgFolderPath = '/data/img/';
 
-const insertProducts = async () => {
+const insertUsers = async () => {
 	const raw = fs.readFileSync(
-		path.join(__dirname, '/data/products.json'));
-	const products = JSON.parse(raw);
+		path.join(__dirname, '/data/users.json'));
+	const user = JSON.parse(raw);
 
 	logger.info('Insertando productos');
 
-	const productIds = await Promise.all(products.map(async (item) => {
+	const userIds = await Promise.all(user.map(async (item) => {
+		// TODO: quitar esta linea cuando se agregen las operaciones
+		// CRUD de las escuelas
+		item.id_school = undefined;
 		let options = {
-			url: `${config.host}/product`,
+			url: `${config.host}/user`,
 			json: true,
 			body: item,
 			method: 'POST',
@@ -32,7 +35,7 @@ const insertProducts = async () => {
 				if (item.imageFile !== undefined) {
 					imagePath = path.join(__dirname, imgFolderPath, item.imageFile);
 					options = {
-						url: `${config.host}/product/image/${respData.response.insertId}`,
+						url: `${config.host}/user/image/${respData.response.insertId}`,
 						json: true,
 						formData: {
 							image: fs.createReadStream(imagePath),
@@ -68,7 +71,7 @@ const insertProducts = async () => {
 			return -1;
 		}
 	}));
-	return productIds;
+	return userIds;
 };
 
-module.exports = insertProducts;
+module.exports = insertUsers;

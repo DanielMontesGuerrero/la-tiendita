@@ -6,33 +6,34 @@ const config = require('../common/config');
 
 const imgFolderPath = '/data/img/';
 
-const insertProducts = async () => {
+const insertStores = async (userIds) => {
 	const raw = fs.readFileSync(
-		path.join(__dirname, '/data/products.json'));
-	const products = JSON.parse(raw);
+		path.join(__dirname, '/data/stores.json'));
+	const stores = JSON.parse(raw);
 
-	logger.info('Insertando productos');
+	logger.info('Insertando tiendas');
 
-	const productIds = await Promise.all(products.map(async (item) => {
+	const storeIds = await Promise.all(stores.map(async (item) => {
 		let options = {
-			url: `${config.host}/product`,
+			url: `${config.host}/store`,
 			json: true,
 			body: item,
 			method: 'POST',
 		};
+		item.id_user = userIds[item.id_user];
 		try {
 			const response = await utils.promisfiedRequest(options);
 			const respData = response.body;
 			if (respData.result) {
 				logger.info({
-					message: `Producto insertado: ${item.name}`,
+					message: `Tienda insertada: ${item.name}`,
 					data: item,
 					response: respData,
 				});
 				if (item.imageFile !== undefined) {
 					imagePath = path.join(__dirname, imgFolderPath, item.imageFile);
 					options = {
-						url: `${config.host}/product/image/${respData.response.insertId}`,
+						url: `${config.host}/store/image/${respData.response.insertId}`,
 						json: true,
 						formData: {
 							image: fs.createReadStream(imagePath),
@@ -56,7 +57,7 @@ const insertProducts = async () => {
 			} else {
 				logger.error({
 					message: `Error insertando: ${item.name}`,
-					error: response.description,
+					error: response.body,
 				});
 				return -1;
 			}
@@ -68,7 +69,8 @@ const insertProducts = async () => {
 			return -1;
 		}
 	}));
-	return productIds;
+	return storeIds;
 };
 
-module.exports = insertProducts;
+module.exports = insertStores;
+

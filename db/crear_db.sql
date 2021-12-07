@@ -70,7 +70,7 @@ CREATE TABLE productos (
 	nombre VARCHAR(50) NOT NULL UNIQUE,
 	descripcion VARCHAR(255) NOT NULL,
 	imagen VARCHAR(255),
-	cantidad INT(10),
+	cantidad INT(10) CHECK (cantidad > 0),
 	unidad TINYTEXT,
 	PRIMARY KEY (id_producto, nombre)
 );
@@ -83,19 +83,19 @@ CREATE TABLE productos_en_tienda (
 );
 CREATE TABLE tiendas (
 	id_tienda BIGINT(20) NOT NULL AUTO_INCREMENT,
-	nombre VARCHAR(50) NOT NULL,
+	nombre VARCHAR(50) NOT NULL UNIQUE,
 	descripcion VARCHAR(255) NOT NULL,
 	id_usuario BIGINT(20) NOT NULL,
+	imagen VARCHAR(255),
 	PRIMARY KEY (id_tienda, id_usuario)
 );
 CREATE TABLE usuarios (
 	id_usuario BIGINT(20) NOT NULL AUTO_INCREMENT,
-	nombre VARCHAR(30) NOT NULL,
-	email VARCHAR(30) NOT NULL,
-	boleta VARCHAR(15),
+	nombre VARCHAR(30) NOT NULL UNIQUE,
+	email VARCHAR(30) NOT NULL UNIQUE,
+	imagen VARCHAR(255),
 	id_institucion BIGINT(20),
 	tipo_usuario ENUM('admin', 'vendendor', 'usuario') NOT NULL DEFAULT 'usuario',
-	verificado BOOL NOT NULL DEFAULT false,
 	PRIMARY KEY (id_usuario, nombre)
 );
 ALTER TABLE peticiones
