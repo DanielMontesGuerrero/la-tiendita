@@ -1,5 +1,6 @@
 const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
+const validator = require('validator');
 
 const productsTable = 'productos';
 
@@ -90,12 +91,19 @@ class Product {
 	/**
 	 * Verifica que el producto sea valido
 	 * nota: usar en objecto con los nombres de las columnas de la base de datos
-	 * @throw Lanza un error si contiene información no válida
+	 * @param {Producto} product - datos del producto
+	 * @throws Lanza un error si contiene información no válida
 	 */
-	isValid() {
-		const re = new RegExp('^[a-zA-Z]+[a-zA-Z0-9]*$');
-		if (!re.test(this.nombre)) {
-			throw new Error('Producto no valido: el nombre debe comenzar con letras');
+	static isValid(product) {
+		const re = new RegExp('^[a-zA-Z]+.*$');
+		if (product.nombre === undefined || !re.test(product.nombre)) {
+			throw new Error('Producto no válido: el nombre debe comenzar con letras');
+		}
+		if (product.cantidad !== undefined && product.cantidad <= 0) {
+			throw new Error('Producto no válido: la cantidad debe ser > 0');
+		}
+		if (product.imagen !== undefined && !validator.isURL(product.imagen)) {
+			throw new Error('Producto no válido: la imagen no es válida');
 		}
 	}
 
@@ -108,8 +116,12 @@ class Product {
 	static create(data, callback) {
 		data = this.parseToColumnNamesObject(data);
 		try {
-			data.isValid();
+			this.isValid(data);
 		} catch (err) {
+			logger.error({
+				message: `Error al crear producto: ${data.nombre}`,
+				error: err,
+			});
 			return callback(err, null);
 		}
 		connection.get_connection((qb) => {

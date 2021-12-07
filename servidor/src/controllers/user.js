@@ -1,9 +1,9 @@
-const Product = require('../models/product.js');
+const User = require('../models/user.js');
 const logger = require('../common/logger.js');
 const utils = require('../common/utils.js');
 
-const insertProductToDB = (product, res) => {
-	Product.create(product, (err, result) => {
+const insertUserToDB = (user, res) => {
+	User.create(user, (err, result) => {
 		if (err) {
 			const errorDescription = err.sqlMessage || err.message;
 			return res.status(400).send({
@@ -26,24 +26,24 @@ exports.create = (req, res) => {
 			description: 'Se necesita un nombre',
 		});
 	}
-	if (data.description === undefined) {
+	if (data.email === undefined) {
 		return res.status(400).send({
 			result: false,
-			description: 'Se necesita una descripción',
+			description: 'Se necesita una email',
 		});
 	}
 	logger.info({
-		message: `Creando producto: ${data.name}`,
+		message: `Creando usuario: ${data.name}`,
 		data: data,
 	});
-	const product = new Product({
+	const user = new User({
 		name: data.name,
-		description: data.description,
+		email: data.email,
 		image: data.imageURL || undefined,
-		quantity: data.quantity || '',
-		unity: data.unity || '',
+		id_school: data.id_school || '',
+		userType: data.userType || 'usuario',
 	});
-	insertProductToDB(product, res);
+	insertUserToDB(user, res);
 };
 
 exports.uploadImage = (req, res) => {
@@ -67,10 +67,10 @@ exports.uploadImage = (req, res) => {
 			});
 			return res.send({result: false, response: imageResponse});
 		}
-		const product = new Product({
+		const user = new User({
 			image: imageResponse.data.url,
 		});
-		Product.update({id: id, data: product}, (err, result) => {
+		User.update({id: id, data: user}, (err, result) => {
 			if (err) {
 				return res.status(400).send({
 					result: false,
@@ -94,15 +94,16 @@ exports.get = (req, res) => {
 		});
 	}
 	logger.info({
-		message: `Obteniendo producto: ${id}`,
+		message: `Obteniendo usuario: ${id}`,
 	});
-	Product.getById(id, (err, result) => {
+	User.getById(id, (err, result) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,
 				description: err.sqlMessage,
 			});
 		}
+		console.log(result);
 		res.send({
 			result: true,
 			response: result,
@@ -119,12 +120,12 @@ exports.update = (req, res) => {
 			message: 'Se necesita un id',
 		});
 	}
-	const product = new Product(data);
+	const user = new User(data);
 	logger.info({
-		message: `Modificando producto con id: ${id}`,
+		message: `Modificando usuario con id: ${id}`,
 		data: data,
 	});
-	Product.update({id: id, data: product}, (err, result) => {
+	User.update({id: id, data: user}, (err, result) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,

@@ -1,7 +1,8 @@
 const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
+const validator = require('validator');
 
-const storeTable = 'tiendas';
+const storesTable = 'tiendas';
 
 /**
  * Clase que interactua con la base de datos para peticiones relacionadas con
@@ -73,15 +74,36 @@ class Store {
 	}
 
 	/**
+	 * verifica que la tienda sea válida
+	 * @param {Tienda} store - datos de la tienda
+	 * @throws Error - error indicando el campo no válido
+	 */
+	static isValid(store) {
+		const re = new RegExp('^[a-zA-Z]+.*$');
+		if (store.nombre === undefined || !re.test(store.nombre)) {
+			throw new Error('Tienda no válida: el nombre debe iniciar con una letra');
+		}
+		if (store.imagen !== undefined && !validator.isURL(store.imagen)) {
+			throw new Error('Tienda no válida: la imagen no es válida');
+		}
+	}
+
+	/**
 	* crea una nueva tienda en la base de datos
 	* @param {Store} data - información a insertar
 	* @param {func} callback - función de callback
+	* @return {void} void
 	*/
 	static create(data, callback) {
-		data = Store.parseToColumnNamesObject(data);
+		data = this.parseToColumnNamesObject(data);
+		try {
+			this.isValid(data);
+		} catch (err) {
+			return callback(err, null);
+		}
 		connection.get_connection((qb) => {
 			qb.insert(
-				storeTable,
+				storesTable,
 				data,
 				(err, res) => {
 					qb.release();
@@ -109,7 +131,7 @@ class Store {
 	static getById(id, callback) {
 		connection.get_connection((qb) => {
 			qb.select('*').where('id_tienda', id);
-			qb.get(productsTable, (err, res) => {
+			qb.get(storesTable, (err, res) => {
 				qb.release();
 				if (err) {
 					logger.error({
@@ -122,7 +144,7 @@ class Store {
 					message: `Tienda consultada: ${id}`,
 					result: res,
 				});
-				callback(null, new Store(res));
+				callback(null, new Store(res[0]));
 			});
 		});
 	}
@@ -136,7 +158,7 @@ class Store {
 		const data = this.parseToColumnNamesObject(request.data);
 		connection.get_connection((qb) => {
 			qb.update(
-				storeTable,
+				storesTable,
 				data,
 				{id_tienda: request.id},
 				(err, res) => {

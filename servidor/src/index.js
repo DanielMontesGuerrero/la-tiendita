@@ -10,8 +10,10 @@ app.use(express.json());
 // routers
 const user = require('./routers/user.js');
 const product = require('./routers/product.js');
+const store = require('./routers/store.js');
 app.use(user);
 app.use(product);
+app.use(store);
 
 
 app.get('/', (req, res) => {
