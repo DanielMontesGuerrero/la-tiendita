@@ -1,0 +1,32 @@
+[
+	{
+		"name": "OTSO",
+		"description": "Lo que se te antoje, yo te lo vendo",
+		"id_user": 1,
+		"imageURL": "https://i.pinimg.com/originals/8b/a2/9d/8ba29d65f908da5f25295b13101bf75a.jpg"
+	},
+	{
+		"name": "Seven Ten",
+		"description": "Los mejores precios de zacatenco",
+		"id_user": 2,
+		"imageURL": "https://c.tenor.com/EG0mYLVmj-MAAAAM/convenience-stores-7eleven.gif"
+	},
+	{
+		"name": "Gualmart",
+		"description": "Dulces de calidad, si no lo tengo, te lo consigo",
+		"id_user": 3,
+		"imageFile": "store1.png"
+	},
+	{
+		"name": "Alamacen Ahuerrera",
+		"description": "A todas horas y directo a tu salón, servicio de calidad",
+		"id_user": 4,
+		"imageURL": ""
+	},
+	{
+		"name": "StoreOverflow",
+		"description": "9 de cada 10 programadores nos recomiendan",
+		"id_user": 5,
+		"imageFile": "store2.png"
+	}
+]

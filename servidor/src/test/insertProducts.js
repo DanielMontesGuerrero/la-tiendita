@@ -4,8 +4,11 @@ const request = require('postman-request');
 const logger = require('../common/testLogger.js');
 const config = require('../common/config');
 
+const imgFolderPath = '/data/img/';
+
 const insertProducts = () => {
-	const raw = fs.readFileSync(path.join(__dirname, '/data/products.json'));
+	const raw = fs.readFileSync(
+		path.join(__dirname, '/data/products.json'));
 	const products = JSON.parse(raw);
 
 	logger.info('Insertando productos');
@@ -31,7 +34,7 @@ const insertProducts = () => {
 					response: respData,
 				});
 				if (item.imageFile !== undefined) {
-					imagePath = path.join(__dirname, './data/', item.imageFile);
+					imagePath = path.join(__dirname, imgFolderPath, item.imageFile);
 					options = {
 						url: `${config.host}/product/image/${respData.response.insertId}`,
 						json: true,

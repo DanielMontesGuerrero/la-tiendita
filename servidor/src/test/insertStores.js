@@ -6,19 +6,16 @@ const config = require('../common/config');
 
 const imgFolderPath = '/data/img/';
 
-const insertUsers = () => {
+const insertStores = () => {
 	const raw = fs.readFileSync(
-		path.join(__dirname, '/data/users.json'));
+		path.join(__dirname, '/data/stores.json'));
 	const user = JSON.parse(raw);
 
-	logger.info('Insertando productos');
+	logger.info('Insertando tiendas');
 
 	user.forEach((item) => {
-		// TODO: quitar esta linea cuando se agregen las operaciones
-		// CRUD de las escuelas
-		item.id_school = undefined;
 		let options = {
-			url: `${config.host}/user`,
+			url: `${config.host}/store`,
 			json: true,
 			body: item,
 		};
@@ -32,14 +29,14 @@ const insertUsers = () => {
 			const respData = response.body;
 			if (respData.result) {
 				logger.info({
-					message: `Producto insertado: ${item.name}`,
+					message: `Tienda insertada: ${item.name}`,
 					data: item,
 					response: respData,
 				});
 				if (item.imageFile !== undefined) {
 					imagePath = path.join(__dirname, imgFolderPath, item.imageFile);
 					options = {
-						url: `${config.host}/user/image/${respData.response.insertId}`,
+						url: `${config.host}/store/image/${respData.response.insertId}`,
 						json: true,
 						formData: {
 							image: fs.createReadStream(imagePath),
@@ -60,13 +57,15 @@ const insertUsers = () => {
 					});
 				}
 			} else {
+				console.log(response.body);
 				return logger.error({
 					message: `Error insertando: ${item.name}`,
-					error: response.description,
+					error: response.body,
 				});
 			}
 		});
 	});
 };
 
-module.exports = insertUsers;
+module.exports = insertStores;
+
