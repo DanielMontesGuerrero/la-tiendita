@@ -15,94 +15,30 @@ class Product {
 	* @param {any} product - información del producto
 	*/
 	constructor(product) {
-		if (product.id_product !== undefined) {
-			this.id_product = product.id_product;
-		}
-		if (product.name !== undefined) {
-			this.name = product.name;
-		}
-		if (product.description !== undefined) {
-			this.description = product.description;
-		}
-		if (product.image !== undefined) {
-			this.image = product.image;
-		}
-		if (product.quantity !== undefined) {
-			this.quantity = product.quantity;
-		}
-		if (product.unity !== undefined) {
-			this.unity = product.unity;
-		}
-		if (product.score !== undefined) {
-			this.score = product.score;
-		}
-		if (product.id_producto !== undefined) {
-			this.id_product = product.id_producto;
-		}
-		if (product.nombre !== undefined) {
-			this.name = product.nombre;
-		}
-		if (product.descripcion !== undefined) {
-			this.description = product.descripcion;
-		}
-		if (product.imagen !== undefined) {
-			this.image = product.imagen;
-		}
-		if (product.cantidad !== undefined) {
-			this.quantity = product.cantidad;
-		}
-		if (product.unidad !== undefined) {
-			this.unity = product.unidad;
-		}
-	}
-
-	/**
-	 * convierte el producto a un objecto donde los nombres de cada campo
-	 *  coinciden con los de la DB
-	 * @param {Product} product - producto a convertir
-	 * @return {any} - objecto con los mismos datos
-	 */
-	static parseToColumnNamesObject(product) {
-		const columnNameObject = {};
-		if (product.id_product !== undefined) {
-			columnNameObject.id_producto = product.id_product;
-		}
-		if (product.name !== undefined) {
-			columnNameObject.nombre = product.name;
-		}
-		if (product.description !== undefined) {
-			columnNameObject.descripcion = product.description;
-		}
-		if (product.image !== undefined) {
-			columnNameObject.imagen = product.image;
-		}
-		if (product.quantity !== undefined) {
-			columnNameObject.cantidad = product.quantity;
-		}
-		if (product.unity !== undefined) {
-			columnNameObject.unidad = product.unity;
-		}
-		if (product.score !== undefined) {
-			columnNameObject.calificacion = product.score;
-		}
-		return columnNameObject;
+		this.id_product = product.id_product;
+		this.name = product.name;
+		this.description = product.description;
+		this.quantity = product.quantity;
+		this.unity = product.unity;
+		this.image = product.image;
+		this.score = product.score;
 	}
 
 	/**
 	 * Verifica que el producto sea valido
 	 * nota: usar en objecto con los nombres de las columnas de la base de datos
-	 * @param {Producto} product - datos del producto
+	 * @param {Product} product - datos del producto
 	 * @throws Error Lanza un error si contiene información no válida
 	 */
 	static isValid(product) {
 		const re = new RegExp('^[a-zA-Z]+.*$');
-		if (product.nombre === undefined || !re.test(product.nombre)) {
+		if (product.name === undefined || !re.test(product.name)) {
 			throw new Error('Producto no válido: el nombre debe comenzar con letras');
 		}
-		if (product.cantidad !== undefined && product.cantidad <= 0) {
+		if (product.quantity !== undefined && product.quantity <= 0) {
 			throw new Error('Producto no válido: la cantidad debe ser > 0');
 		}
-		if (product.imagen !== undefined && !validator.isURL(product.imagen)) {
+		if (product.image !== undefined && !validator.isURL(product.image)) {
 			throw new Error('Producto no válido: la imagen no es válida');
 		}
 	}
@@ -114,12 +50,11 @@ class Product {
 	* @return {void} void
 	*/
 	static create(data, callback) {
-		data = this.parseToColumnNamesObject(data);
 		try {
 			this.isValid(data);
 		} catch (err) {
 			logger.error({
-				message: `Error al crear producto: ${data.nombre}`,
+				message: `Error al crear producto: ${data.name}`,
 				error: err.message,
 			});
 			return callback(err, null);
@@ -153,7 +88,7 @@ class Product {
 	 */
 	static getById(id, callback) {
 		connection.get_connection((qb) => {
-			qb.select('*').where('id_producto', id);
+			qb.select('*').where('id_product', id);
 			qb.get(productsTable, (err, res) => {
 				qb.release();
 				if (err) {
@@ -178,12 +113,12 @@ class Product {
 	 * @param {func} callback - función de callback
 	 */
 	static update(request, callback) {
-		const data = this.parseToColumnNamesObject(request.data);
+		const data = request.data;
 		connection.get_connection((qb) => {
 			qb.update(
 				productsTable,
 				data,
-				{id_producto: request.id},
+				{id_product: request.id},
 				(err, res) => {
 					qb.release();
 					if (err) {

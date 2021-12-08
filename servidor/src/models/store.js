@@ -15,64 +15,13 @@ class Store {
 	* @param {any} store - información de la tienda
 	*/
 	constructor(store) {
-		if (store.id_store !== undefined) {
-			this.id_store = store.id_store;
-		}
-		if (store.id_user !== undefined) {
-			this.id_user = store.id_user;
-		}
-		if (store.name !== undefined) {
-			this.name = store.name;
-		}
-		if (store.description !== undefined) {
-			this.description = store.description;
-		}
-		if (store.image !== undefined) {
-			this.image = store.image;
-		}
-		if (store.id_tienda !== undefined) {
-			this.id_store = store.id_tienda;
-		}
-		if (store.id_usuario !== undefined) {
-			this.id_user = store.id_usuario;
-		}
-		if (store.nombre !== undefined) {
-			this.name = store.nombre;
-		}
-		if (store.descripcion !== undefined) {
-			this.description = store.descripcion;
-		}
-		if (store.imagen !== undefined) {
-			this.image = store.imagen;
-		}
+		this.id_store = store.id_store;
+		this.id_user = id_user;
+		this.name = store.name;
+		this.description = store.description;
+		this.image = store.image;
 	}
-
-	/**
-	 * convierte la tienda a un objecto donde los nombres de cada campo coinciden
-	 * con los de la DB
-	 * @param {Store} store - tienda a convertir
-	 * @return {any} - objecto con los mismos datos
-	*/
-	static parseToColumnNamesObject(store) {
-		const columnNameObject = {};
-		if (store.id_store !== undefined) {
-			columnNameObject.id_tienda = store.id_store;
-		}
-		if (store.id_user !== undefined) {
-			columnNameObject.id_usuario = store.id_user;
-		}
-		if (store.name !== undefined) {
-			columnNameObject.nombre = store.name;
-		}
-		if (store.description !== undefined) {
-			columnNameObject.descripcion = store.description;
-		}
-		if (store.image !== undefined) {
-			columnNameObject.imagen = store.image;
-		}
-		return columnNameObject;
-	}
-
+	
 	/**
 	 * verifica que la tienda sea válida
 	 * @param {Tienda} store - datos de la tienda
@@ -80,10 +29,10 @@ class Store {
 	 */
 	static isValid(store) {
 		const re = new RegExp('^[a-zA-Z]+.*$');
-		if (store.nombre === undefined || !re.test(store.nombre)) {
+		if (store.name === undefined || !re.test(store.name)) {
 			throw new Error('Tienda no válida: el nombre debe iniciar con una letra');
 		}
-		if (store.imagen !== undefined && !validator.isURL(store.imagen)) {
+		if (store.image !== undefined && !validator.isURL(store.image)) {
 			throw new Error('Tienda no válida: la imagen no es válida');
 		}
 	}
@@ -95,12 +44,11 @@ class Store {
 	* @return {void} void
 	*/
 	static create(data, callback) {
-		data = this.parseToColumnNamesObject(data);
 		try {
 			this.isValid(data);
 		} catch (err) {
 			logger.error({
-				message: `Error al crear la tienda: ${data.nombre}`,
+				message: `Error al crear la tienda: ${data.name}`,
 				error: err.message,
 			});
 			return callback(err, null);
@@ -134,7 +82,7 @@ class Store {
 	*/
 	static getById(id, callback) {
 		connection.get_connection((qb) => {
-			qb.select('*').where('id_tienda', id);
+			qb.select('*').where('id_store', id);
 			qb.get(storesTable, (err, res) => {
 				qb.release();
 				if (err) {
@@ -159,12 +107,12 @@ class Store {
 	 * @param {func} callback - función de callback
 	*/
 	static update(request, callback) {
-		const data = this.parseToColumnNamesObject(request.data);
+		const data = request.data;
 		connection.get_connection((qb) => {
 			qb.update(
 				storesTable,
 				data,
-				{id_tienda: request.id},
+				{id_store: request.id},
 				(err, res) => {
 					qb.release();
 					if (err) {
