@@ -9,6 +9,8 @@ router.post('/store/image/:id',
 	Store.uploadImage,
 );
 
+router.post('/store/score/:id', Store.score);
+
 router.post('/store', Store.create);
 
 router.get('/store/:id', Store.get);

@@ -3,6 +3,7 @@ const logger = require('../common/logger.js');
 const validator = require('validator');
 
 const productsTable = 'productos';
+const productScoresTable = 'calificaciones_producto';
 
 /**
  * Clase que interactua con la base de datos para peticiones relacionadas con
@@ -84,6 +85,12 @@ class Product {
 		}
 		if (product.score !== undefined) {
 			columnNameObject.calificacion = product.score;
+		}
+		if (product.score !== undefined) {
+			columnNameObject.calificacion = product.score;
+		}
+		if (product.id_user !== undefined) {
+			columnNameObject.id_usuario = product.id_user;
 		}
 		return columnNameObject;
 	}
@@ -200,6 +207,93 @@ class Product {
 					callback(null, res);
 				});
 		});
+	}
+
+	/**
+	 * Añade calificación al producto
+	 * @param {int} id - id del producto
+	 * @param {data} data - información de la calificación
+	 * @param {func} callback - función de callback
+	 * @return {void} void
+	 */
+	static addScore(id, data, callback) {
+		data.id_product = id;
+		try {
+			this.isValidScore(data);
+		} catch (error) {
+			return callback(error, null);
+		}
+		data = this.parseToColumnNamesObject(data);
+		connection.get_connection((qb) => {
+			qb.insert(
+				productScoresTable,
+				data,
+				(err, res) => {
+					if (err) {
+						if (err.code === 'ER_DUP_ENTRY') {
+							return this.updateScore(qb, data, callback);
+						}
+						logger.error({
+							message: `Error al insertar calificación del producto: ${id}`,
+							error: err,
+						});
+						return callback(err, null);
+					}
+					logger.info({
+						message: `Calificación insertada del producto: ${id}`,
+						result: res,
+					});
+					qb.release();
+					return callback(null, res);
+				},
+			);
+		});
+	}
+
+	/**
+	 * valida la calificación de un producto
+	 * @param {Score} score - datos de la calificación
+	 * @throws Error - errores de la calificación
+	 */
+	static isValidScore(score) {
+		if (score.score < 0 || score.score > 5) {
+			throw new Error('La calificación debe estar en el rango 0-5');
+		}
+	}
+
+	/**
+	 * @param {QueryBuilder} qb - objeto de querybuilder
+	 * @param {Score} data - datos a actualizar
+	 * @param {func} callback - función de callback
+	 */
+	static updateScore(qb, data, callback) {
+		qb.release();
+		const ids = {
+			id_producto: data.id_producto,
+			id_usuario: data.id_usuario,
+		};
+		delete data.id_usuario;
+		delete data.id_producto;
+		qb.update(
+			productScoresTable,
+			data,
+			ids,
+			(err, res) => {
+				if (err) {
+					logger.error({
+						message: `Error al insertar calificación` +
+						` del producto: ${data.id_tienda}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Calificación actualizada ` +
+					`para el producto: ${data.id_tienda}`,
+					result: res,
+				});
+				return callback(null, res);
+			});
 	}
 }
 

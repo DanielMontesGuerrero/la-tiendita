@@ -144,3 +144,25 @@ exports.update = (req, res) => {
 		});
 	});
 };
+
+exports.score = (req, res) => {
+	const data = req.body;
+	const id = req.params.id;
+	logger.info({
+		message: `Añadiendo calificación de ${data.score} a tienda con id: ${id}`,
+		data: data,
+	});
+	Store.addScore(id, data, (err, result) => {
+		if (err) {
+			const errorDescription = err.sqlMessage || err.message;
+			return res.status(400).send({
+				result: false,
+				description: errorDescription,
+			});
+		}
+		res.send({
+			result: true,
+			response: result,
+		});
+	});
+};
