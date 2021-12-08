@@ -141,6 +141,42 @@ exports.update = (req, res) => {
 exports.score = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
+	if (id === undefined && data.id_product === undefined) {
+		logger.error({
+			message: 'Error al registrar calificación del producto, ' +
+			'no se encontró id del producto',
+			data: data,
+			id: id,
+		});
+		return res.status(400).send({
+			result: false,
+			description: 'se necesita el id del producto',
+		});
+	}
+	if (data.id_user === undefined) {
+		logger.error({
+			message: 'Error al registrar calificación del producto, ' +
+			'no se encontró id del usuario',
+			data: data,
+			id: id,
+		});
+		return res.status(400).send({
+			result: false,
+			description: 'se necesita el id del usuario',
+		});
+	}
+	if (data.score === undefined) {
+		logger.error({
+			message: 'Error al registrar calificación del producto, ' +
+			'se encontró la calificación',
+			data: data,
+			id: id,
+		});
+		return res.status(400).send({
+			result: false,
+			description: 'se necesita una calificación entre 0-5',
+		});
+	}
 	logger.info({
 		message: `Añadiendo calificación de ${data.score} a producto con id: ${id}`,
 		data: data,

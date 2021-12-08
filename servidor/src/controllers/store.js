@@ -148,6 +148,43 @@ exports.update = (req, res) => {
 exports.score = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
+	if (id === undefined && data.id_store === undefined) {
+		logger.error({
+			message: 'Error al registrar calificación de la tienda, ' +
+			'no se encontró id de la tienda',
+			data: data,
+			id: id,
+		});
+		return res.status(400).send({
+			result: false,
+			description: 'se necesita el id de la tienda',
+		});
+	}
+	if (data.id_user === undefined) {
+		logger.error({
+			message: 'Error al registrar calificación de la tienda, ' +
+			'no se encontró id del usuario',
+			data: data,
+			id: id,
+		});
+		return res.status(400).send({
+			result: false,
+			description: 'se necesita el id del usuario',
+		});
+	}
+	if (data.score === undefined) {
+		logger.error({
+			message: 'Error al registrar calificación de la tienda, ' +
+			'se encontró la calificación',
+			data: data,
+			id: id,
+		});
+		return res.status(400).send({
+			result: false,
+			description: 'se necesita una calificación entre 0-5',
+		});
+	}
+
 	logger.info({
 		message: `Añadiendo calificación de ${data.score} a tienda con id: ${id}`,
 		data: data,

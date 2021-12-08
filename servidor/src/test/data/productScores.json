@@ -1,0 +1,242 @@
+[
+  {
+    "score": 2.4,
+    "description": "Muy ricos",
+    "id_user": 2,
+    "id_product": 8
+  },
+  {
+    "score": 3.5,
+    "description": "",
+    "id_user": 2,
+    "id_product": 12
+  },
+  {
+    "score": 1.7,
+    "description": "",
+    "id_user": 5,
+    "id_product": 16
+  },
+  {
+    "score": 3.3,
+    "description": "Te quita el hambre, para cuando no tienes tiempo de ir a almorzar",
+    "id_user": 14,
+    "id_product": 20
+  },
+  {
+    "score": 1,
+    "description": "",
+    "id_user": 2,
+    "id_product": 19
+  },
+  {
+    "score": 2.3,
+    "description": "",
+    "id_user": 2,
+    "id_product": 11
+  },
+  {
+    "score": 5,
+    "description": "Unos de estos con tus compas en la cafe jugando UNO uwur",
+    "id_user": 11,
+    "id_product": 12
+  },
+  {
+    "score": 3.5,
+    "description": "",
+    "id_user": 8,
+    "id_product": 6
+  },
+  {
+    "score": 2.2,
+    "description": "",
+    "id_user": 5,
+    "id_product": 22
+  },
+  {
+    "score": 1.8,
+    "description": "",
+    "id_user": 10,
+    "id_product": 15
+  },
+  {
+    "score": 3.4,
+    "description": "",
+    "id_user": 10,
+    "id_product": 7
+  },
+  {
+    "score": 2.9,
+    "description": "",
+    "id_user": 10,
+    "id_product": 14
+  },
+  {
+    "score": 0.8,
+    "description": "La raza que compra esto es la misca que prefiere el calor antes que el frio, #TeamFrio",
+    "id_user": 10,
+    "id_product": 12
+  },
+  {
+    "score": 0.6,
+    "description": "",
+    "id_user": 5,
+    "id_product": 14
+  },
+  {
+    "score": 4.2,
+    "description": "",
+    "id_user": 7,
+    "id_product": 14
+  },
+  {
+    "score": 2.8,
+    "description": "",
+    "id_user": 11,
+    "id_product": 23
+  },
+  {
+    "score": 3.1,
+    "description": "",
+    "id_user": 15,
+    "id_product": 4
+  },
+  {
+    "score": 4.8,
+    "description": "Muy GOD el producto",
+    "id_user": 3,
+    "id_product": 13
+  },
+  {
+    "score": 3.1,
+    "description": "",
+    "id_user": 7,
+    "id_product": 21
+  },
+  {
+    "score": 4,
+    "description": "Podría comer 100 de estos *Se come 96*, Parece que el cuerpo humano solo resiste 96 de estos",
+    "id_user": 5,
+    "id_product": 8
+  },
+  {
+    "score": 1.7,
+    "description": "",
+    "id_user": 9,
+    "id_product": 19
+  },
+  {
+    "score": 0.7,
+    "description": "",
+    "id_user": 12,
+    "id_product": 23
+  },
+  {
+    "score": 0.5,
+    "description": "",
+    "id_user": 8,
+    "id_product": 17
+  },
+  {
+    "score": 3.1,
+    "description": "",
+    "id_user": 1,
+    "id_product": 6
+  },
+  {
+    "score": 1.7,
+    "description": "Prefiero comer emperador de limón antes que esta %$%?)&%$#",
+    "id_user": 2,
+    "id_product": 13
+  },
+  {
+    "score": 1.2,
+    "description": "",
+    "id_user": 5,
+    "id_product": 9
+  },
+  {
+    "score": 0.6,
+    "description": "",
+    "id_user": 11,
+    "id_product": 21
+  },
+  {
+    "score": 2.5,
+    "description": "",
+    "id_user": 13,
+    "id_product": 20
+  },
+  {
+    "score": 3,
+    "description": "Bastante regulares, pero no me quejo",
+    "id_user": 2,
+    "id_product": 10
+  },
+  {
+    "score": 1.5,
+    "description": "",
+    "id_user": 12,
+    "id_product": 1
+  },
+  {
+    "score": 4.5,
+    "description": "",
+    "id_user": 15,
+    "id_product": 5
+  },
+  {
+    "score": 0.6,
+    "description": "",
+    "id_user": 10,
+    "id_product": 4
+  },
+  {
+    "score": 1.6,
+    "description": "",
+    "id_user": 12,
+    "id_product": 7
+  },
+  {
+    "score": 0.3,
+    "description": "Estas cosas deberían ser ilegales, ojalá pudiera olvidar su sabor",
+    "id_user": 8,
+    "id_product": 4
+  },
+  {
+    "score": 3.2,
+    "description": "",
+    "id_user": 13,
+    "id_product": 21
+  },
+  {
+    "score": 0.2,
+    "description": "",
+    "id_user": 14,
+    "id_product": 5
+  },
+  {
+    "score": 5,
+    "description": "",
+    "id_user": 15,
+    "id_product": 10
+  },
+  {
+    "score": 1.5,
+    "description": "",
+    "id_user": 3,
+    "id_product": 19
+  },
+  {
+    "score": 4.3,
+    "description": "",
+    "id_user": 2,
+    "id_product": 2
+  },
+  {
+    "score": 4,
+    "description": "",
+    "id_user": 3,
+    "id_product": 8
+  }
+]
