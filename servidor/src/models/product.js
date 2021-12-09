@@ -1,6 +1,7 @@
 const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
 const validator = require('validator');
+const QueryBuilder = require('node-querybuilder');
 
 const productsTable = 'productos';
 const productScoresTable = 'calificaciones_producto';
@@ -156,13 +157,13 @@ class Product {
 	/**
 	 * obtiene los datos de un producto
 	 * @param {int} id - id del producto a obtener
+	 * @param {Request} request - opciones de la petición
 	 * @param {func} callback - función de callback
 	 */
-	static getById(id, callback) {
+	static getById(id, request, callback) {
 		connection.get_connection((qb) => {
 			qb.select('*').where('id_producto', id);
 			qb.get(productsTable, (err, res) => {
-				qb.release();
 				if (err) {
 					logger.error({
 						message: `Error al obtener el producto: ${id}`,
@@ -170,6 +171,10 @@ class Product {
 					});
 					return callback(err, null);
 				}
+				if (request.includeScore) {
+					return this.getScore(qb, id, request, new Product(res[0]), callback);
+				}
+				qb.release();
 				logger.info({
 					message: `Producto consultado: ${id}`,
 					result: res,
@@ -177,6 +182,58 @@ class Product {
 				callback(null, new Product(res[0]));
 			});
 		});
+	}
+
+	/**
+	 * obtiene la calificación de un producto
+	 * @param {QueryBuilder} qb - objeto de querybuilder
+	 * @param {int} id - id del producto
+	 * @param {Request} request - opciones de la petición
+	 * @param {Product} product - datos del producto
+	 * @param {func} callback - función de callback
+	 */
+	static getScore(qb, id, request, product, callback) {
+		qb.select_avg('calificacion')
+			.where('id_producto', id)
+			.get('calificaciones_producto', (err, res) => {
+				if (err) {
+					logger.error({
+						message: `Error al obtener calificación del producto: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				product.score = res[0].calificacion;
+				if (request.includeScoreList) {
+					return this.getScoreList(qb, id, product, callback);
+				}
+				qb.release();
+				callback(null, product);
+			});
+	}
+
+	/**
+	 * obtiene todas las calificaciones de un producto
+	 * @param {QueryBuilder} qb - objeto de querybuilder
+	 * @param {int} id - id del producto
+	 * @param {Product} product - datos del producto
+	 * @param {func} callback - función de callback
+	 */
+	static getScoreList(qb, id, product, callback) {
+		qb.select('*')
+			.where('id_producto', id)
+			.get('calificaciones_producto', (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: `Error al obtener calificaciones del producto: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				product.scoreList = res;
+				callback(null, product);
+			});
 	}
 
 	/**

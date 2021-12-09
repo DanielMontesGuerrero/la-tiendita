@@ -96,7 +96,7 @@ exports.get = (req, res) => {
 	logger.info({
 		message: `Obteniendo producto: ${id}`,
 	});
-	Product.getById(id, (err, result) => {
+	Product.getById(id, req.body, (err, result) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,

@@ -103,7 +103,7 @@ exports.get = (req, res) => {
 	logger.info({
 		message: `Obteniendo tienda: ${id}`,
 	});
-	Store.getById(id, (err, result) => {
+	Store.getById(id, req.body, (err, result) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,
