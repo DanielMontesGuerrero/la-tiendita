@@ -1,9 +1,26 @@
 import React, {Component} from 'react';
-import {Row, Col, Form, Card, Stack, Button, Badge} from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Form,
+  Card,
+  Stack,
+  Button,
+  Collapse,
+  Badge} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Score from '../common/Score.js';
 
 class StoreSettings extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inventoryOpen: false,
+      deliveryOpen: false,
+      paymentOpen: false,
+    };
+  }
+
   render() {
     return (
       <div>
@@ -88,10 +105,46 @@ class StoreSettings extends Component {
             </Col>
           </Row>
           <Stack gap={2} className="col-md-5 mx-auto mb-3 mt-4">
-            <Button variant="primary">Inventario</Button>
-            <Button variant="primary">Métodos de entrega</Button>
-            <Button variant="primary">Métodos de pago</Button>
+            <Button
+              variant="primary"
+              aria-controls="inventoryCollapse"
+              aria-expanded={this.state.inventoryOpen}
+              onClick={() =>
+                this.setState({inventoryOpen: !this.state.inventoryOpen})}
+            >Inventario</Button>
+            <Button
+              variant="primary"
+              aria-controls="deliveryCollapse"
+              aria-expanded={this.state.deliveryOpen}
+              onClick={() =>
+                this.setState({deliveryOpen: !this.state.deliveryOpen})}
+            >Métodos de entrega</Button>
+            <Button
+              variant="primary"
+              aria-controls="paymentCollapse"
+              aria-expanded={this.state.paymentOpen}
+              onClick={() =>
+                this.setState({paymentOpen: !this.state.paymentOpen})}
+            >Métodos de pago</Button>
           </Stack>
+          <Collapse in={this.state.inventoryOpen}>
+            <div id="inventoryCollapse">
+              <center>Aquí van las opciones para el
+              manejar el inventario de la tienda</center>
+            </div>
+          </Collapse>
+          <Collapse in={this.state.deliveryOpen}>
+            <div id="deliveryCollapse">
+              <center>Aquí van las opciones para el
+              manejar los métodos de entrega de la tienda</center>
+            </div>
+          </Collapse>
+          <Collapse in={this.state.paymentOpen}>
+            <div id="paymentCollapse">
+              <center>Aquí van las opciones para el
+              manejar los métodos de pago de la tienda</center>
+            </div>
+          </Collapse>
         </Card>
       </div>
     );

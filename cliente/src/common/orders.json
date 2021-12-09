@@ -1,0 +1,26 @@
+[
+	{
+		"product": "Cheetos",
+		"store": "OTSO",
+		"quantity": 3,
+		"price": 12.5,
+		"date": "19/12/21",
+		"state": "creado"
+	},
+	{
+		"product": "Halls",
+		"store": "Tienda qlera",
+		"quantity": 1,
+		"price": 8,
+		"date": "01/12/21",
+		"state": "pagado"
+	},
+	{
+		"product": "Clorets",
+		"store": "Tienda 3B",
+		"quantity": 5,
+		"price": 2,
+		"date": "12/12/21",
+		"state": "completado"
+	}
+]
