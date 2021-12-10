@@ -24,10 +24,16 @@ class Score extends Component {
     return (
       <div className="d-flex justify-content-center align-items-center">
         <div>
-          {this.genStars()}
+          {this.props.score !== null ?
+              this.genStars() :
+              ''
+          }
         </div>
         <span className="algin-middle fw-bold ml-2">
-          {Math.round(this.props.score * 10) / 10}
+          {this.props.score !== null ?
+              Math.round(this.props.score * 10) / 10 :
+              'Sin calificación'
+          }
         </span>
       </div>
     );

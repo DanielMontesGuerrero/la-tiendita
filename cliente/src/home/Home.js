@@ -7,6 +7,8 @@ import ProductCard from '../product/ProductCard.js';
 import StoreCard from '../store/StoreCard.js';
 import {ScrollMenu, VisibilityContext} from 'react-horizontal-scrolling-menu';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import config from '../common/config.js';
+import axios from 'axios';
 
 function LeftArrow() {
   const {isFirstItemVisible, scrollPrev} =
@@ -40,19 +42,39 @@ function RightArrow() {
 }
 
 class Home extends Component {
-  // componentDidMount() {
-  //   this.productsContainer.addEventListener(
-  //       'wheel',
-  //       this.horizontalScrollEventHandler,
-  //   );
-  //   this.storesContainer.addEventListener(
-  //       'wheel',
-  //       this.horizontalScrollEventHandler,
-  //   );
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+      stores: [],
+    };
+  }
+
+  componentDidMount() {
+    const options = {
+      url: `${config.host}/product/all`,
+      method: 'get',
+      params: {
+        includeScore: true,
+        onlyTop: true,
+      },
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+    };
+    axios(options).then((res) => {
+      this.setState({products: res.data.response});
+    });
+    options.url = `${config.host}/store/all`;
+    axios(options).then((res) => {
+      this.setState({stores: res.data.response});
+    });
+  }
+
   getProducts() {
-    const data = require('../common/products.json');
-    const products = data.products;
+    // const data = require('../common/products.json');
+    // const products = data.products;
+    const products = this.state.products;
     return products.map((item, index) => {
       return (<ProductCard
         itemId={index}
@@ -67,8 +89,9 @@ class Home extends Component {
   }
 
   getStores() {
-    const data = require('../common/stores.json');
-    const stores = data.stores;
+    // const data = require('../common/stores.json');
+    // const stores = data.stores;
+    const stores = this.state.stores;
     return stores.map((item, index) => {
       return (
         <StoreCard

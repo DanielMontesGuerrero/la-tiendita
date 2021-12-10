@@ -8,12 +8,12 @@ import './ProductCard.css';
 class ProductCard extends Component {
   static get propTypes() {
     return {
-      name: PropTypes.text,
+      name: PropTypes.string,
       score: PropTypes.number,
-      image: PropTypes.text,
+      image: PropTypes.string,
       quantity: PropTypes.number,
-      unity: PropTypes.text,
-      description: PropTypes.text,
+      unity: PropTypes.string,
+      description: PropTypes.string,
       inCart: PropTypes.bool,
     };
   }

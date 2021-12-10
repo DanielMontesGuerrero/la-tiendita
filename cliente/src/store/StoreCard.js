@@ -8,9 +8,9 @@ import './StoreCard.css';
 class StoreCard extends Component {
   static get propTypes() {
     return {
-      name: PropTypes.text,
+      name: PropTypes.string,
       score: PropTypes.number,
-      description: PropTypes.text,
+      description: PropTypes.string,
     };
   }
 

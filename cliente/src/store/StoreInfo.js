@@ -11,9 +11,9 @@ class StoreInfo extends Component {
     return {
       show: PropTypes.bool,
       onHide: PropTypes.func,
-      name: PropTypes.text,
+      name: PropTypes.string,
       score: PropTypes.number,
-      description: PropTypes.text,
+      description: PropTypes.string,
     };
   }
 
