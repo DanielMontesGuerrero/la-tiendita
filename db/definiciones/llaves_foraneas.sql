@@ -30,7 +30,7 @@ ALTER TABLE entregas_en
 ADD FOREIGN KEY (id_store) REFERENCES tiendas(id_store);
 
 ALTER TABLE entregas_en
-ADD FOREIGN KEY (id_institucion) REFERENCES instituciones(id_institucion);
+ADD FOREIGN KEY (id_institution) REFERENCES instituciones(id_institution);
 
 
 ALTER TABLE metodos_de_pago

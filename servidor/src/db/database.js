@@ -13,6 +13,7 @@ let pool = null;
 
 try {
 	pool = new QueryBuilder(settings, 'mysql', 'pool');
+	logger.info('Conexion exitosa')
 } catch (error) {
 	logger.error({
 		message: 'Error conectandose a la base de datos',

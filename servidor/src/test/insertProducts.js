@@ -12,7 +12,6 @@ const insertProducts = async () => {
 	const products = JSON.parse(raw);
 
 	logger.info('Insertando productos');
-
 	const productIds = await Promise.all(products.map(async (item) => {
 		let options = {
 			url: `${config.host}/product`,

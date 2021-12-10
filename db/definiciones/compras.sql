@@ -7,5 +7,5 @@ CREATE TABLE compras (
 	unitary_price SMALLINT(5) NOT NULL,
 	`date` BIGINT(20) NOT NULL,
 	`state` ENUM('creado', 'pagado', 'completado') NOT NULL DEFAULT 'creado',
-	PRIMARY KEY (id_compra, id_usuario, id_tienda, id_producto)
+	PRIMARY KEY (id_purchase, id_user, id_store, id_product)
 );

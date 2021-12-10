@@ -16,7 +16,7 @@ class Store {
 	*/
 	constructor(store) {
 		this.id_store = store.id_store;
-		this.id_user = id_user;
+		this.id_user = store.id_user;
 		this.name = store.name;
 		this.description = store.description;
 		this.image = store.image;
