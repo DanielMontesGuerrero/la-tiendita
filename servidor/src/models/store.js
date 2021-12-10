@@ -4,6 +4,7 @@ const validator = require('validator');
 
 const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
+const topLimit = 3;
 
 /**
  * Clase que interactua con la base de datos para peticiones relacionadas con
@@ -23,7 +24,7 @@ class Store {
 		this.image = store.image;
 		this.score = store.score;
 	}
-	
+
 	/**
 	 * verifica que la tienda sea válida
 	 * @param {Tienda} store - datos de la tienda
@@ -108,6 +109,10 @@ class Store {
 					`${storesTable}.id_store=scores.id_store`,
 					'left',
 				);
+			}
+			if (request.onlyTop) {
+				qb.order_by('scores.score', 'DESC')
+					.limit(topLimit);
 			}
 			qb.get((err, res) => {
 				qb.release();

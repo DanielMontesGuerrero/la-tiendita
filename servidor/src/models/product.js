@@ -4,6 +4,7 @@ const validator = require('validator');
 
 const productsTable = 'productos';
 const productScoresTable = 'calificaciones_producto';
+const topLimit = 3;
 
 /**
  * Clase que interactua con la base de datos para peticiones relacionadas con
@@ -114,6 +115,10 @@ class Product {
 					`${productsTable}.id_product=scores.id_product`,
 					'left',
 				);
+			}
+			if (request.onlyTop) {
+				qb.order_by('scores.score', 'DESC')
+					.limit(topLimit);
 			}
 			qb.get((err, res) => {
 				qb.release();

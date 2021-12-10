@@ -96,6 +96,10 @@ exports.get = (req, res) => {
 	if (req.query.includeScore) {
 		req.query.includeScore = req.query.includeScore === 'true';
 	}
+	if (req.query.onlyTop) {
+		req.query.onlyTop = req.query.onlyTop === 'true';
+		req.query.includeScore = true;
+	}
 	logger.info({
 		message: `Obteniendo producto: ${id}`,
 	});
