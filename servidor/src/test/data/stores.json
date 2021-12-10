@@ -18,7 +18,7 @@
 		"imageFile": "store1.png"
 	},
 	{
-		"name": "Alamacen Ahuerrera",
+		"name": "Alamacen Auerrera",
 		"description": "A todas horas y directo a tu salón, servicio de calidad",
 		"id_user": 4,
 		"imageURL": ""
@@ -28,5 +28,11 @@
 		"description": "9 de cada 10 programadores nos recomiendan",
 		"id_user": 5,
 		"imageFile": "store2.png"
+	},
+	{
+		"name": "Tienda 3B",
+		"description": "Bueno, bonito y barato",
+		"id_user": 6,
+		"imageURL": ""
 	}
 ]

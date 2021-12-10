@@ -19,7 +19,7 @@ class ProductIcon extends Component {
         <span>{' '}{this.props.name}</span>
         {this.props.price !== undefined ?
           <span>{' | $' + this.props.price}</span> :
-          <span>Hola</span>
+          <span></span>
         }
       </Badge>
     );

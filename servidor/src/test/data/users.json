@@ -93,5 +93,17 @@
 		"email": "murphyduran@netplode.com",
 		"id_school": 2,
 		"userType": "usuario"
+	},
+	{
+		"name": "El ferras",
+		"email": "ferras@gmail.com",
+		"id_school": 4,
+		"userType": "usuario"
+	},
+	{
+		"name": "Shinji Ikari",
+		"email": "no_querio_pilotear@nerv.com",
+		"id_school": 1,
+		"userType": "vendedor"
 	}
 ]
