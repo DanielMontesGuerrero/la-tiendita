@@ -9,6 +9,8 @@ router.post('/product/image/:id',
 	Product.uploadImage,
 );
 
+router.post('/product/score/:id', Product.score);
+
 router.post('/product', Product.create);
 
 router.get('/product/:id', Product.get);
