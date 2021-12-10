@@ -1,6 +1,7 @@
 const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
 const validator = require('validator');
+const crypto = require('crypto');
 
 const usersTable = 'usuarios';
 
@@ -21,6 +22,7 @@ class User {
 		this.image = user.image;
 		this.userType = user.userType;
 		this.id_school = user.id_school;
+		this.password = user.password;
 	}
 
 	/**
@@ -58,6 +60,10 @@ class User {
 			});
 			return callback(err, null);
 		}
+		console.log(data);
+		data.password = crypto.createHash('sha256')
+			.update(data.password, 'utf8')
+			.digest('hex');
 		connection.get_connection((qb) => {
 			qb.insert(
 				usersTable,
@@ -113,6 +119,11 @@ class User {
 	*/
 	static update(request, callback) {
 		const data = request.data;
+		if (data.password !== undefined) {
+			data.password = crypto.createHash('sha256')
+				.update(data.password, 'utf8')
+				.digest('hex');
+		}
 		connection.get_connection((qb) => {
 			qb.update(
 				usersTable,
@@ -132,6 +143,45 @@ class User {
 						result: res,
 					});
 					callback(null, res);
+				});
+		});
+	}
+
+	/**
+	 * Retorna información de usuario si el usuario existe
+	 * y su contraseña es correcta
+	 * @param {Usuario} user - datos del usuario
+	 * @param {func} callback - función de callback
+	 */
+	static login(user, callback) {
+		user.password = crypto.createHash('sha256')
+			.update(user.password, 'utf8')
+			.digest('hex');
+		connection.get_connection((qb) => {
+			qb.select('*')
+				.where({
+					email: user.email,
+					password: user.password,
+				})
+				.get(usersTable, (err, res) => {
+					if (err) {
+						logger.error({
+							message: `Error obteniendo login de usuario: ` +
+							`${user.name ? user.name : user.email}`,
+							error: err,
+						});
+						return callback(err, null);
+					}
+					logger.info({
+						message: `Login obtenido de usuario: ` +
+						`${user.name ? user.name : user.email}`,
+						result: res,
+					});
+					if (res.length === 1) {
+						delete res[0].password;
+						return callback(null, res[0]);
+					}
+					callback(null, {});
 				});
 		});
 	}

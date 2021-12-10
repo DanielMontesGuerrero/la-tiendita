@@ -96,6 +96,7 @@ CREATE TABLE usuarios (
 	`image` VARCHAR(255),
 	id_school BIGINT(20),
 	userType ENUM('admin', 'vendendor', 'usuario') NOT NULL DEFAULT 'usuario',
+	password VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id_user, name)
 );
 ALTER TABLE peticiones

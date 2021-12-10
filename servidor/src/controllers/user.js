@@ -32,6 +32,12 @@ exports.create = (req, res) => {
 			description: 'Se necesita una email',
 		});
 	}
+	if (data.password === undefined) {
+		return res.status(400).send({
+			result: false,
+			description: 'Se necesita una contraseña',
+		});
+	}
 	logger.info({
 		message: `Creando usuario: ${data.name}`,
 		data: data,
@@ -42,6 +48,7 @@ exports.create = (req, res) => {
 		image: data.imageURL || undefined,
 		id_school: data.id_school || '',
 		userType: data.userType || 'usuario',
+		password: data.password,
 	});
 	insertUserToDB(user, res);
 };
@@ -128,6 +135,34 @@ exports.update = (req, res) => {
 	User.update({id: id, data: user}, (err, result) => {
 		if (err) {
 			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: result,
+		});
+	});
+};
+
+exports.login = (req, res) => {
+	const data = req.body;
+	if (data.email === undefined) {
+		return res.status(400).send({
+			result: false,
+			description: 'Se necesita un emial',
+		});
+	}
+	if (data.password === undefined) {
+		return res.status(400).send({
+			result: false,
+			description: 'Se necesita una contraseña',
+		});
+	}
+	User.login(data, (err, result) => {
+		if (err) {
+			res.status(400).send({
 				result: false,
 				description: err.sqlMessage,
 			});

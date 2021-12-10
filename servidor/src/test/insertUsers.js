@@ -16,7 +16,7 @@ const insertUsers = async () => {
 	const userIds = await Promise.all(user.map(async (item) => {
 		// TODO: quitar esta linea cuando se agregen las operaciones
 		// CRUD de las escuelas
-		item.id_school = undefined;
+		delete item.id_school
 		let options = {
 			url: `${config.host}/user`,
 			json: true,

@@ -51,6 +51,8 @@ router.patch('/user/request/:id', (req, res) => {
 	});
 });
 
+router.post('/user/login', User.login);
+
 router.post('/user', User.create);
 
 router.get('/user/:id', User.get);
