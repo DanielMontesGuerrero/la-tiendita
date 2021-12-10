@@ -9,12 +9,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 class ProductBanner extends Component {
   static get propTypes() {
     return {
-      name: PropTypes.text,
+      name: PropTypes.string,
       score: PropTypes.number,
-      image: PropTypes.text,
+      image: PropTypes.string,
       quantity: PropTypes.number,
-      unity: PropTypes.text,
-      description: PropTypes.text,
+      unity: PropTypes.string,
+      description: PropTypes.string,
       inCart: PropTypes.bool,
       inInfo: PropTypes.bool,
       price: PropTypes.number,
@@ -23,7 +23,7 @@ class ProductBanner extends Component {
 
   getTitle() {
     let title = this.props.name;
-    if (this.props.quantity !== undefined) {
+    if (this.props.quantity !== null) {
       title += ' | ' + this.props.quantity + ' ' + this.props.unity;
     }
     return title;

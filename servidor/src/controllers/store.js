@@ -100,10 +100,13 @@ exports.get = (req, res) => {
 			description: 'Se necesita un id',
 		});
 	}
+	if (req.query.includeScore) {
+		req.query.includeScore = req.query.includeScore === 'true';
+	}
 	logger.info({
 		message: `Obteniendo tienda: ${id}`,
 	});
-	Store.getById(id, req.body, (err, result) => {
+	Store.getById(id, req.query, (err, result) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,

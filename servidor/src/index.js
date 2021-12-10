@@ -7,6 +7,13 @@ const app = express();
 // parse application/json
 app.use(express.json());
 
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', config.client);
+	res.header('Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept');
+	next();
+});
+
 // routers
 const user = require('./routers/user.js');
 const product = require('./routers/product.js');
@@ -14,7 +21,6 @@ const store = require('./routers/store.js');
 app.use(user);
 app.use(product);
 app.use(store);
-
 
 app.get('/', (req, res) => {
 	res.send('Hello world! :)');

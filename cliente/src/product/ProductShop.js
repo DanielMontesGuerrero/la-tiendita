@@ -2,11 +2,35 @@ import React, {Component} from 'react';
 import {Stack, Container} from 'react-bootstrap';
 import ProductBanner from './ProductBanner.js';
 import NavigationBar from '../common/NavigationBar.js';
+import config from '../common/config.js';
+import axios from 'axios';
 
 class ProductShop extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+    };
+  }
+
+  componentDidMount() {
+    const options = {
+      url: `${config.host}/product/all`,
+      method: 'get',
+      params: {
+        includeScore: true,
+      },
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+    };
+    axios(options).then((res) => {
+      this.setState({products: res.data.response});
+    });
+  }
+
   getProducts() {
-    const data = require('../common/products.json');
-    const products = data.products;
+    const products = this.state.products;
     return products.map((item, index) => {
       return (<ProductBanner
         name={item.name}

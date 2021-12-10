@@ -5,6 +5,7 @@ const config = {
 	imageBBKey: '000509dbffe1b2f326b40a42c28a0ceb',
 	port: port,
 	host: `http://localhost:${port}`,
+	client: 'http://localhost:3000',
 };
 
 module.exports = config;

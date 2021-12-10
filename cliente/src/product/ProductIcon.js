@@ -6,8 +6,8 @@ import './ProductIcon.css';
 class ProductIcon extends Component {
   static get propTypes() {
     return {
-      name: PropTypes.text,
-      image: PropTypes.text,
+      name: PropTypes.string,
+      image: PropTypes.string,
     };
   }
 

@@ -1,7 +1,6 @@
 const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
 const validator = require('validator');
-const QueryBuilder = require('node-querybuilder');
 
 const productsTable = 'productos';
 const productScoresTable = 'calificaciones_producto';
@@ -91,8 +90,33 @@ class Product {
 	 */
 	static getById(id, request, callback) {
 		connection.get_connection((qb) => {
-			qb.select('*').where('id_product', id);
-			qb.get(productsTable, (err, res) => {
+			const selectList = [
+				`${productsTable}.id_product`,
+				`${productsTable}.name`,
+				`${productsTable}.description`,
+				`${productsTable}.image`,
+				`${productsTable}.quantity`,
+				`${productsTable}.unity`,
+				request.includeScore ? `scores.score` : '',
+			];
+			qb.select(selectList).from(productsTable);
+			if (id !== 'all') {
+				qb.where(`${productsTable}.id_product`, id);
+			}
+			if (request.includeScore) {
+				const scoreTmpTable = `(
+					SELECT AVG(score) AS score, id_product
+					FROM ${productScoresTable}
+					GROUP BY id_product
+				) scores`;
+				qb.join(
+					scoreTmpTable,
+					`${productsTable}.id_product=scores.id_product`,
+					'left',
+				);
+			}
+			qb.get((err, res) => {
+				qb.release();
 				if (err) {
 					logger.error({
 						message: `Error al obtener el producto: ${id}`,
@@ -100,69 +124,14 @@ class Product {
 					});
 					return callback(err, null);
 				}
-				if (request.includeScore) {
-					return this.getScore(qb, id, request, new Product(res[0]), callback);
-				}
-				qb.release();
 				logger.info({
-					message: `Producto consultado: ${id}`,
+					message: `Producto consultado: ${id ? id : 'todos'}`,
 					result: res,
 				});
-				callback(null, new Product(res[0]));
+				const products = res.map((item) => new Product(item));
+				callback(null, products);
 			});
 		});
-	}
-
-	/**
-	 * obtiene la calificación de un producto
-	 * @param {QueryBuilder} qb - objeto de querybuilder
-	 * @param {int} id - id del producto
-	 * @param {Request} request - opciones de la petición
-	 * @param {Product} product - datos del producto
-	 * @param {func} callback - función de callback
-	 */
-	static getScore(qb, id, request, product, callback) {
-		qb.select_avg('calificacion')
-			.where('id_producto', id)
-			.get('calificaciones_producto', (err, res) => {
-				if (err) {
-					logger.error({
-						message: `Error al obtener calificación del producto: ${id}`,
-						error: err,
-					});
-					return callback(err, null);
-				}
-				product.score = res[0].calificacion;
-				if (request.includeScoreList) {
-					return this.getScoreList(qb, id, product, callback);
-				}
-				qb.release();
-				callback(null, product);
-			});
-	}
-
-	/**
-	 * obtiene todas las calificaciones de un producto
-	 * @param {QueryBuilder} qb - objeto de querybuilder
-	 * @param {int} id - id del producto
-	 * @param {Product} product - datos del producto
-	 * @param {func} callback - función de callback
-	 */
-	static getScoreList(qb, id, product, callback) {
-		qb.select('*')
-			.where('id_producto', id)
-			.get('calificaciones_producto', (err, res) => {
-				qb.release();
-				if (err) {
-					logger.error({
-						message: `Error al obtener calificaciones del producto: ${id}`,
-						error: err,
-					});
-					return callback(err, null);
-				}
-				product.scoreList = res;
-				callback(null, product);
-			});
 	}
 
 	/**
@@ -209,7 +178,6 @@ class Product {
 		} catch (error) {
 			return callback(error, null);
 		}
-		data = this.parseToColumnNamesObject(data);
 		connection.get_connection((qb) => {
 			qb.insert(
 				productScoresTable,
@@ -255,11 +223,11 @@ class Product {
 	static updateScore(qb, data, callback) {
 		qb.release();
 		const ids = {
-			id_producto: data.id_producto,
-			id_usuario: data.id_usuario,
+			id_product: data.id_product,
+			id_user: data.id_user,
 		};
-		delete data.id_usuario;
-		delete data.id_producto;
+		delete data.id_user;
+		delete data.id_product;
 		qb.update(
 			productScoresTable,
 			data,
@@ -268,14 +236,14 @@ class Product {
 				if (err) {
 					logger.error({
 						message: `Error al insertar calificación` +
-						` del producto: ${data.id_tienda}`,
+						` del producto: ${ids.id_product}`,
 						error: err,
 					});
 					return callback(err, null);
 				}
 				logger.info({
 					message: `Calificación actualizada ` +
-					`para el producto: ${data.id_tienda}`,
+					`para el producto: ${ids.id_product}`,
 					result: res,
 				});
 				return callback(null, res);

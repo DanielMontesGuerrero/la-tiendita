@@ -7,7 +7,7 @@ import './StoreIcon.css';
 class ProductIcon extends Component {
   static get propTypes() {
     return {
-      name: PropTypes.text,
+      name: PropTypes.string,
       price: PropTypes.number,
     };
   }

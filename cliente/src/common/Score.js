@@ -26,7 +26,9 @@ class Score extends Component {
         <div>
           {this.genStars()}
         </div>
-        <span className="algin-middle fw-bold ml-2">{this.props.score}</span>
+        <span className="algin-middle fw-bold ml-2">
+          {Math.round(this.props.score * 10) / 10}
+        </span>
       </div>
     );
   }

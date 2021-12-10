@@ -7,9 +7,12 @@ import ProductIcon from '../product/ProductIcon.js';
 import StoreInfo from './StoreInfo';
 
 class ProductBanner extends Component {
-  state = {
-    modalShow: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalShow: false,
+    };
+  }
 
   setModalShow(modalShow) {
     this.setState({modalShow: modalShow});
@@ -17,9 +20,9 @@ class ProductBanner extends Component {
 
   static get propTypes() {
     return {
-      name: PropTypes.text,
+      name: PropTypes.string,
       score: PropTypes.number,
-      description: PropTypes.text,
+      description: PropTypes.string,
     };
   }
 

@@ -21,6 +21,7 @@ class Store {
 		this.name = store.name;
 		this.description = store.description;
 		this.image = store.image;
+		this.score = store.score;
 	}
 	
 	/**
@@ -84,8 +85,32 @@ class Store {
 	 */
 	static getById(id, request, callback) {
 		connection.get_connection((qb) => {
-			qb.select('*').where('id_store', id);
-			qb.get(storesTable, (err, res) => {
+			const selectList = [
+				`${storesTable}.id_store`,
+				`${storesTable}.name`,
+				`${storesTable}.description`,
+				`${storesTable}.id_user`,
+				`${storesTable}.image`,
+				request.includeScore ? `scores.score` : '',
+			];
+			qb.select(selectList).from(storesTable);
+			if (id !== 'all') {
+				qb.where(`${storesTable}.id_store`, id);
+			}
+			if (request.includeScore) {
+				const scoreTmpTable = `(
+					SELECT AVG(score) as score, id_store
+					FROM ${storeScoresTable}
+					GROUP BY id_store
+				) scores`;
+				qb.join(
+					scoreTmpTable,
+					`${storesTable}.id_store=scores.id_store`,
+					'left',
+				);
+			}
+			qb.get((err, res) => {
+				qb.release();
 				if (err) {
 					logger.error({
 						message: `Error al obtener la tienda: ${id}`,
@@ -93,15 +118,12 @@ class Store {
 					});
 					return callback(err, null);
 				}
-				if (request.includeScore) {
-					return this.getScore(qb, id, request, new Store(res[0]), callback);
-				}
-				qb.release();
 				logger.info({
 					message: `Tienda consultada: ${id}`,
 					result: res,
 				});
-				callback(null, new Store(res[0]));
+				const stores = res.map((item) => new Store(item));
+				callback(null, stores);
 			});
 		});
 	}
@@ -203,7 +225,6 @@ class Store {
 		} catch (error) {
 			return callback(error, null);
 		}
-		data = this.parseToColumnNamesObject(data);
 		connection.get_connection((qb) => {
 			qb.insert(
 				storeScoresTable,
@@ -249,11 +270,11 @@ class Store {
 	static updateScore(qb, data, callback) {
 		qb.release();
 		const ids = {
-			id_tienda: data.id_tienda,
-			id_usuario: data.id_usuario,
+			id_store: data.id_store,
+			id_user: data.id_user,
 		};
-		delete data.id_usuario;
-		delete data.id_tienda;
+		delete data.id_user;
+		delete data.id_store;
 		qb.update(
 			storeScoresTable,
 			data,
@@ -262,13 +283,13 @@ class Store {
 				if (err) {
 					logger.error({
 						message: `Error al insertar calificación` +
-						` de tienda: ${data.id_tienda}`,
+						` de tienda: ${ids.id_store}`,
 						error: err,
 					});
 					return callback(err, null);
 				}
 				logger.info({
-					message: `Calificación actualizada para la tienda: ${data.id_tienda}`,
+					message: `Calificación actualizada para la tienda: ${ids.id_store}`,
 					result: res,
 				});
 				return callback(null, res);
