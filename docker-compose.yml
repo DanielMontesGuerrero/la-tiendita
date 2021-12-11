@@ -29,4 +29,11 @@ services:
     restart: always
     ports:
       - "8000:8080"
+  # run redis individually:  docker run -p 6379:6379 redislabs/rejson
+  # connect to redis-cli: docker exec -it <container id> redis-cli
+  redis:
+    image: redislabs/rejson
+    restart: always
+    ports:
+      - "6379:6379"
   

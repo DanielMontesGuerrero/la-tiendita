@@ -18,9 +18,11 @@ app.use(function(req, res, next) {
 const user = require('./routers/user.js');
 const product = require('./routers/product.js');
 const store = require('./routers/store.js');
+const cart = require('./routers/cart.js');
 app.use(user);
 app.use(product);
 app.use(store);
+app.use(cart);
 
 app.get('/', (req, res) => {
 	res.send('Hello world! :)');

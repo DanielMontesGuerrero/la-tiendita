@@ -34,7 +34,9 @@ class User {
 		const re = new RegExp('^[a-zA-Z]+.*$');
 		if (user.name === undefined || !re.test(user.name)) {
 			throw new Error(
-				'Usuario no válido: el nombre debe iniciar con una letra');
+				'Usuario no válido: el nombre debe iniciar con una letra ' +
+				'y no debe contener espacios',
+			);
 		}
 		if (user.image !== undefined && !validator.isURL(user.image)) {
 			throw new Error('Usuario no válido: la imagen no es válida');
@@ -60,7 +62,6 @@ class User {
 			});
 			return callback(err, null);
 		}
-		console.log(data);
 		data.password = crypto.createHash('sha256')
 			.update(data.password, 'utf8')
 			.digest('hex');
