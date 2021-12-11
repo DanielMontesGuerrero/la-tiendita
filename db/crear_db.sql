@@ -17,14 +17,14 @@ DROP TABLE IF EXISTS usuarios;
 CREATE TABLE calificaciones_producto (
 	id_product BIGINT(20) NOT NULL,
 	id_user BIGINT(20) NOT NULL,
-	score TINYINT(1) NOT NULL,
+	score DECIMAL(2,1) NOT NULL,
 	`description` VARCHAR(255),
 	PRIMARY KEY (id_product, id_user)
 );
 CREATE TABLE calificaciones_tienda (
 	id_store BIGINT(20) NOT NULL,
 	id_user BIGINT(20) NOT NULL,
-	score TINYINT(1) NOT NULL,
+	score DECIMAL(2,1) NOT NULL,
 	`description` VARCHAR(255),
 	PRIMARY KEY (id_user, id_store)
 );
@@ -34,9 +34,9 @@ CREATE TABLE compras (
 	id_store BIGINT(20) NOT NULL,
 	id_product BIGINT(20) NOT NULL,
 	quantity SMALLINT(5) NOT NULL,
-	unitary_price SMALLINT(5) NOT NULL,
+	unitary_price DECIMAL(10, 2) NOT NULL,
 	`date` BIGINT(20) NOT NULL,
-	`state` ENUM('creado', 'pagado', 'completado') NOT NULL DEFAULT 'creado',
+	`state` ENUM('creado', 'pagado', 'entregado') NOT NULL DEFAULT 'creado',
 	PRIMARY KEY (id_purchase, id_user, id_store, id_product)
 );
 CREATE TABLE entregas_en (
@@ -77,7 +77,7 @@ CREATE TABLE productos (
 CREATE TABLE productos_en_tienda (
 	id_store BIGINT(20) NOT NULL,
 	id_product BIGINT(20) NOT NULL,
-	price SMALLINT(5) NOT NULL,
+	price DECIMAL(10, 2) NOT NULL,
 	quantity SMALLINT(5) NOT NULL,
 	PRIMARY KEY (id_store, id_product)
 );
@@ -96,7 +96,7 @@ CREATE TABLE usuarios (
 	`image` VARCHAR(255),
 	id_school BIGINT(20),
 	userType ENUM('admin', 'vendendor', 'usuario') NOT NULL DEFAULT 'usuario',
-	password VARCHAR(255) NOT NULL,
+	password VARCHAR(256) NOT NULL,
 	PRIMARY KEY (id_user, name)
 );
 ALTER TABLE peticiones
