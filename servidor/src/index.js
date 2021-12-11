@@ -31,12 +31,14 @@ const store = require('./routers/store.js');
 const cart = require('./routers/cart.js');
 const purchase = require('./routers/purchase.js');
 const institution = require('./routers/institution.js');
+const cart = require('./routers/cart.js');
 app.use(user);
 app.use(product);
 app.use(store);
 app.use(cart);
 app.use(purchase);
 app.use(institution);
+app.use(cart);
 
 app.get('/', (req, res) => {
 	res.send('Hello world! :)');
