@@ -6,8 +6,7 @@ import './Login.css';
 import PropTypes from 'prop-types';
 import config from '../common/config';
 import axios from 'axios';
-import UserProfile from "../common/UserProfile";
-import {Navigate} from "react-router-dom";
+import UserProfile from '../common/UserProfile';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -16,19 +15,20 @@ class LoginForm extends Component {
       email: '',
       password: '',
       user: {
-        email: "",
+        email: '',
         id_school: null,
         id_user: null,
         image: null,
-        name: "",
-        userType: ""
-      }
+        name: '',
+        userType: '',
+      },
     };
   }
-  componentDidMount(){
-    if(UserProfile.getName()!==null){
-      window.location.href = "/";
-      console.log(UserProfile.getName())
+
+  componentDidMount() {
+    if (UserProfile.getName()!==null) {
+      window.location.href = '/';
+      console.log(UserProfile.getName());
     }
   }
 
@@ -37,7 +37,8 @@ class LoginForm extends Component {
       toggleAction: PropTypes.func,
     };
   }
-  loginSession = () => {
+
+  loginSession() {
     const options = {
       url: `${config.host}/user/login`,
       method: 'post',
@@ -51,16 +52,14 @@ class LoginForm extends Component {
       },
     };
     axios(options).then((res) => {
-      // eslint-disable-next-line no-invalid-this
       this.setState({user: res.data.response});
-      if(this.state.user.id_user!==undefined){
-        UserProfile.setName(this.state.user.name)
-        window.location.href = "/";
-      }else {
-        alert("El usuario o contraseña son erroneos")
+      if (this.state.user.id_user!==undefined) {
+        UserProfile.setName(this.state.user.name);
+        window.location.href = '/';
+      } else {
+        alert('El usuario o contraseña son erroneos');
       }
     });
-
   }
 
   render() {
