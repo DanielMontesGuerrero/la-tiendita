@@ -54,3 +54,6 @@ ADD FOREIGN KEY (id_user) REFERENCES usuarios(id_user);
 
 ALTER TABLE entregas_en
 ADD FOREIGN KEY (id_institution) REFERENCES instituciones(id_institution);
+
+ALTER TABLE usuarios
+ADD FOREIGN KEY (id_institution) REFERENCES instituciones(id_institution);

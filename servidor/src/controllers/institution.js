@@ -14,7 +14,11 @@ exports.create = (req, res) => {
 		message: 'Registrando institución',
 		data: data,
 	});
-	Institution.create(data, (err, response) => {
+	const institution = new Institution({
+		name: data.name,
+		image: data.imageURL || undefined,
+	});
+	Institution.create(institution, (err, response) => {
 		if (err) {
 			const errorDescription = err.sqlMessage || err.message;
 			return res.status(400).send({
@@ -72,7 +76,12 @@ exports.update = (req, res) => {
 			data: req.body,
 		},
 	});
-	Institution.update(req.params.id, req.body, (err, response) => {
+	const data = req.body;
+	const institution = new Institution({
+		name: data.name || undefined,
+		image: data.imageURL || undefined,
+	});
+	Institution.update(req.params.id, institution, (err, response) => {
 		if (err) {
 			const errorDescription = err.sqlMessage || err.message;
 			return res.status(400).send({

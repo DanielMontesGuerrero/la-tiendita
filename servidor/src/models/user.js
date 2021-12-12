@@ -21,7 +21,7 @@ class User {
 		this.email = user.email;
 		this.image = user.image;
 		this.userType = user.userType;
-		this.id_school = user.id_school;
+		this.id_institution = user.id_institution;
 		this.password = user.password;
 	}
 

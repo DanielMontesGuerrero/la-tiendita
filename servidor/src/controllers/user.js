@@ -46,7 +46,7 @@ exports.create = (req, res) => {
 		name: data.name,
 		email: data.email,
 		image: data.imageURL || undefined,
-		id_school: data.id_school || '',
+		id_institution: data.id_institution || '',
 		userType: data.userType || 'usuario',
 		password: data.password,
 	});
