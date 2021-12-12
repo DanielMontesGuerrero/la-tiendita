@@ -4,10 +4,7 @@ const logger = require('./logger.js');
 
 exports.uploadImage = (buffer, callback) => {
 	const url = `${config.imageServer}?key=${config.imageBBKey}`;
-	const binstr = Array.prototype.map.call(buffer, (ch) => {
-		return String.fromCharCode(ch);
-	}).join('');
-	const image = btoa(binstr);
+	const image = Buffer.from(buffer).toString('base64');
 	logger.info({
 		message: 'Subiendo imagen a imgBB',
 		image: image,
