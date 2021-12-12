@@ -210,3 +210,36 @@ exports.score = (req, res) => {
 		});
 	});
 };
+
+exports.createDeliveryPoint = (req, res) => {
+	const data = req.body;
+	if (data.id_institution === undefined ||
+		data.id_store === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita id de la institucion y la tienda',
+		});
+	}
+	if (data.description === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita la descripción del punto de entrega',
+		});
+	}
+	logger.info({
+		message: `Creando punto de entrega de la tienda: ${data.id_store}`,
+		data: data,
+	});
+	Store.createDeliveryPoint(data, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};

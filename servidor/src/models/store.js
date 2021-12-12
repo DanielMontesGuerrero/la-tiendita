@@ -300,6 +300,32 @@ class Store {
 				return callback(null, res);
 			});
 	}
+
+	/**
+	 * crea un nuevo punto de entrega
+	 * @param {any} data - datos del punto de entrega
+	 * @param {func} callback - función de callback
+	 */
+	static createDeliveryPoint(data, callback) {
+		connection.get_connection((qb) => {
+			qb.insert(deliveriesTable, data, (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: 'Error creando punto de' +
+						`entrega de la tienda: ${data.id_store}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Punto de entrega creado de la tienda: ${data.id_store}`,
+					result: res,
+				});
+				callback(null, res);
+			});
+		});
+	}
 }
 
 module.exports = Store;

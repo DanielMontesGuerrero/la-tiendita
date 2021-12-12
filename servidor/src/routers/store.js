@@ -11,6 +11,8 @@ router.post('/store/image/:id',
 
 router.post('/store/score/:id', Store.score);
 
+router.post('/store/delivery', Store.createDeliveryPoint);
+
 router.post('/store', Store.create);
 
 router.get('/store/:id', Store.get);
