@@ -20,7 +20,7 @@ const insertStores = async (userIds) => {
 			body: item,
 			method: 'POST',
 		};
-		item.id_user = userIds[item.id_user];
+		item.id_user = userIds[item.id_user - 1];
 		try {
 			const response = await utils.promisfiedRequest(options);
 			const respData = response.body;
