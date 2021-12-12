@@ -3,7 +3,7 @@
 		"name": "Daniel Montes",
 		"email": "danimontesguerrero17@gmail.com",
 		"password": "password",
-		"id_school": 1,
+		"id_institution": 1,
 		"userType": "admin",
 		"imageURL": "https://ih1.redbubble.net/image.720515105.7521/flat,750x,075,f-pad,750x1000,f8f8f8.u6.jpg"
 	},
@@ -11,7 +11,7 @@
 		"name": "Patsy Kaufman",
 		"email": "patsykaufman@netplode.com",
 		"password": "password",
-		"id_school": 1,
+		"id_institution": 6,
 		"userType": "vendedor",
 		"imageFile": "mujer1.jpg"
 	},
@@ -19,7 +19,7 @@
 		"name": "Cornelia Conrad",
 		"email": "corneliaconrad@netplode.com",
 		"password": "password",
-		"id_school": 1,
+		"id_institution": 7,
 		"userType": "usuario",
 		"imageFile": "mujer2.jpg"
 	},
@@ -27,35 +27,35 @@
 		"name": "Whitney Franks",
 		"email": "whitneyfranks@netplode.com",
 		"password": "password",
-		"id_school": 3,
+		"id_institution": 3,
 		"userType": "vendedor"
 	},
 	{
 		"name": "Rose Schneider",
 		"email": "roseschneider@netplode.com",
 		"password": "password",
-		"id_school": 1,
+		"id_institution": 8,
 		"userType": "vendedor"
 	},
 	{
 		"name": "Gabriela Albert",
 		"email": "gabrielaalbert@netplode.com",
 		"password": "password",
-		"id_school": 1,
+		"id_institution": 9,
 		"userType": "vendedor"
 	},
 	{
 		"name": "Sabrina Hooper",
 		"email": "sabrinahooper@netplode.com",
 		"password": "password",
-		"id_school": 2,
+		"id_institution": 2,
 		"userType": "usuario"
 	},
 	{
 		"name": "Hurst Holman",
 		"email": "hurstholman@netplode.com",
 		"password": "password",
-		"id_school": 1,
+		"id_institution": 1,
 		"userType": "usuario",
 		"imageFile": "hombre1.jpg"
 	},
@@ -63,14 +63,14 @@
 		"name": "Gwendolyn Stanton",
 		"email": "gwendolynstanton@netplode.com",
 		"password": "password",
-		"id_school": 2,
+		"id_institution": 2,
 		"userType": "vendedor"
 	},
 	{
 		"name": "Hill West",
 		"email": "hillwest@netplode.com",
 		"password": "password",
-		"id_school": 5,
+		"id_institution": 5,
 		"userType": "vendedor",
 		"imageFile": "hombre2.jpg"
 	},
@@ -78,49 +78,49 @@
 		"name": "Cantrell Fulton",
 		"email": "cantrellfulton@netplode.com",
 		"password": "password",
-		"id_school": 5,
+		"id_institution": 5,
 		"userType": "usuario"
 	},
 	{
 		"name": "Holder Langley",
 		"email": "holderlangley@netplode.com",
 		"password": "password",
-		"id_school": 2,
+		"id_institution": 2,
 		"userType": "usuario"
 	},
 	{
 		"name": "Dale Mccormick",
 		"email": "dalemccormick@netplode.com",
 		"password": "password",
-		"id_school": 3,
+		"id_institution": 3,
 		"userType": "vendedor"
 	},
 	{
 		"name": "Mitchell Peck",
 		"email": "mitchellpeck@netplode.com",
 		"password": "password",
-		"id_school": 4,
+		"id_institution": 4,
 		"userType": "usuario"
 	},
 	{
 		"name": "Murphy Duran",
 		"email": "murphyduran@netplode.com",
 		"password": "password",
-		"id_school": 2,
+		"id_institution": 2,
 		"userType": "usuario"
 	},
 	{
 		"name": "El ferras",
 		"email": "ferras@gmail.com",
 		"password": "password",
-		"id_school": 4,
+		"id_institution": 4,
 		"userType": "usuario"
 	},
 	{
 		"name": "Shinji Ikari",
 		"email": "no_querio_pilotear@nerv.com",
 		"password": "password",
-		"id_school": 1,
+		"id_institution": 1,
 		"userType": "vendedor"
 	}
 ]
