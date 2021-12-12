@@ -21,12 +21,12 @@ const insertScores = (productIds, userIds, storeIds) => {
 		let scoreType = 'producto';
 		let id = -1;
 		if (item.id_store !== undefined) {
-			item.id_store = storeIds[item.id_store];
+			item.id_store = storeIds[item.id_store - 1];
 			id = item.id_store;
 			url = `${config.host}/store/score/${item.id_store}`;
 			scoreType = 'tienda';
 		} else {
-			item.id_product = productIds[item.id_product];
+			item.id_product = productIds[item.id_product - 1];
 			id = item.id_product;
 		}
 		const options = {

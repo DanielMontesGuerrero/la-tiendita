@@ -60,7 +60,6 @@ class User {
 			});
 			return callback(err, null);
 		}
-		console.log(data);
 		data.password = crypto.createHash('sha256')
 			.update(data.password, 'utf8')
 			.digest('hex');

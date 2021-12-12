@@ -8,19 +8,19 @@ exports.create = (req, res) => {
 		if (data.id_user === undefined ||
 			data.id_store === undefined ||
 			data.id_product === undefined) {
-			return res.state(400).send({
+			return res.status(400).send({
 				result: false,
 				description: 'Se necesita id del usario, tienda y producto',
 			});
 		}
 		if (data.quantity === undefined) {
-			return res.state(400).send({
+			return res.status(400).send({
 				result: false,
 				description: 'Se necesita la cantidad de productos comprados',
 			});
 		}
 		if (data.unitary_price === undefined) {
-			return res.state(400).send({
+			return res.status(400).send({
 				result: false,
 				description: 'Se necesita el precio unitario del producto',
 			});
