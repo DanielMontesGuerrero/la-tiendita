@@ -44,7 +44,7 @@ const insertInstitutions = async () => {
 					if (!responseImg.body.result) {
 						logger.error({
 							message: `Error enviando imagen de: ${item.name}`,
-							error: error,
+							response: responseImg.body,
 						});
 					} else {
 						logger.info({
@@ -59,7 +59,6 @@ const insertInstitutions = async () => {
 					message: `Error insertando: ${item.name}`,
 					error: response.description,
 				});
-				console.log(response);
 				return -1;
 			}
 		} catch (error) {
