@@ -4,12 +4,67 @@ import {Container, Row, Col, Card, Form, Button} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import './Login.css';
 import PropTypes from 'prop-types';
+import UserProfile from "../common/UserProfile";
+import config from "../common/config";
+import axios from "axios";
 
 class RegisterForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      escuela: '',
+      nombre: '',
+    };
+  }
+  componentDidMount(){
+    if(UserProfile.getName()!==null){
+      window.location.href = "/";
+      console.log(UserProfile.getName())
+    }
+  }
   static get propTypes() {
     return {
       toggleAction: PropTypes.func,
     };
+  }
+
+  registerUser = () => {
+    if((this.state.name===undefined)||(this.state.email===undefined)||(this.state.password===undefined)||(this.state.escuela===undefined)||
+        !(this.state.name.length>0)||!(this.state.email.length>0)||!(this.state.password.length>0)||!(this.state.escuela.length>0)){
+      alert("Datos incompletos");
+    }else {
+      const options = {
+        url: `${config.host}/user`,
+        method: 'post',
+        params: {
+          includeScore: true,
+          onlyTop: true,
+        },
+        data: this.state,
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      };
+      axios(options).then((res) => {
+        // eslint-disable-next-line no-invalid-this
+        this.setState({user: res.data.response});
+        if(res.data.result){
+          window.location.href = "/login";
+        }
+      }).catch((error)=>{
+        if( error.response ){
+          alert(error.response.data.description)
+        }else {
+          console.log(error.response.data); // => the response payload
+          alert("Hay un error favor de intentarlo mas tarde")
+        }
+
+      });
+    }
+
+
   }
   render() {
     return (
@@ -27,7 +82,10 @@ class RegisterForm extends Component {
                       Nombre
                     </Form.Label>
                     <Col>
-                      <Form.Control type="text"/>
+                      <Form.Control
+                          value={this.state.name}
+                          onChange={(e) => this.setState({name: e.target.value})}
+                          type="text"/>
                     </Col>
                   </Form.Group>
 
@@ -36,7 +94,20 @@ class RegisterForm extends Component {
                       Email
                     </Form.Label>
                     <Col>
-                      <Form.Control type="email"/>
+                      <Form.Control value={this.state.email}
+                                    onChange={(e) => this.setState({email: e.target.value})}
+                                    type="email"/>
+                    </Col>
+                  </Form.Group>
+                  <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm="3">
+                      Password
+                    </Form.Label>
+                    <Col>
+                      <Form.Control
+                          value={this.state.password}
+                          onChange={(e) => this.setState({password: e.target.value})}
+                          type="text"/>
                     </Col>
                   </Form.Group>
 
@@ -45,12 +116,15 @@ class RegisterForm extends Component {
                       Escuela
                     </Form.Label>
                     <Col>
-                      <Form.Control type="text"/>
+                      <Form.Control
+                          value={this.state.escuela}
+                          onChange={(e) => this.setState({escuela: e.target.value})}
+                          type="text"/>
                     </Col>
                   </Form.Group>
 
                   <center>
-                    <Button variant="primary" type="submit">
+                    <Button onClick={this.registerUser} variant="primary" type="button">
                       Registrarse
                     </Button>
                     <Form.Text>¿Ya tienes cuenta?{' '}

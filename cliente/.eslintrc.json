@@ -20,6 +20,23 @@
         "react"
     ],
     "rules": {
-        "require-jsdoc": 0
+        "require-jsdoc": 0,
+        "react/forbid-prop-types": 0,
+        "quotes": "off",
+        "comma-dangle": "off",
+        "no-invalid-this": "off",
+        "padded-blocks": "off",
+        "keyword-spacing": "off",
+        "space-before-blocks": "off",
+        "semi": "off",
+        "space-before-function-paren": "off",
+        "no-multi-spaces": "off",
+        "no-unused-vars": "off",
+        "new-cap": "off",
+        "prefer-const": "off",
+        "indent": "off",
+        "max-len": "off",
+        "spaced-comment": "off"
+
     }
 }
