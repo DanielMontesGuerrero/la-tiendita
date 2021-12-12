@@ -2,17 +2,17 @@ import {Component} from 'react';
 import React from 'react';
 import {Navbar, Container, Nav} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import UserProfile from "./UserProfile";
+import UserProfile from './UserProfile';
 
 class NavigationBar extends Component {
   render() {
     let buttonHtml=<Nav.Link href="/user">
       <FontAwesomeIcon icon="user" size="lg"/>{' '}Perfil
     </Nav.Link>;
-    if(UserProfile.getName()===null){
+    if (UserProfile.getName()===null) {
       buttonHtml = <Nav.Link href="/login">
         <FontAwesomeIcon icon="user" size="lg"/>{' '}Ingresar
-      </Nav.Link>
+      </Nav.Link>;
     }
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

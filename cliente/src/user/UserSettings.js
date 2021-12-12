@@ -23,17 +23,12 @@ const UserTypes = {
 };
 
 class UserSettings extends Component {
-  state = {
-    userType: UserTypes.user,
-    modalShow: false,
-    user: {
-      email: UserProfile.getEmail(),
-      id_school: UserProfile.getIdSchool(),
-      id_user: UserProfile.getIdUser(),
-      image: UserProfile.getImage(),
-      name: UserProfile.getName(),
-      userType: UserProfile.getUserType()
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      userType: UserTypes.user,
+      modalShow: false,
+    };
   }
 
   setModalShow(modalShow) {
