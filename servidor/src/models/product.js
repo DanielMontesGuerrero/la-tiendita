@@ -254,6 +254,34 @@ class Product {
 				return callback(null, res);
 			});
 	}
+
+	/**
+	 * obtiene las calificaciones de un producto
+	 * @param {int} id - id del producto
+	 * @param {func} callback - función de callback
+	 */
+	static getScoreList(id, callback) {
+		connection.get_connection((qb) => {
+			qb.select('*')
+				.where('id_product', id)
+				.get(productScoresTable, (err, res) => {
+					qb.release();
+					if (err) {
+						logger.error({
+							message: `Error al obtener la lista de calificaciones` +
+							` del producto: ${id}`,
+							error: err,
+						});
+						return callback(err, null);
+					}
+					logger.info({
+						message: `Lista de calificaciones obtenida del producto: ${id}`,
+						result: res,
+					});
+					callback(null, res);
+				});
+		});
+	}
 }
 
 module.exports = Product;
