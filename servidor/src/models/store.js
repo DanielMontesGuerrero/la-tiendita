@@ -5,6 +5,7 @@ const validator = require('validator');
 const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
 const deliveriesTable = 'entregas_en';
+const paymentMethodsTable = 'metodos_de_pago';
 const topLimit = 3;
 
 /**
@@ -382,6 +383,96 @@ class Store {
 						}
 						logger.info({
 							message: `Puntos de entrega actualizado de la tienda: ${id}`,
+							result: res,
+						});
+						callback(null, res);
+					});
+		});
+	}
+
+	/**
+	 * crea un nuevo método de pago
+	 * @param {int} id - id de la tienda
+	 * @param {any} description - descripción del método de pago
+	 * @param {func} callback - función de callback
+	 */
+	static createPaymentMethod(id, description, callback) {
+		const data = {
+			id_store: id,
+			description: description,
+		};
+		connection.get_connection((qb) => {
+			qb.insert(paymentMethodsTable, data, (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: 'Error creando método de ' +
+						`pago de la tienda: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Método de pago creado de la tienda: ${id}`,
+					result: res,
+				});
+				callback(null, res);
+			});
+		});
+	}
+
+	/**
+	 * obtiene los métodos de pago de una tienda
+	 * @param {int} id - id de la tienda
+	 * @param {func} callback - función de callback
+	 */
+	static getPaymentMethods(id, callback) {
+		connection.get_connection((qb) => {
+			qb.select('*')
+				.where('id_store', id);
+			qb.get(paymentMethodsTable, (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: 'Error obteniendo métodos de ' +
+						`pago de la tienda: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Métodos de pago obtenidos de la tienda: ${id}`,
+					result: res,
+				});
+				callback(null, res);
+			});
+		});
+	}
+
+	/**
+	 * actualiza un método de pago
+	 * @param {int} id - id del método de pago
+	 * @param {string} data - descripción del método de pago
+	 * @param {func} callback - función de callback
+	 */
+	static updatePaymentMethod(id, data, callback) {
+		connection.get_connection((qb) => {
+			qb.where('id_method', id)
+				.update(
+					paymentMethodsTable,
+					data,
+					(err, res) => {
+						qb.release();
+						if (err) {
+							logger.error({
+								message: 'Error actualizando método de ' +
+								`pago de la tienda: ${id}`,
+								error: err,
+							});
+							return callback(err, null);
+						}
+						logger.info({
+							message: `Método de pago actualizado de la tienda: ${id}`,
 							result: res,
 						});
 						callback(null, res);

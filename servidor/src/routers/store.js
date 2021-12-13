@@ -17,6 +17,12 @@ router.get('/store/delivery/:id', Store.getDeliveryPoints);
 
 router.patch('/store/delivery/:id', Store.updateDeliveryPoint);
 
+router.post('/store/payment/:id', Store.createPaymentMethod);
+
+router.get('/store/payment/:id', Store.getPaymentMethods);
+
+router.patch('/store/payment/:id', Store.updatePaymentMethod);
+
 router.post('/store', Store.create);
 
 router.get('/store/:id', Store.get);

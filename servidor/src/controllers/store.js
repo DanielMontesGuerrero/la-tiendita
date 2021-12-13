@@ -274,11 +274,10 @@ exports.getDeliveryPoints = (req, res) => {
 exports.updateDeliveryPoint = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
-	if (data.description === undefined ||
-		id === undefined) {
+	if (id === undefined) {
 		req.status(400).send({
 			result: false,
-			description: 'Se necesita id de la institucion y la tienda',
+			description: 'Se necesita id de la tienda',
 		});
 	}
 	if (data.description === undefined) {
@@ -292,6 +291,98 @@ exports.updateDeliveryPoint = (req, res) => {
 		data: data,
 	});
 	Store.updateDeliveryPoint(id, data, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
+
+exports.createPaymentMethod = (req, res) => {
+	const data = req.body;
+	const id = req.params.id;
+	if (id === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita id de la tienda',
+		});
+	}
+	if (data.description === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita la descripción del método de pago',
+		});
+	}
+	logger.info({
+		message: `Creando método de pago de la tienda: ${id}`,
+		data: data,
+	});
+	Store.createPaymentMethod(id, data.description, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
+
+exports.getPaymentMethods = (req, res) => {
+	const id = req.params.id;
+	if (id === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita id de la tienda',
+		});
+	}
+	logger.info({
+		message: `Obteniendo métodos de pago de la tienda: ${id}`,
+		id_store: id,
+	});
+	Store.getPaymentMethods(id, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
+
+exports.updatePaymentMethod = (req, res) => {
+	const data = req.body;
+	const id = req.params.id;
+	if (id === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita id de la tienda',
+		});
+	}
+	if (data.description === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita la descripción del método de pago',
+		});
+	}
+	logger.info({
+		message: `Actualizando método de pago de la tienda: ${id}`,
+		data: data,
+	});
+	Store.updatePaymentMethod(id, data, (err, response) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,
