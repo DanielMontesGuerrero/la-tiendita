@@ -136,57 +136,32 @@ class Store {
 	}
 
 	/**
-	 * obtiene la calificación de una tienda
-	 * @param {QueryBuilder} qb - objeto de querybuilder
+	 * obtiene las calificaciones de una tienda
 	 * @param {int} id - id de la tienda
-	 * @param {Request} request - opciones de la petición
-	 * @param {Product} store - datos de la tienda
 	 * @param {func} callback - función de callback
 	 */
-	static getScore(qb, id, request, store, callback) {
-		qb.select_avg('calificacion')
-			.where('id_tienda', id)
-			.get('calificaciones_tienda', (err, res) => {
-				if (err) {
-					logger.error({
-						message: `Error al obtener calificación de la tienda: ${id}`,
-						error: err,
+	static getScoreList(id, callback) {
+		connection.get_connection((qb) => {
+			qb.select('*')
+				.where('id_store', id)
+				.get(storeScoresTable, (err, res) => {
+					qb.release();
+					if (err) {
+						logger.error({
+							message: `Error al obtener la lista de calificaciones` +
+							` de la tienda: ${id}`,
+							error: err,
+						});
+						return callback(err, null);
+					}
+					logger.info({
+						message: `Lista de calificaciones obtenida de la tienda: ${id}`,
+						result: res,
 					});
-					return callback(err, null);
-				}
-				store.score = res[0].calificacion;
-				if (request.includeScoreList) {
-					return this.getScoreList(qb, id, store, callback);
-				}
-				qb.release();
-				callback(null, product);
-			});
+					callback(null, res);
+				});
+		});
 	}
-
-	/**
-	 * obtiene todas las calificaciones de una tienda
-	 * @param {QueryBuilder} qb - objeto de querybuilder
-	 * @param {int} id - id de la tienda
-	 * @param {Product} store - datos de la tienda
-	 * @param {func} callback - función de callback
-	 */
-	static getScoreList(qb, id, store, callback) {
-		qb.select('*')
-			.where('id_tienda', id)
-			.get('calificaciones_tienda', (err, res) => {
-				qb.release();
-				if (err) {
-					logger.error({
-						message: `Error al obtener calificaciones de la tienda: ${id}`,
-						error: err,
-					});
-					return callback(err, null);
-				}
-				store.scoreList = res;
-				callback(null, store);
-			});
-	}
-
 
 	/**
 	 * actualiza los datos de una tienda
