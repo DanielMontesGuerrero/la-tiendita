@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const logger = require('./common/logger.js');
 const config = require('./common/config.js');
 
@@ -13,6 +14,15 @@ app.use(function(req, res, next) {
 		'Origin, X-Requested-With, Content-Type, Accept');
 	next();
 });
+
+const options = {
+	origin: '*',
+	methods: 'GET,PATCH,POST',
+	preflightContinue: false,
+	optionsSuccessStatus: 204,
+};
+
+app.use(cors(options));
 
 // routers
 const user = require('./routers/user.js');

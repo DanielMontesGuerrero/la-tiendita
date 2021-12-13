@@ -37,11 +37,11 @@ class RegisterForm extends Component {
       (this.state.name===undefined) ||
       (this.state.email===undefined) ||
       (this.state.password===undefined) ||
-      (this.state.escuela===undefined) ||
+      (this.state.id_school===undefined) ||
       !(this.state.name.length>0) ||
       !(this.state.email.length>0) ||
       !(this.state.password.length>0) ||
-      !(this.state.escuela.length>0)) {
+      !(this.state.id_school.length>0)) {
       alert('Datos incompletos');
     } else {
       const options = {
@@ -71,6 +71,7 @@ class RegisterForm extends Component {
       });
     }
   }
+
   render() {
     return (
       <Container>
@@ -126,9 +127,9 @@ class RegisterForm extends Component {
                     </Form.Label>
                     <Col>
                       <Form.Control
-                        value={this.state.escuela}
+                        value={this.state.id_school}
                         onChange={
-                          (e) => this.setState({escuela: e.target.value})
+                          (e) => this.setState({id_school: e.target.value})
                         }
                         type="text"/>
                     </Col>
@@ -137,8 +138,8 @@ class RegisterForm extends Component {
                   <center>
                     <Button
                       onClick={() => this.registerUser()}
-                      variant="primary"type="button"
-                    >
+                      variant="primary"
+                      type="button">
                       Registrarse
                     </Button>
                     <Form.Text>¿Ya tienes cuenta?{' '}

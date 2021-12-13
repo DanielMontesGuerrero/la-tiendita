@@ -28,7 +28,11 @@ class LoginForm extends Component {
   componentDidMount() {
     if (UserProfile.getName()!==null) {
       window.location.href = '/';
-      console.log(UserProfile.getName());
+      console.log('is'+UserProfile.getEmail());
+      console.log('is'+UserProfile.getIdUser());
+      console.log('is'+UserProfile.setUserType());
+      console.log('is'+UserProfile.getIdSchool());
+      console.log('is'+UserProfile.getImage());
     }
   }
 
@@ -50,7 +54,15 @@ class LoginForm extends Component {
     axios(options).then((res) => {
       this.setState({user: res.data.response});
       if (this.state.user.id_user!==undefined) {
+        window.name = 'John';
+        UserProfile.someProp = 'i am about to get cold';
         UserProfile.setName(this.state.user.name);
+        UserProfile.setEmail(this.state.user.email);
+        UserProfile.setIdSchool(this.state.user.id_school);
+        UserProfile.setIdUser(this.state.user.id_user);
+        UserProfile.setImage(this.state.user.image);
+        UserProfile.setUserType(this.state.user.userType);
+        Object.freeze(UserProfile);
         window.location.href = '/';
       } else {
         alert('El usuario o contraseña son erroneos');
@@ -78,12 +90,21 @@ class LoginForm extends Component {
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="formBasicPassword">
-                    {/* eslint-disable-next-line max-len */}
-                    <Form.Control value={this.state.password} onChange={(e) => this.setState({password: e.target.value})} type="password" placeholder="Contraseña" />
+                    <Form.Control
+                      value={this.state.password}
+                      onChange={
+                        (e) => this.setState({password: e.target.value})
+                      }
+                      type="password"
+                      placeholder="Contraseña"
+                    />
                   </Form.Group>
                   <center>
-                    {/* eslint-disable-next-line max-len */}
-                    <Button onClick={() => this.loginSession()} variant="primary" type="button">
+                    <Button
+                      onClick={() => this.loginSession()}
+                      variant="primary"
+                      type="button"
+                    >
                       Ingresar
                     </Button>
                     <Form.Text>¿No tienes cuenta?{' '}
