@@ -19,10 +19,12 @@ const user = require('./routers/user.js');
 const product = require('./routers/product.js');
 const store = require('./routers/store.js');
 const purchase = require('./routers/purchase.js');
+const institution = require('./routers/institution.js');
 app.use(user);
 app.use(product);
 app.use(store);
 app.use(purchase);
+app.use(institution);
 
 app.get('/', (req, res) => {
 	res.send('Hello world! :)');

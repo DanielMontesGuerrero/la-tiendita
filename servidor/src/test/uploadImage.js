@@ -3,11 +3,11 @@ const request = require('postman-request');
 const logger = require('../common/testLogger.js');
 const config = require('../common/config.js');
 
-const imagePath = './data/cocada.jpg';
+const imagePath = './data/img/cocada.jpg';
 
 logger.info('Insertando imagenes en imgBB');
 
-const url = `${config.imageServer}?key=${config.imageBBKey}&name=ochaco`;
+const url = `${config.imageServer}?key=${config.imageBBKey}`;
 
 logger.info(`url: ${url}`);
 

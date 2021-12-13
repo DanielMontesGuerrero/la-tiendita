@@ -6,17 +6,16 @@ const utils = require('../common/utils');
 
 const imgFolderPath = '/data/img/';
 
-const insertUsers = async (institutionIds) => {
+const insertInstitutions = async () => {
 	const raw = fs.readFileSync(
-		path.join(__dirname, '/data/users.json'));
-	const user = JSON.parse(raw);
+		path.join(__dirname, '/data/institutions.json'));
+	const institutions = JSON.parse(raw);
 
-	logger.info('Insertando usuarios');
+	logger.info('Insertando instituciones');
 
-	const userIds = await Promise.all(user.map(async (item) => {
-		item.id_institution = institutionIds[item.id_institution - 1];
+	const institutionIds = await Promise.all(institutions.map(async (item) => {
 		let options = {
-			url: `${config.host}/user`,
+			url: `${config.host}/institution`,
 			json: true,
 			body: item,
 			method: 'POST',
@@ -26,14 +25,15 @@ const insertUsers = async (institutionIds) => {
 			const respData = response.body;
 			if (respData.result) {
 				logger.info({
-					message: `Producto insertado: ${item.name}`,
+					message: `Institución insertada: ${item.name}`,
 					data: item,
 					response: respData,
 				});
 				if (item.imageFile !== undefined) {
 					imagePath = path.join(__dirname, imgFolderPath, item.imageFile);
 					options = {
-						url: `${config.host}/user/image/${respData.response.insertId}`,
+						url: `${config.host}/institution/` +
+							`image/${respData.response.insertId}`,
 						json: true,
 						formData: {
 							image: fs.createReadStream(imagePath),
@@ -44,11 +44,11 @@ const insertUsers = async (institutionIds) => {
 					if (!responseImg.body.result) {
 						logger.error({
 							message: `Error enviando imagen de: ${item.name}`,
-							error: error,
+							response: responseImg.body,
 						});
 					} else {
 						logger.info({
-							message: `Imagen enviada del producto: ${item.name}`,
+							message: `Imagen enviada de la institución: ${item.name}`,
 							response: responseImg.body,
 						});
 					}
@@ -66,10 +66,11 @@ const insertUsers = async (institutionIds) => {
 				message: `Error insertando: ${item.name}`,
 				error: error,
 			});
+			console.log(error);
 			return -1;
 		}
 	}));
-	return userIds;
+	return institutionIds;
 };
 
-module.exports = insertUsers;
+module.exports = insertInstitutions;

@@ -9,9 +9,13 @@ const actions = {
 };
 
 class Login extends Component {
-  state = {
-    action: actions.LOGIN,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      action: actions.LOGIN,
+    };
+  }
+
   toggleAction() {
     console.log('toggleAction');
     this.setState((prevState, prevProps) => {

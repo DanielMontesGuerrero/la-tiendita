@@ -48,8 +48,8 @@ CREATE TABLE entregas_en (
 );
 CREATE TABLE instituciones (
 	id_institution BIGINT(20) NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(50) NOT NULL,
-	logo VARCHAR(255),
+	`name` VARCHAR(50) NOT NULL UNIQUE,
+	image VARCHAR(255),
 	PRIMARY KEY (id_institution)
 );
 CREATE TABLE metodos_de_pago (
@@ -94,7 +94,7 @@ CREATE TABLE usuarios (
 	`name` VARCHAR(30) NOT NULL UNIQUE,
 	email VARCHAR(30) NOT NULL UNIQUE,
 	`image` VARCHAR(255),
-	id_school BIGINT(20),
+	id_institution BIGINT(20),
 	userType ENUM('admin', 'vendendor', 'usuario') NOT NULL DEFAULT 'usuario',
 	password VARCHAR(256) NOT NULL,
 	PRIMARY KEY (id_user, name)
@@ -154,4 +154,7 @@ ADD FOREIGN KEY (id_user) REFERENCES usuarios(id_user);
 
 
 ALTER TABLE entregas_en
+ADD FOREIGN KEY (id_institution) REFERENCES instituciones(id_institution);
+
+ALTER TABLE usuarios
 ADD FOREIGN KEY (id_institution) REFERENCES instituciones(id_institution);

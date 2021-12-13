@@ -1,0 +1,38 @@
+[
+	{
+		"name": "ESCOM",
+		"imageFile": "escom.png"
+	},
+	{
+		"name": "ESFM",
+		"imageFile": "esfm.png"
+	},
+	{
+		"name": "ESIME",
+		"imageFile": "esime.jpg"
+	},
+	{
+		"name": "UPIICSA",
+		"imageURL": "https://www.upiicsa.ipn.mx/assets/files/upiicsa/uploads/Escudo_UPIICSA.png"
+	},
+	{
+		"name": "UPIITA",
+		"imageURL": "https://www.upiita.ipn.mx/images/upiita-logo.png"
+	},
+	{
+		"name": "ESIA",
+		"imageURL": "https://www.upiita.ipn.mx/images/upiita-logo.png"
+	},
+	{
+		"name": "ESIT",
+		"imageURL": "https://www.uteycv.esiaz.ipn.mx/mediateca/logos/LOGO_ESIA_01.png"
+	},
+	{
+		"name": "CICS",
+		"imageURL": "https://www.esit.ipn.mx/assets/files/esit/uploads/ESIT.png"
+	},
+	{
+		"name": "UNAM",
+		"imageURL": "https://arquitectura.unam.mx/uploads/8/1/1/0/8110907/_2634443.png"
+	}
+]

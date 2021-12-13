@@ -16,7 +16,6 @@ const insertPurchases = (productIds, userIds, storeIds) => {
 		arr[index].id_store = storeIds[item.id_store - 1];
 		arr[index].id_product = productIds[item.id_product - 1];
 	});
-	console.log(purchases);
 	const options = {
 		url: `${config.host}/purchase`,
 		json: true,
