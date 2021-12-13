@@ -25,6 +25,7 @@ class MarketPlace extends Component {
       },
     };
     axios(options).then((res) => {
+      console.log(res.data);
       this.setState({stores: res.data.response});
     });
   }
@@ -35,7 +36,9 @@ class MarketPlace extends Component {
     const stores = this.state.stores;
     return stores.map((item, index) => {
       return (<StoreBanner
+        id_store={item.id_store}
         name={item.name}
+        ownerName={item.ownerName}
         description={item.description}
         score={item.score}
         key={index}/>);

@@ -20,6 +20,8 @@ class ProductBanner extends Component {
 
   static get propTypes() {
     return {
+      id_store: PropTypes.number,
+      ownerName: PropTypes.string,
       name: PropTypes.string,
       score: PropTypes.number,
       description: PropTypes.string,
@@ -77,6 +79,8 @@ class ProductBanner extends Component {
         </Card>
         <StoreInfo
           show={this.state.modalShow}
+          id_store={this.props.id_store}
+          ownerName={this.props.ownerName}
           name={this.props.name}
           description={this.props.description}
           score={this.props.score}

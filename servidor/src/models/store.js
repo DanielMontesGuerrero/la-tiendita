@@ -6,6 +6,7 @@ const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
 const deliveriesTable = 'entregas_en';
 const paymentMethodsTable = 'metodos_de_pago';
+const usersTable = 'usuarios';
 const topLimit = 3;
 
 /**
@@ -25,6 +26,7 @@ class Store {
 		this.description = store.description;
 		this.image = store.image;
 		this.score = store.score;
+		this.ownerName = store.ownerName;
 	}
 
 	/**
@@ -94,9 +96,20 @@ class Store {
 				`${storesTable}.description`,
 				`${storesTable}.id_user`,
 				`${storesTable}.image`,
+				`users.name as ownerName`,
 				request.includeScore ? `scores.score` : '',
 			];
-			qb.select(selectList).from(storesTable);
+			const usersTmpTable = `(
+				SELECT name, id_user
+				FROM ${usersTable}
+			) users`;
+			qb.select(selectList)
+				.from(storesTable)
+				.join(
+					usersTmpTable,
+					`${storesTable}.id_user=users.id_user`,
+					'inner',
+				);
 			if (id !== 'all') {
 				qb.where(`${storesTable}.id_store`, id);
 			}
@@ -142,9 +155,22 @@ class Store {
 	 */
 	static getScoreList(id, callback) {
 		connection.get_connection((qb) => {
-			qb.select('*')
+			const selectList = [
+				`${storeScoresTable}.id_store`,
+				`${storeScoresTable}.id_user`,
+				`${storeScoresTable}.score`,
+				`${storeScoresTable}.description`,
+				`${usersTable}.name`,
+			];
+			qb.select(selectList)
+				.from(storeScoresTable)
 				.where('id_store', id)
-				.get(storeScoresTable, (err, res) => {
+				.join(
+					usersTable,
+					`${storeScoresTable}.id_user=${usersTable}.id_user`,
+					'left',
+				)
+				.get((err, res) => {
 					qb.release();
 					if (err) {
 						logger.error({
