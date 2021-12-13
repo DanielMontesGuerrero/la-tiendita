@@ -1,137 +1,59 @@
-import {AESDecrypt, AESEncrypt} from "./Crypto-Helper";
+import {AESDecrypt, AESEncrypt} from './Crypto-Helper';
 
-const UserProfile = function () {
-  // eslint-disable-next-line camelcase
-  let full_name = "";
-  let email = "";
-  let id_school = null;
-  let id_user = null;
-  let image = null;
-  let userType = "";
-
-  const getName = function() {
-    let keys;
-    keys = Object.keys(localStorage);
-    let len;
-    len = keys.length;
-    for(let i = 0; i < len; i++) {
-      if(AESDecrypt(keys[i])==="name"){
-        // eslint-disable-next-line camelcase,max-len
-        return AESDecrypt(localStorage.getItem(keys[i])); // Or pull this from cookie/localStorage
+class UserProfile {
+  static getKey(key) {
+    const keys = Object.keys(localStorage);
+    const len = keys.length;
+    for (let i = 0; i < len; i++) {
+      if ( AESDecrypt(keys[i]) === key) {
+        return AESDecrypt(localStorage.getItem(keys[i]));
       }
     }
     return null;
+  }
 
+  static setKey(key, data) {
+    localStorage.setItem(AESEncrypt(key), AESEncrypt(data));
+  }
+
+  static getName() {
+    return this.getKey('name');
   };
 
-  const getEmail = function() {
-     let keys;
-    keys = Object.keys(localStorage);
-    let len;
-    len = keys.length;
-    for(let i = 0; i < len; i++) {
-      if(AESDecrypt(keys[i])==="email"){
-        // eslint-disable-next-line camelcase,max-len
-        return AESDecrypt(localStorage.getItem(keys[i])); // Or pull this from cookie/localStorage
-      }
-    }
-    return null;
+  static getEmail() {
+    return this.getKey('emai');
   }
-  const getIdSchool = function() {
-     let keys;
-    keys = Object.keys(localStorage);
-    let len;
-    len = keys.length;
-    for(let i = 0; i < len; i++) {
-      if(AESDecrypt(keys[i])==="id_school"){
-        // eslint-disable-next-line camelcase,max-len
-        return AESDecrypt(localStorage.getItem(keys[i])); // Or pull this from cookie/localStorage
-      }
-    }
-    return null;
+  static getIdSchool() {
+    return this.getKey('id_school');
   }
-  const getIdUser = function() {
-     let keys;
-    keys = Object.keys(localStorage);
-    let len;
-    len = keys.length;
-    for(let i = 0; i < len; i++) {
-      if(AESDecrypt(keys[i])==="id_user"){
-        // eslint-disable-next-line camelcase,max-len
-        return AESDecrypt(localStorage.getItem(keys[i])); // Or pull this from cookie/localStorage
-      }
-    }
-    return null;
+  static getIdUser() {
+    return this.getKey('id_user');
   }
-  const getImage = function() {
-     let keys;
-    keys = Object.keys(localStorage);
-    let len;
-    len = keys.length;
-    for(let i = 0; i < len; i++) {
-      if(AESDecrypt(keys[i])==="image"){
-        // eslint-disable-next-line camelcase,max-len
-        return AESDecrypt(localStorage.getItem(keys[i])); // Or pull this from cookie/localStorage
-      }
-    }
-    return null;
+  static getImage() {
+    return this.getKey('image');
   }
-  const getUserType = function() {
-     let keys;
-    keys = Object.keys(localStorage);
-    let len;
-    len = keys.length;
-    for(let i = 0; i < len; i++) {
-      if(AESDecrypt(keys[i])==="userType"){
-        // eslint-disable-next-line camelcase,max-len
-        return AESDecrypt(localStorage.getItem(keys[i])); // Or pull this from cookie/localStorage
-      }
-    }
-    return null;
+  static getUserType() {
+    return this.getKey('userType');
   }
 
-  const setName = function(name) {
-    localStorage.setItem(AESEncrypt("name"), AESEncrypt(name));
-    // eslint-disable-next-line camelcase
-    full_name = name;
-    // Also set this in cookie/localStorage
+  static setName(name) {
+    this.setKey('name', name);
   };
-  const setEmail = function(data) {
-    localStorage.setItem(AESEncrypt("email"), AESEncrypt(data));
-    email = data;
+  static setEmail(email) {
+    this.setKey('email', email);
   }
-  const setIdSchool = function(data) {
-    localStorage.setItem(AESEncrypt("id_school"), AESEncrypt(data));
-    id_school = data;
+  static setIdSchool(id) {
+    this.setKey('id_school', id);
   }
-  const setIdUser = function(data) {
-    localStorage.setItem(AESEncrypt("id_user"), AESEncrypt(data));
-    id_user = data;
+  static setIdUser(id) {
+    this.setKey('id_user', id);
   }
-  const setImage = function(data) {
-    localStorage.setItem(AESEncrypt("image"), AESEncrypt(data));
-    image = data;
+  static setImage(image) {
+    this.setKey('image', image);
   }
-  const setUserType = function(data) {
-    localStorage.setItem(AESEncrypt("userType"), AESEncrypt(data));
-    userType = data;
+  static setUserType(userType) {
+    this.setKey('userType', userType);
   }
-
-  return {
-    getName: getName,
-    setName: setName,
-    getEmail: getEmail,
-    setEmail: setEmail,
-    getIdSchool: getIdSchool,
-    setIdSchool: setIdSchool,
-    getIdUser: getIdUser,
-    setIdUser: setIdUser,
-    getImage: getImage,
-    setImage: setImage,
-    getUserType: getUserType,
-    setUserType: setUserType,
-  };
-
-}();
+}
 
 export default UserProfile;

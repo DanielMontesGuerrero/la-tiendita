@@ -1,36 +1,37 @@
 import React, {Component} from 'react';
-import {Row, Col, Container, Tabs, Tab, Nav} from 'react-bootstrap';
+import {Row, Col, Container, Tabs, Tab} from 'react-bootstrap';
 import NavigationBar from '../common/NavigationBar.js';
 import UserSettings from './UserSettings.js';
 import StoreSettings from './StoreSettings.js';
 import AdminSettings from './AdminSettings.js';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import UserProfile from "../common/UserProfile";
+import UserProfile from '../common/UserProfile';
 
 class User extends Component {
-  componentDidMount(){
-    if(UserProfile.getName()===null){
-      window.location.href = "/";
+  componentDidMount() {
+    if (UserProfile.getName()===null) {
+      window.location.href = '/';
     }
   }
-  render() {
 
-    let mi_tiendita=
-    <Tab eventKey="mi_tiendita" title="Mi tiendita">
-      <StoreSettings/>
-    </Tab>
-    let admin=
-    <Tab eventKey="admin" title="Soy admin">
-      <AdminSettings/>
-    </Tab>
-    if(UserProfile.getUserType()==="usuario"){
-      mi_tiendita = <></>
-      admin = <></>
-    }else if(UserProfile.getUserType()==="vendendor"){
-      admin = <></>
-    }else if(UserProfile.getUserType()!=="admin"){
-      mi_tiendita = <></>
-      admin = <></>
+  render() {
+    let miTiendita = (
+      <Tab eventKey="mi_tiendita" title="Mi tiendita">
+        <StoreSettings/>
+      </Tab>
+    );
+    let admin = (
+      <Tab eventKey="admin" title="Soy admin">
+        <AdminSettings/>
+      </Tab>
+    );
+    if (UserProfile.getUserType()==='usuario') {
+      miTiendita = <></>;
+      admin = <></>;
+    } else if (UserProfile.getUserType()==='vendendor') {
+      admin = <></>;
+    } else if (UserProfile.getUserType()!=='admin') {
+      miTiendita = <></>;
+      admin = <></>;
     }
     return (
       <div>
@@ -47,7 +48,7 @@ class User extends Component {
                 <Tab eventKey="mi_cuenta" title="Mi cuenta">
                   <UserSettings/>
                 </Tab>
-                {mi_tiendita}
+                {miTiendita}
                 {admin}
               </Tabs>
             </Col>

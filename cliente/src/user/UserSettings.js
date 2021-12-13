@@ -11,37 +11,37 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import RequestForm from './RequestForm.js';
 import Order from './Order.js';
-import config from "../common/config";
-import axios from "axios";
-import UserProfile from "../common/UserProfile";
-import User from "./User";
-import orders from "../common/orders.json";
+import config from '../common/config';
+import axios from 'axios';
+import UserProfile from '../common/UserProfile';
 
 const UserTypes = {
-  user: 'user',
-  vendor: 'vendor',
+  user: 'usuario',
+  vendor: 'vendedor',
   admin: 'admin',
 };
 
 class UserSettings extends Component {
-  state = {
-    userType: UserTypes.user,
-    modalShow: false,
-    user: {
-      email: UserProfile.getEmail(),
-      id_school: UserProfile.getIdSchool(),
-      id_user: UserProfile.getIdUser(),
-      image: UserProfile.getImage(),
-      name: UserProfile.getName(),
-      userType: UserProfile.getUserType()
-    },
-    orders: null
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalShow: false,
+      user: {
+        email: UserProfile.getEmail(),
+        id_school: UserProfile.getIdSchool(),
+        id_user: UserProfile.getIdUser(),
+        image: UserProfile.getImage(),
+        name: UserProfile.getName(),
+        userType: UserProfile.getUserType(),
+      },
+      orders: null,
+    };
   }
 
   componentDidMount() {
     if (!this.state.orders) {
-      this.getOrders().then((data) => this.setState({orders:data}))
-          .catch((err) => {console.log("s")});
+      this.getOrders().then((data) => this.setState({orders: data}))
+          .catch((err) => console.log('s'));
     }
   }
 
@@ -51,12 +51,14 @@ class UserSettings extends Component {
 
   getBadge() {
     let color = 'secondary';
-    if (this.state.userType === UserTypes.vendor) {
+    if (this.state.user.userType === UserTypes.vendor) {
       color = 'success';
-    } else if (this.state.userType === UserTypes.admin) {
+    } else if (this.state.user.userType === UserTypes.admin) {
       color = 'danger';
     }
-    return (<Badge bg={color} className="mt-3">{this.state.userType}</Badge>);
+    return (
+      <Badge bg={color} className="mt-3">{this.state.user.userType}</Badge>
+    );
   }
 
   async getOrders() {
@@ -74,68 +76,62 @@ class UserSettings extends Component {
       },
     };
     await axios(options).then((res) => {
-      console.log(res.data.response)
+      console.log(res.data.response);
       orders = res.data.response;
       orders = orders.map((item, index) => {
         return (<Order
-            store={item.storeName}
-            product={item.productName}
-            quantity={item.quantity}
-            price={item.unitary_price}
-            date={item.date}
-            state={item.state}
-            key={index}/>);
+          store={item.storeName}
+          product={item.productName}
+          quantity={item.quantity}
+          price={item.unitary_price}
+          date={item.date}
+          state={item.state}
+          key={index}/>);
       });
     });
     console.log(orders);
-    return await orders;
-
+    return orders;
   }
 
-  actualizarUser = () => {
-    if(      this.state.user.email=== UserProfile.getEmail()&&
+  actualizarUser() {
+    if (this.state.user.email=== UserProfile.getEmail() &&
         this.state.user.id_school=== UserProfile.getIdSchool()&&
         this.state.user.name=== UserProfile.getName()&&
-        this.state.user.userType=== UserProfile.getUserType()){
-      alert("No has cambiado nada")
-
-    }else {
+        this.state.user.userType=== UserProfile.getUserType()) {
+      alert('No has cambiado nada');
+    } else {
       const options = {
         url: `${config.host}/user/${UserProfile.getIdUser()}`,
-        method: 'post',
-        params: {
-          includeScore: true,
-          onlyTop: true,
-        },
+        method: 'patch',
         data: this.state.user,
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
         },
       };
       axios(options).then((res) => {
-        console.log(res)
+        console.log(res);
         localStorage.clear();
-        UserProfile.setName(this.state.user.name)
-        UserProfile.setEmail(this.state.user.email)
-        UserProfile.setIdSchool(this.state.user.id_school)
-        UserProfile.setIdUser(this.state.user.id_user)
-        UserProfile.setImage(this.state.user.image)
-        UserProfile.setUserType(this.state.user.userType)
-        alert("Datos actualizados")
+        UserProfile.setName(this.state.user.name);
+        UserProfile.setEmail(this.state.user.email);
+        UserProfile.setIdSchool(this.state.user.id_school);
+        UserProfile.setIdUser(this.state.user.id_user);
+        UserProfile.setImage(this.state.user.image);
+        UserProfile.setUserType(this.state.user.userType);
+        alert('Datos actualizados');
       });
     }
   }
 
-  cerrarSesion(){
-    localStorage.clear()
-    window.location.href = "/";
+  cerrarSesion() {
+    localStorage.clear();
+    window.location.href = '/';
   }
 
   render() {
     return (
       <div>
         <Card className="pt-3 mb-2">
-          <Row className="justify-content-center px-4">
+          <Row className="justify-content-center px-4 mb-3">
             <Col md="auto">
               <Stack>
                 <center>
@@ -159,10 +155,18 @@ class UserSettings extends Component {
                       plaintext
                       defaultValue="No user name"
                       value={this.state.user.name}
-                      onChange={(e) => this.setState({user: { name:e.target.value, email:this.state.user.email, id_school: this.state.user.id_school,
-                          id_user: this.state.user.id_user,
-                          image: this.state.user.image,
-                          userType: this.state.user.userType}})}
+                      onChange={
+                        (e) => this.setState({
+                          user: {
+                            name: e.target.value,
+                            email: this.state.user.email,
+                            id_school: this.state.user.id_school,
+                            id_user: this.state.user.id_user,
+                            image: this.state.user.image,
+                            userType: this.state.user.userType,
+                          },
+                        })
+                      }
                     />
                   </Col>
                 </Form.Group>
@@ -178,26 +182,19 @@ class UserSettings extends Component {
                     <Form.Control
                       plaintext
                       value={this.state.user.email}
-                      onChange={(e) => this.setState({user: { email:e.target.value,
-                          name:this.state.user.name, id_school: this.state.user.id_school,
-                          id_user: this.state.user.id_user,
-                          image: this.state.user.image,
-                          userType: this.state.user.userType}})}
+                      onChange={
+                        (e) => this.setState({
+                          user: {
+                            email: e.target.value,
+                            name: this.state.user.name,
+                            id_school: this.state.user.id_school,
+                            id_user: this.state.user.id_user,
+                            image: this.state.user.image,
+                            userType: this.state.user.userType,
+                          },
+                        })
+                      }
                       defaultValue="email@example.com" />
-                  </Col>
-                </Form.Group>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="boleta">
-                  <Form.Label column sm="4">
-                    Boleta
-                  </Form.Label>
-                  <Col sm="8">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      defaultValue="" />
                   </Col>
                 </Form.Group>
 
@@ -212,11 +209,18 @@ class UserSettings extends Component {
                     <Form.Control
                       plaintext
                       value={this.state.user.id_school}
-                      onChange={(e) => this.setState({user: {id_school:e.target.value,
-                          name:this.state.user.name, email: this.state.user.email,
-                          id_user: this.state.user.id_user,
-                          image: this.state.user.image,
-                          userType: this.state.user.userType}})}
+                      onChange={
+                        (e) => this.setState({
+                          user: {
+                            id_school: e.target.value,
+                            name: this.state.user.name,
+                            email: this.state.user.email,
+                            id_user: this.state.user.id_user,
+                            image: this.state.user.image,
+                            userType: this.state.user.userType,
+                          },
+                        })
+                      }
                       defaultValue="ESCOM" />
                   </Col>
                 </Form.Group>
@@ -225,25 +229,25 @@ class UserSettings extends Component {
             </Col>
           </Row>
           <Stack gap={2} className="col-md-5 mx-auto mb-3">
-            <center>
-              {/* eslint-disable-next-line max-len */}
-              <Button onClick={this.actualizarUser} variant="primary" type="button">
-                Actualizar datos
-              </Button>
-            </center>
-            <center>
-              {/* eslint-disable-next-line max-len */}
-              <Button onClick={this.cerrarSesion} variant="danger" type="button">
-                Cerrar Sesión
-              </Button>
-            </center>
-          </Stack>
-          <Stack gap={2} className="col-md-5 mx-auto mb-3">
+            <Button
+              onClick={() => this.actualizarUser()}
+              variant="primary"
+              type="button"
+            >
+              Actualizar datos
+            </Button>
             <Button
               variant="primary"
               onClick={() => this.setModalShow(true)}
             >
               Solicitar cuenta de vendor
+            </Button>
+            <Button
+              onClick={() => this.cerrarSesion()}
+              variant="danger"
+              type="button"
+            >
+              Cerrar Sesión
             </Button>
           </Stack>
           <Row className="justify-content-center mb-4">

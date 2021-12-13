@@ -10,9 +10,9 @@ import {
   Badge} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Score from '../common/Score.js';
-import UserProfile from "../common/UserProfile";
-import config from "../common/config";
-import axios from "axios";
+import UserProfile from '../common/UserProfile';
+import config from '../common/config';
+import axios from 'axios';
 
 class StoreSettings extends Component {
   constructor(props) {
@@ -22,39 +22,37 @@ class StoreSettings extends Component {
       deliveryOpen: false,
       paymentOpen: false,
       id_store: null,
-      name:"Tienda",
-      id_user:UserProfile.getIdUser(),
-      description:"",
-      image:"",
-      score:null
+      name: 'Tienda',
+      id_user: UserProfile.getIdUser(),
+      description: '',
+      image: '',
+      score: null,
     };
   }
 
-  actualizarStore = () => {
-
-    let data = {
+  actualizarStore() {
+    const data = {
       id_store: 1,
       name: this.state.name,
       description: this.state.description,
-    }
+    };
 
-      const options = {
-        url: `${config.host}/store/1`,
-        method: 'post',
-        params: {
-          includeScore: true,
-          onlyTop: true,
-        },
-        data: data,
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-      };
-      axios(options).then((res) => {
-        console.log(res)
-        alert("Datos actualizados")
-      });
-
+    const options = {
+      url: `${config.host}/store/1`,
+      method: 'post',
+      params: {
+        includeScore: true,
+        onlyTop: true,
+      },
+      data: data,
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+    };
+    axios(options).then((res) => {
+      console.log(res);
+      alert('Datos actualizados');
+    });
   }
 
   render() {
@@ -88,7 +86,7 @@ class StoreSettings extends Component {
                     <Form.Control
                       plaintext
                       value={this.state.name}
-                      onChange={(e) => this.setState({ name:e.target.value})}
+                      onChange={(e) => this.setState({name: e.target.value})}
                       defaultValue="Tienda de fulano" />
                   </Col>
                 </Form.Group>
@@ -104,7 +102,9 @@ class StoreSettings extends Component {
                     <Form.Control
                       plaintext
                       value={this.state.description}
-                      onChange={(e) => this.setState({ description:e.target.value})}
+                      onChange={
+                        (e) => this.setState({description: e.target.value})
+                      }
                       defaultValue="Bueno bonito y barato ;)" />
                   </Col>
                 </Form.Group>
