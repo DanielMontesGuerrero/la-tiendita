@@ -395,3 +395,25 @@ exports.updatePaymentMethod = (req, res) => {
 		});
 	});
 };
+
+exports.getScoreList = (req, res) => {
+	const id = req.params.id;
+	if (id === undefined) {
+		return res.status(400).send({
+			result: false,
+			description: 'Se necesita el id de la tienda',
+		});
+	}
+	Store.getScoreList(id, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
