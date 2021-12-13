@@ -4,6 +4,7 @@ const insertStores = require('./test/insertStores.js');
 const insertScores = require('./test/insertScores.js');
 const insertPurchases = require('./test/insertPurchases.js');
 const insertInstitutions = require('./test/insertInstitutions.js');
+const insertDeliveries = require('./test/insertDeliveries.js');
 
 const init = async () => {
 	// insertar productos
@@ -23,6 +24,9 @@ const init = async () => {
 
 	// insertar compras
 	insertPurchases(productIds, userIds, storeIds);
+
+	// insertar puntos de entrega
+	insertDeliveries(storeIds, institutionIds);
 };
 
 init();
