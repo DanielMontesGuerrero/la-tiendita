@@ -26,7 +26,7 @@ class User extends Component {
     if(UserProfile.getUserType()==="usuario"){
       mi_tiendita = <></>
       admin = <></>
-    }else if(UserProfile.getUserType()==="vendedor"){
+    }else if(UserProfile.getUserType()==="vendendor"){
       admin = <></>
     }else if(UserProfile.getUserType()!=="admin"){
       mi_tiendita = <></>
