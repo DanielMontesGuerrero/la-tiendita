@@ -6,12 +6,14 @@ import StoreIcon from '../store/StoreIcon.js';
 import {QuantityPicker} from 'react-qty-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import ProductInfo from './ProductInfo.js';
+import ScoreForm from '../common/ScoreForm.js';
 
 class ProductBanner extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalShow: false,
+      formShow: false,
     };
   }
 
@@ -104,7 +106,10 @@ class ProductBanner extends Component {
               <></>
             }
             <Col md="auto">
-              <Button variant="outline-warning">
+              <Button
+                variant="outline-warning"
+                onClick={() => this.setState({formShow: true})}
+              >
                 <FontAwesomeIcon icon="star"/>{' '}Calificar
               </Button>
             </Col>
@@ -125,6 +130,13 @@ class ProductBanner extends Component {
           description={this.props.description}
           score={this.props.score}
           onHide={() => this.setModalShow(false)}
+        />
+        <ScoreForm
+          scoreType="product"
+          id_product={this.props.id_product}
+          name={this.props.name}
+          show={this.state.formShow}
+          onHide={() => this.setState({formShow: false})}
         />
       </Container>
     );
