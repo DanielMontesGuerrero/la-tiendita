@@ -5,7 +5,7 @@ const validator = require('validator');
 const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
 const deliveriesTable = 'entregas_en';
-const productsInStoreTable = 'productos_en_tienda';
+const paymentMethodsTable = 'metodos_de_pago';
 const topLimit = 3;
 
 /**
@@ -389,28 +389,31 @@ class Store {
 					});
 		});
 	}
+
 	/**
-	* Inserta dentro de la tabla 'productos en tienda' el producto que se pasa como párametro
-	* dentro de la tienda que se pasa como parametro
-	* @param {int} id - Id dentro de la base de datos de la tienda en donde se insertará
-	* @param {string} data - Información del producto en tienda
-	* @param {func} callback - Función de callback
-	*/
-	static createProductInStore(id, data, callback) {
-		data.id_store = id;
+	 * crea un nuevo método de pago
+	 * @param {int} id - id de la tienda
+	 * @param {any} description - descripción del método de pago
+	 * @param {func} callback - función de callback
+	 */
+	static createPaymentMethod(id, description, callback) {
+		const data = {
+			id_store: id,
+			description: description,
+		};
 		connection.get_connection((qb) => {
-			qb.insert(productsInStoreTable, data, (err, res) => {
+			qb.insert(paymentMethodsTable, data, (err, res) => {
 				qb.release();
 				if (err) {
 					logger.error({
-						message: 'Error creando producto ' +
-						`en la tienda: ${id}`,
+						message: 'Error creando método de ' +
+						`pago de la tienda: ${id}`,
 						error: err,
 					});
 					return callback(err, null);
 				}
 				logger.info({
-					message: `Producto creado en la tienda: ${id}`,
+					message: `Método de pago creado de la tienda: ${id}`,
 					result: res,
 				});
 				callback(null, res);
@@ -419,62 +422,61 @@ class Store {
 	}
 
 	/**
-	 * Retorna todos los productos que existen dentro de una tienda con un id dado
-	 * @param {int} id - Id dentro de la base de datos de la tienda
-	 * @param {func} callback - Función de callback
+	 * obtiene los métodos de pago de una tienda
+	 * @param {int} id - id de la tienda
+	 * @param {func} callback - función de callback
 	 */
-	static getProductsInStore(id, callback) {
-		connection.get_connection((qb)=> {
+	static getPaymentMethods(id, callback) {
+		connection.get_connection((qb) => {
 			qb.select('*')
 				.where('id_store', id);
-			qb.get(productsInStoreTable, (err, res) => {
+			qb.get(paymentMethodsTable, (err, res) => {
 				qb.release();
 				if (err) {
 					logger.error({
-						message: 'Error obteniendo los productos ' +
-						`de la tienda: ${id}`,
+						message: 'Error obteniendo métodos de ' +
+						`pago de la tienda: ${id}`,
 						error: err,
 					});
 					return callback(err, null);
 				}
 				logger.info({
-					message: `Productos obtenidos de la tienda: ${id}`,
+					message: `Métodos de pago obtenidos de la tienda: ${id}`,
 					result: res,
 				});
 				callback(null, res);
 			});
 		});
-	} 
+	}
 
 	/**
-	 * Actualiza un producto que haya sido insertado en una tienda con el id dado
-	 * @param {int} id - Id dentro de la base de datos dentro de la tienda en donde se insertará
-	 * @param {string} data - Información que será actualizada
-	 * @param {func} callback - Función de callback
-	 */ 
-	static updateProductInStore(id, data, callback) {
-		id = data.id_product;
+	 * actualiza un método de pago
+	 * @param {int} id - id del método de pago
+	 * @param {string} data - descripción del método de pago
+	 * @param {func} callback - función de callback
+	 */
+	static updatePaymentMethod(id, data, callback) {
 		connection.get_connection((qb) => {
-			qb.where({'id_store': id , 'id_product': data.id_product})
+			qb.where('id_method', id)
 				.update(
-					productsInStoreTable,
+					paymentMethodsTable,
 					data,
 					(err, res) => {
 						qb.release();
 						if (err) {
 							logger.error({
-								message: 'Error actualizando el producto ' +
-								` de la tienda: ${id}`,
+								message: 'Error actualizando método de ' +
+								`pago de la tienda: ${id}`,
 								error: err,
 							});
 							return callback(err, null);
 						}
 						logger.info({
-							message: `Producto actualizado de la tienda: ${id}`,
+							message: `Método de pago actualizado de la tienda: ${id}`,
 							result: res,
 						});
 						callback(null, res);
-				});
+					});
 		});
 	}
 }

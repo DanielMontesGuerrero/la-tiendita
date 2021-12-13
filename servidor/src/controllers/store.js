@@ -274,11 +274,10 @@ exports.getDeliveryPoints = (req, res) => {
 exports.updateDeliveryPoint = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
-	if (data.description === undefined ||
-		id === undefined) {
-		res.status(400).send({
+	if (id === undefined) {
+		req.status(400).send({
 			result: false,
-			description: 'Se necesita id de la institucion y la tienda',
+			description: 'Se necesita id de la tienda',
 		});
 	}
 	if (data.description === undefined) {
@@ -305,33 +304,26 @@ exports.updateDeliveryPoint = (req, res) => {
 	});
 };
 
-exports.createProductInStore = (req, res) => {
+exports.createPaymentMethod = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
-	if (data.id_product === undefined ||
-		id === undefined) {
-		res.status(400).send({
+	if (id === undefined) {
+		req.status(400).send({
 			result: false,
-			description: 'Se necesita el id del producto que se quiere insertar',
+			description: 'Se necesita id de la tienda',
 		});
 	}
-	if (data.quantity === undefined) {
-		res.status(400).send({
+	if (data.description === undefined) {
+		req.status(400).send({
 			result: false,
-			description: 'Se necesita la cantidad de productos en stock',
-		});
-	}
-	if (data.price === undefined) {
-		res.status(400).send({
-			result: false,
-			description: 'Se necesita el precio del producto',
+			description: 'Se necesita la descripción del método de pago',
 		});
 	}
 	logger.info({
-		message: `Creando producto dentro de la  tienda: ${id}`,
+		message: `Creando método de pago de la tienda: ${id}`,
 		data: data,
 	});
-	Store.createProductInStore(id, data, (err, response) => {
+	Store.createPaymentMethod(id, data.description, (err, response) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,
@@ -345,19 +337,19 @@ exports.createProductInStore = (req, res) => {
 	});
 };
 
-exports.getProductsInStore = (req, res) => {
+exports.getPaymentMethods = (req, res) => {
 	const id = req.params.id;
 	if (id === undefined) {
-		return res.status(400).send({
+		req.status(400).send({
 			result: false,
 			description: 'Se necesita id de la tienda',
 		});
 	}
 	logger.info({
-		message: `Obteniendo los productos de la tienda: ${id}`,
+		message: `Obteniendo métodos de pago de la tienda: ${id}`,
 		id_store: id,
 	});
-	Store.getProductsInStore(id, (err, response) => {
+	Store.getPaymentMethods(id, (err, response) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,
@@ -371,29 +363,35 @@ exports.getProductsInStore = (req, res) => {
 	});
 };
 
-exports.updateProductInStore = (req, res) => {
+exports.updatePaymentMethod = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
-	if(id === undefined) {
-		return res.status(400).send({
-			result : false,
-			description : 'Se necesita el id de la tienda',
+	if (id === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita id de la tienda',
+		});
+	}
+	if (data.description === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita la descripción del método de pago',
 		});
 	}
 	logger.info({
-		message: `Actualizando producto en la tienda: ${id}`,
-		id_store : id,
+		message: `Actualizando método de pago de la tienda: ${id}`,
+		data: data,
 	});
-	Store.updateProductInStore(id, data, (err,response) => {
-		if(err) {
+	Store.updatePaymentMethod(id, data, (err, response) => {
+		if (err) {
 			return res.status(400).send({
-				result : false,
-				description : err.sqlMessage,
+				result: false,
+				description: err.sqlMessage,
 			});
 		}
 		res.send({
-			result : true,
-			response : response,
+			result: true,
+			response: response,
 		});
 	});
 };

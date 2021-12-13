@@ -22,6 +22,11 @@ router.post('/store/productInStore/:id', Store.createProductInStore);
 router.patch('/store/productInStore/:id', Store.updateProductInStore);
 
 router.get('/store/productInStore/:id', Store.getProductsInStore);
+router.post('/store/payment/:id', Store.createPaymentMethod);
+
+router.get('/store/payment/:id', Store.getPaymentMethods);
+
+router.patch('/store/payment/:id', Store.updatePaymentMethod);
 
 router.post('/store', Store.create);
 
