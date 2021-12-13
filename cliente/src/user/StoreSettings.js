@@ -10,6 +10,9 @@ import {
   Badge} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Score from '../common/Score.js';
+import UserProfile from "../common/UserProfile";
+import config from "../common/config";
+import axios from "axios";
 
 class StoreSettings extends Component {
   constructor(props) {
@@ -18,7 +21,40 @@ class StoreSettings extends Component {
       inventoryOpen: false,
       deliveryOpen: false,
       paymentOpen: false,
+      id_store: null,
+      name:"Tienda",
+      id_user:UserProfile.getIdUser(),
+      description:"",
+      image:"",
+      score:null
     };
+  }
+
+  actualizarStore = () => {
+
+    let data = {
+      id_store: 1,
+      name: this.state.name,
+      description: this.state.description,
+    }
+
+      const options = {
+        url: `${config.host}/store/1`,
+        method: 'post',
+        params: {
+          includeScore: true,
+          onlyTop: true,
+        },
+        data: data,
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      };
+      axios(options).then((res) => {
+        console.log(res)
+        alert("Datos actualizados")
+      });
+
   }
 
   render() {
@@ -30,12 +66,12 @@ class StoreSettings extends Component {
               <Stack gap={2}>
                 <Badge
                   bg="dark">
-                  Tienda de Daniel
+                  {this.state.name}
                 </Badge>
                 <center>
                   <FontAwesomeIcon icon="store" size="10x"/>
                 </center>
-                <Score score={4.2}/>
+                <Score score={this.state.score}/>
               </Stack>
             </Col>
             <Col md="auto">
@@ -51,7 +87,8 @@ class StoreSettings extends Component {
                   <Col sm="8">
                     <Form.Control
                       plaintext
-                      readOnly
+                      value={this.state.name}
+                      onChange={(e) => this.setState({ name:e.target.value})}
                       defaultValue="Tienda de fulano" />
                   </Col>
                 </Form.Group>
@@ -66,7 +103,8 @@ class StoreSettings extends Component {
                   <Col sm="8">
                     <Form.Control
                       plaintext
-                      readOnly
+                      value={this.state.description}
+                      onChange={(e) => this.setState({ description:e.target.value})}
                       defaultValue="Bueno bonito y barato ;)" />
                   </Col>
                 </Form.Group>
@@ -97,13 +135,21 @@ class StoreSettings extends Component {
                     <Form.Control
                       plaintext
                       readOnly
-                      defaultValue="ESCOM" />
+                      defaultValue={UserProfile.getIdSchool()} />
                   </Col>
                 </Form.Group>
 
               </Form>
             </Col>
           </Row>
+          <Stack gap={2} className="col-md-5 mx-auto mb-3">
+            <center>
+              {/* eslint-disable-next-line max-len */}
+              <Button onClick={this.actualizarStore} variant="primary" type="button">
+                Actualizar datos
+              </Button>
+            </center>
+          </Stack>
           <Stack gap={2} className="col-md-5 mx-auto mb-3 mt-4">
             <Button
               variant="primary"

@@ -93,10 +93,8 @@ class UserSettings extends Component {
   }
 
   actualizarUser = () => {
-    if(    !  this.state.user.email=== UserProfile.getEmail()&&
+    if(      this.state.user.email=== UserProfile.getEmail()&&
         this.state.user.id_school=== UserProfile.getIdSchool()&&
-        this.state.user.id_user=== UserProfile.getIdUser()&&
-        this.state.user.image=== UserProfile.getImage()&&
         this.state.user.name=== UserProfile.getName()&&
         this.state.user.userType=== UserProfile.getUserType()){
       alert("No has cambiado nada")
@@ -123,6 +121,7 @@ class UserSettings extends Component {
         UserProfile.setIdUser(this.state.user.id_user)
         UserProfile.setImage(this.state.user.image)
         UserProfile.setUserType(this.state.user.userType)
+        alert("Datos actualizados")
       });
     }
   }
