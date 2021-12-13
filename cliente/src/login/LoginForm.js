@@ -42,10 +42,6 @@ class LoginForm extends Component {
     const options = {
       url: `${config.host}/user/login`,
       method: 'post',
-      params: {
-        includeScore: true,
-        onlyTop: true,
-      },
       data: this.state,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -87,7 +83,7 @@ class LoginForm extends Component {
                   </Form.Group>
                   <center>
                     {/* eslint-disable-next-line max-len */}
-                    <Button onClick={this.loginSession} variant="primary" type="button">
+                    <Button onClick={() => this.loginSession()} variant="primary" type="button">
                       Ingresar
                     </Button>
                     <Form.Text>¿No tienes cuenta?{' '}
