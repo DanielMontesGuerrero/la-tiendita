@@ -15,6 +15,7 @@ import config from "../common/config";
 import axios from "axios";
 import UserProfile from "../common/UserProfile";
 import User from "./User";
+import orders from "../common/orders.json";
 
 const UserTypes = {
   user: 'user',
@@ -23,12 +24,25 @@ const UserTypes = {
 };
 
 class UserSettings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userType: UserTypes.user,
-      modalShow: false,
-    };
+  state = {
+    userType: UserTypes.user,
+    modalShow: false,
+    user: {
+      email: UserProfile.getEmail(),
+      id_school: UserProfile.getIdSchool(),
+      id_user: UserProfile.getIdUser(),
+      image: UserProfile.getImage(),
+      name: UserProfile.getName(),
+      userType: UserProfile.getUserType()
+    },
+    orders: null
+  }
+
+  componentDidMount() {
+    if (!this.state.orders) {
+      this.getOrders().then((data) => this.setState({orders:data}))
+          .catch((err) => {console.log("s")});
+    }
   }
 
   setModalShow(modalShow) {
@@ -45,18 +59,37 @@ class UserSettings extends Component {
     return (<Badge bg={color} className="mt-3">{this.state.userType}</Badge>);
   }
 
-  getOrders() {
-    const orders = require('../common/orders.json');
-    return orders.map((item, index) => {
-      return (<Order
-        store={item.store}
-        product={item.product}
-        quantity={item.quantity}
-        price={item.price}
-        date={item.date}
-        state={item.state}
-        key={index}/>);
+  async getOrders() {
+    let orders = [];
+
+    const options = {
+      url: `${config.host}/purchase?id_user=${UserProfile.getIdUser()}`,
+      method: 'get',
+      params: {
+        includeScore: true,
+        onlyTop: true,
+      },
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+    };
+    await axios(options).then((res) => {
+      console.log(res.data.response)
+      orders = res.data.response;
+      orders = orders.map((item, index) => {
+        return (<Order
+            store={item.storeName}
+            product={item.productName}
+            quantity={item.quantity}
+            price={item.unitary_price}
+            date={item.date}
+            state={item.state}
+            key={index}/>);
+      });
     });
+    console.log(orders);
+    return await orders;
+
   }
 
   actualizarUser = () => {
@@ -220,7 +253,7 @@ class UserSettings extends Component {
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>Mis pedidos</Accordion.Header>
                   <Accordion.Body className="">
-                    {this.getOrders()}
+                    {this.state.orders}
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
