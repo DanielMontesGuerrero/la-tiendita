@@ -8,6 +8,7 @@ import './StoreCard.css';
 import ScoreBanner from '../common/ScoreBanner.js';
 import config from '../common/config.js';
 import axios from 'axios';
+import ScoreForm from '../common/ScoreForm.js';
 
 class StoreInfo extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class StoreInfo extends Component {
       products: [],
       scoresOpen: false,
       scores: [],
+      formShow: false,
     };
   }
 
@@ -140,11 +142,21 @@ class StoreInfo extends Component {
           </Collapse>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-warning">
+          <Button
+            variant="outline-warning"
+            onClick={() => this.setState({formShow: true})}
+          >
             <FontAwesomeIcon icon="star"/>{' '}Calificar tiendita
           </Button>
           <Button onClick={this.props.onHide}>Cerrar</Button>
         </Modal.Footer>
+        <ScoreForm
+          scoreType="store"
+          id_store={this.props.id_store}
+          name={this.props.name}
+          show={this.state.formShow}
+          onHide={() => this.setState({formShow: false})}
+        />
       </Modal>
     );
   }
