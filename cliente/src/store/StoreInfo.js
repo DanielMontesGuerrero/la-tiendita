@@ -13,9 +13,27 @@ class StoreInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      products: [],
       scoresOpen: false,
       scores: [],
     };
+  }
+
+  componentDidMount() {
+    const options = {
+      url: `${config.host}/product/all`,
+      method: 'get',
+      params: {
+        includeScore: true,
+        onStore: this.props.id_store,
+      },
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+    };
+    axios(options).then((res) => {
+      this.setState({products: res.data.response});
+    });
   }
 
   static get propTypes() {
@@ -31,11 +49,12 @@ class StoreInfo extends Component {
   }
 
   getProductInfo() {
-    const data = require('../common/products.json');
-    const products = data.products;
-    return products.map((item, index) => {
+    // const data = require('../common/products.json');
+    // const products = data.products;
+    return this.state.products.map((item, index) => {
       return (
         <ProductBanner
+          id_product={item.id_product}
           name={item.name}
           image={item.image}
           inInfo={true}
