@@ -5,10 +5,19 @@ import Score from '../common/Score.js';
 import StoreIcon from '../store/StoreIcon.js';
 import {QuantityPicker} from 'react-qty-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import ProductInfo from './ProductInfo.js';
 
 class ProductBanner extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalShow: false,
+    };
+  }
+
   static get propTypes() {
     return {
+      id_product: PropTypes.number,
       name: PropTypes.string,
       score: PropTypes.number,
       image: PropTypes.string,
@@ -41,6 +50,10 @@ class ProductBanner extends Component {
         />
       );
     });
+  }
+
+  setModalShow(modalShow) {
+    this.setState({modalShow: modalShow});
   }
 
   render() {
@@ -95,8 +108,24 @@ class ProductBanner extends Component {
                 <FontAwesomeIcon icon="star"/>{' '}Calificar
               </Button>
             </Col>
+            <Col md="auto">
+              <Button
+                variant="outline-dark"
+                onClick={() => this.setModalShow(true)}
+              >
+                Ver reseñas
+              </Button>
+            </Col>
           </Row>
         </Card>
+        <ProductInfo
+          show={this.state.modalShow}
+          id_product={this.props.id_product}
+          name={this.props.name}
+          description={this.props.description}
+          score={this.props.score}
+          onHide={() => this.setModalShow(false)}
+        />
       </Container>
     );
   }

@@ -4,6 +4,7 @@ const validator = require('validator');
 
 const productsTable = 'productos';
 const productScoresTable = 'calificaciones_producto';
+const usersTable = 'usuarios';
 const topLimit = 3;
 
 /**
@@ -262,7 +263,19 @@ class Product {
 	 */
 	static getScoreList(id, callback) {
 		connection.get_connection((qb) => {
-			qb.select('*')
+			const selectList = [
+				`${productScoresTable}.id_product`,
+				`${productScoresTable}.id_user`,
+				`${productScoresTable}.score`,
+				`${productScoresTable}.description`,
+				`${usersTable}.name`,
+			];
+			qb.select(selectList)
+				.join(
+					usersTable,
+					`${usersTable}.id_user=${productScoresTable}.id_user`,
+					'left',
+				)
 				.where('id_product', id)
 				.get(productScoresTable, (err, res) => {
 					qb.release();
