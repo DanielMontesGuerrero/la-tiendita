@@ -20,7 +20,7 @@ class ProductCard extends Component {
 
   getTitle() {
     let title = this.props.name;
-    if (this.props.quantity !== undefined) {
+    if (this.props.quantity !== null) {
       title += ' | ' + this.props.quantity + ' ' + this.props.unity;
     }
     return title;
