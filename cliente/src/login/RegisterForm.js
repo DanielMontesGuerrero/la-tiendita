@@ -57,7 +57,6 @@ class RegisterForm extends Component {
         },
       };
       axios(options).then((res) => {
-        // eslint-disable-next-line no-invalid-this
         this.setState({user: res.data.response});
         if (res.data.result) {
           window.location.href = '/login';
@@ -137,7 +136,7 @@ class RegisterForm extends Component {
 
                   <center>
                     <Button
-                      onClick={this.registerUser}
+                      onClick={() => this.registerUser()}
                       variant="primary"type="button"
                     >
                       Registrarse

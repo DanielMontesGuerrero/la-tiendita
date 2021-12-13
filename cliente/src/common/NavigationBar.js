@@ -12,7 +12,7 @@ class NavigationBar extends Component {
     };
   }
   render() {
-    let buttonHtml=<Nav.Link href="/profile">
+    let buttonHtml=<Nav.Link href="/user">
       <FontAwesomeIcon icon="user" size="lg"/>{' '}Perfil
     </Nav.Link>;
     if (UserProfile.getName()===null) {
