@@ -14,7 +14,7 @@ class RegisterForm extends Component {
     this.state = {
       email: '',
       password: '',
-      escuela: '',
+      id_school: '',
       nombre: '',
     };
   }
@@ -31,8 +31,8 @@ class RegisterForm extends Component {
   }
 
   registerUser = () => {
-    if((this.state.name===undefined)||(this.state.email===undefined)||(this.state.password===undefined)||(this.state.escuela===undefined)||
-        !(this.state.name.length>0)||!(this.state.email.length>0)||!(this.state.password.length>0)||!(this.state.escuela.length>0)){
+    if((this.state.name===undefined)||(this.state.email===undefined)||(this.state.password===undefined)||(this.state.id_school===undefined)||
+        !(this.state.name.length>0)||!(this.state.email.length>0)||!(this.state.password.length>0)||!(this.state.id_school.length>0)){
       alert("Datos incompletos");
     }else {
       const options = {
@@ -117,8 +117,8 @@ class RegisterForm extends Component {
                     </Form.Label>
                     <Col>
                       <Form.Control
-                          value={this.state.escuela}
-                          onChange={(e) => this.setState({escuela: e.target.value})}
+                          value={this.state.id_school}
+                          onChange={(e) => this.setState({id_school: e.target.value})}
                           type="text"/>
                     </Col>
                   </Form.Group>
