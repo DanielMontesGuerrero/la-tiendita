@@ -4,28 +4,26 @@ const request = require('postman-request');
 const logger = require('../common/testLogger.js');
 const config = require('../common/config');
 
-const insertDeliveries = (storeIds, institutionIds) => {
+const insertPaymentMethods = (storeIds) => {
 	const raw = fs.readFileSync(
-		path.join(__dirname, '/data/deliveries.json'));
-	const deliveries = JSON.parse(raw);
+		path.join(__dirname, '/data/paymentMethods.json'));
+	const paymentMethods = JSON.parse(raw);
 
-	logger.info('Insertando puntos de entrega');
+	logger.info('Insertando métodos de pago');
 
-	deliveries.forEach((item) => {
-		item.id_institution = institutionIds[item.id_institution - 1];
+	paymentMethods.forEach((item) => {
 		item.id_store = storeIds[item.id_store - 1];
 		const options = {
-			url: `${config.host}/store/delivery/${item.id_store}`,
+			url: `${config.host}/store/payment/${item.id_store}`,
 			json: true,
 			body: {
-				id_institution: item.id_institution,
 				description: item.description,
 			},
 		};
 		request.post(options, (error, response) => {
 			if (error) {
 				return logger.error({
-					message: `Error al insertar punto de entrega ` +
+					message: `Error al insertar método de pago ` +
 					`de la tienda ${item.id_store}`,
 					error: error,
 				});
@@ -33,13 +31,13 @@ const insertDeliveries = (storeIds, institutionIds) => {
 			const respData = response.body;
 			if (respData.result) {
 				logger.info({
-					message: `Punto de entrega de la tienda ${item.id_store} insertado`,
-					data: deliveries,
+					message: `Método de pago de la tienda ${item.id_store} insertado`,
+					data: paymentMethods,
 					response: respData,
 				});
 			} else {
 				logger.error({
-					message: `Error al insertar punto de entrega ` +
+					message: `Error al insertar método de pago ` +
 					`de la tienda ${item.id_store}`,
 					error: respData,
 				});
@@ -48,4 +46,5 @@ const insertDeliveries = (storeIds, institutionIds) => {
 	});
 };
 
-module.exports = insertDeliveries;
+module.exports = insertPaymentMethods;
+ 
