@@ -11,6 +11,10 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import RequestForm from './RequestForm.js';
 import Order from './Order.js';
+import config from "../common/config";
+import axios from "axios";
+import UserProfile from "../common/UserProfile";
+import User from "./User";
 
 const UserTypes = {
   user: 'user',
@@ -22,6 +26,14 @@ class UserSettings extends Component {
   state = {
     userType: UserTypes.user,
     modalShow: false,
+    user: {
+      email: UserProfile.getEmail(),
+      id_school: UserProfile.getIdSchool(),
+      id_user: UserProfile.getIdUser(),
+      image: UserProfile.getImage(),
+      name: UserProfile.getName(),
+      userType: UserProfile.getUserType()
+    }
   }
 
   setModalShow(modalShow) {
@@ -52,6 +64,46 @@ class UserSettings extends Component {
     });
   }
 
+  actualizarUser = () => {
+    if(    !  this.state.user.email=== UserProfile.getEmail()&&
+        this.state.user.id_school=== UserProfile.getIdSchool()&&
+        this.state.user.id_user=== UserProfile.getIdUser()&&
+        this.state.user.image=== UserProfile.getImage()&&
+        this.state.user.name=== UserProfile.getName()&&
+        this.state.user.userType=== UserProfile.getUserType()){
+      alert("No has cambiado nada")
+
+    }else {
+      const options = {
+        url: `${config.host}/user/${UserProfile.getIdUser()}`,
+        method: 'post',
+        params: {
+          includeScore: true,
+          onlyTop: true,
+        },
+        data: this.state.user,
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      };
+      axios(options).then((res) => {
+        console.log(res)
+        localStorage.clear();
+        UserProfile.setName(this.state.user.name)
+        UserProfile.setEmail(this.state.user.email)
+        UserProfile.setIdSchool(this.state.user.id_school)
+        UserProfile.setIdUser(this.state.user.id_user)
+        UserProfile.setImage(this.state.user.image)
+        UserProfile.setUserType(this.state.user.userType)
+      });
+    }
+  }
+
+  cerrarSesion(){
+    localStorage.clear()
+    window.location.href = "/";
+  }
+
   render() {
     return (
       <div>
@@ -78,8 +130,13 @@ class UserSettings extends Component {
                   <Col sm="8">
                     <Form.Control
                       plaintext
-                      readOnly
-                      defaultValue="Daniel" />
+                      defaultValue="No user name"
+                      value={this.state.user.name}
+                      onChange={(e) => this.setState({user: { name:e.target.value, email:this.state.user.email, id_school: this.state.user.id_school,
+                          id_user: this.state.user.id_user,
+                          image: this.state.user.image,
+                          userType: this.state.user.userType}})}
+                    />
                   </Col>
                 </Form.Group>
 
@@ -93,11 +150,15 @@ class UserSettings extends Component {
                   <Col sm="8">
                     <Form.Control
                       plaintext
-                      readOnly
+                      value={this.state.user.email}
+                      onChange={(e) => this.setState({user: { email:e.target.value,
+                          name:this.state.user.name, id_school: this.state.user.id_school,
+                          id_user: this.state.user.id_user,
+                          image: this.state.user.image,
+                          userType: this.state.user.userType}})}
                       defaultValue="email@example.com" />
                   </Col>
                 </Form.Group>
-
                 <Form.Group
                   as={Row}
                   className="mb-3"
@@ -123,7 +184,12 @@ class UserSettings extends Component {
                   <Col sm="8">
                     <Form.Control
                       plaintext
-                      readOnly
+                      value={this.state.user.id_school}
+                      onChange={(e) => this.setState({user: {id_school:e.target.value,
+                          name:this.state.user.name, email: this.state.user.email,
+                          id_user: this.state.user.id_user,
+                          image: this.state.user.image,
+                          userType: this.state.user.userType}})}
                       defaultValue="ESCOM" />
                   </Col>
                 </Form.Group>
@@ -131,6 +197,20 @@ class UserSettings extends Component {
               </Form>
             </Col>
           </Row>
+          <Stack gap={2} className="col-md-5 mx-auto mb-3">
+            <center>
+              {/* eslint-disable-next-line max-len */}
+              <Button onClick={this.actualizarUser} variant="primary" type="button">
+                Actualizar datos
+              </Button>
+            </center>
+            <center>
+              {/* eslint-disable-next-line max-len */}
+              <Button onClick={this.cerrarSesion} variant="danger" type="button">
+                Cerrar Sesión
+              </Button>
+            </center>
+          </Stack>
           <Stack gap={2} className="col-md-5 mx-auto mb-3">
             <Button
               variant="primary"

@@ -5,14 +5,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import UserProfile from "./UserProfile";
 
 class NavigationBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      logged: false,
-    };
-  }
   render() {
-    let buttonHtml=<Nav.Link href="/profile">
+    let buttonHtml=<Nav.Link href="/user">
       <FontAwesomeIcon icon="user" size="lg"/>{' '}Perfil
     </Nav.Link>;
     if(UserProfile.getName()===null){
