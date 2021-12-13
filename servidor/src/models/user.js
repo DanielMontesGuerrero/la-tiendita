@@ -4,6 +4,7 @@ const validator = require('validator');
 const crypto = require('crypto');
 
 const usersTable = 'usuarios';
+const storesTable = 'tiendas';
 
 /**
  * Clase que interactua con la base de datos para peticiones relacionadas con
@@ -157,12 +158,27 @@ class User {
 			.update(user.password, 'utf8')
 			.digest('hex');
 		connection.get_connection((qb) => {
-			qb.select('*')
+			const selectList = [
+				`${usersTable}.id_user`,
+				`${usersTable}.name`,
+				`${usersTable}.email`,
+				`${usersTable}.image`,
+				`${usersTable}.id_institution`,
+				`${usersTable}.userType`,
+				`${storesTable}.id_store`,
+			];
+			qb.select(selectList)
+				.from(usersTable)
+				.join(
+					storesTable,
+					`${usersTable}.id_user=${storesTable}.id_user`,
+					'left',
+				)
 				.where({
 					email: user.email,
 					password: user.password,
 				})
-				.get(usersTable, (err, res) => {
+				.get((err, res) => {
 					if (err) {
 						logger.error({
 							message: `Error obteniendo login de usuario: ` +
