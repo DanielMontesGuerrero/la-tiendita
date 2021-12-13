@@ -213,8 +213,9 @@ exports.score = (req, res) => {
 
 exports.createDeliveryPoint = (req, res) => {
 	const data = req.body;
+	const id = req.params.id;
 	if (data.id_institution === undefined ||
-		data.id_store === undefined) {
+		id === undefined) {
 		req.status(400).send({
 			result: false,
 			description: 'Se necesita id de la institucion y la tienda',
@@ -227,10 +228,70 @@ exports.createDeliveryPoint = (req, res) => {
 		});
 	}
 	logger.info({
-		message: `Creando punto de entrega de la tienda: ${data.id_store}`,
+		message: `Creando punto de entrega de la tienda: ${id}`,
 		data: data,
 	});
-	Store.createDeliveryPoint(data, (err, response) => {
+	Store.createDeliveryPoint(id, data, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
+
+exports.getDeliveryPoints = (req, res) => {
+	const id = req.params.id;
+	if (id === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita id de la tienda',
+		});
+	}
+	logger.info({
+		message: `Obteniendo puntos de entrega de la tienda: ${id}`,
+		id_store: id,
+	});
+	Store.getDeliveryPoints(id, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
+
+exports.updateDeliveryPoint = (req, res) => {
+	const data = req.body;
+	const id = req.params.id;
+	if (data.description === undefined ||
+		id === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita id de la institucion y la tienda',
+		});
+	}
+	if (data.description === undefined) {
+		req.status(400).send({
+			result: false,
+			description: 'Se necesita la descripción del punto de entrega',
+		});
+	}
+	logger.info({
+		message: `Actualizando punto de entrega de la tienda: ${id}`,
+		data: data,
+	});
+	Store.updateDeliveryPoint(id, data, (err, response) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,

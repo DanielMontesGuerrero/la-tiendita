@@ -4,6 +4,7 @@ const validator = require('validator');
 
 const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
+const deliveriesTable = 'entregas_en';
 const topLimit = 3;
 
 /**
@@ -12,10 +13,10 @@ const topLimit = 3;
  */
 class Store {
 	/**
-	* Constructor cons los nombres de cada columna de la tabla de tiendas
-	* @constructor
-	* @param {any} store - información de la tienda
-	*/
+	 * Constructor cons los nombres de cada columna de la tabla de tiendas
+	 * @constructor
+	 * @param {any} store - información de la tienda
+	 */
 	constructor(store) {
 		this.id_store = store.id_store;
 		this.id_user = store.id_user;
@@ -41,11 +42,11 @@ class Store {
 	}
 
 	/**
-	* crea una nueva tienda en la base de datos
-	* @param {Store} data - información a insertar
-	* @param {func} callback - función de callback
-	* @return {void} void
-	*/
+	 * crea una nueva tienda en la base de datos
+	 * @param {Store} data - información a insertar
+	 * @param {func} callback - función de callback
+	 * @return {void} void
+	 */
 	static create(data, callback) {
 		try {
 			this.isValid(data);
@@ -303,27 +304,88 @@ class Store {
 
 	/**
 	 * crea un nuevo punto de entrega
+	 * @param {int} id - id de la tienda
 	 * @param {any} data - datos del punto de entrega
 	 * @param {func} callback - función de callback
 	 */
-	static createDeliveryPoint(data, callback) {
+	static createDeliveryPoint(id, data, callback) {
+		data.id_store = id;
 		connection.get_connection((qb) => {
 			qb.insert(deliveriesTable, data, (err, res) => {
 				qb.release();
 				if (err) {
 					logger.error({
-						message: 'Error creando punto de' +
-						`entrega de la tienda: ${data.id_store}`,
+						message: 'Error creando punto de ' +
+						`entrega de la tienda: ${id}`,
 						error: err,
 					});
 					return callback(err, null);
 				}
 				logger.info({
-					message: `Punto de entrega creado de la tienda: ${data.id_store}`,
+					message: `Punto de entrega creado de la tienda: ${id}`,
 					result: res,
 				});
 				callback(null, res);
 			});
+		});
+	}
+
+	/**
+	 * obtiene los puntos de entrega de una tienda
+	 * @param {int} id - id de la tienda
+	 * @param {func} callback - función de callback
+	 */
+	static getDeliveryPoints(id, callback) {
+		connection.get_connection((qb) => {
+			qb.select('*')
+				.where('id_store', id);
+			qb.get(deliveriesTable, (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: 'Error obteniendo puntos de ' +
+						`entrega de la tienda: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Puntos de entrega obtenidos de la tienda: ${id}`,
+					result: res,
+				});
+				callback(null, res);
+			});
+		});
+	}
+
+	/**
+	 * actualiza un punto de entrega
+	 * @param {int} id - id del punto de entrega
+	 * @param {string} data - descripción del punto de entrega
+	 * @param {func} callback - función de callback
+	 */
+	static updateDeliveryPoint(id, data, callback) {
+		connection.get_connection((qb) => {
+			qb.where('id_delivery', id)
+				.update(
+					deliveriesTable,
+					data,
+					(err, res) => {
+						qb.release();
+						if (err) {
+							logger.error({
+								message: 'Error actualizando punto de ' +
+								`entrega de la tienda: ${id}`,
+								error: err,
+							});
+							return callback(err, null);
+						}
+						logger.info({
+							message: `Puntos de entrega actualizado de la tienda: ${id}`,
+							result: res,
+						});
+						callback(null, res);
+					});
 		});
 	}
 }
