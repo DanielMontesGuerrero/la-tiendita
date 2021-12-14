@@ -58,8 +58,11 @@ class Cart {
 			}
 			client.quit();
 			const data = JSON.parse(res);
-			console.log(data);
+			if (data === null) {
+				return callback(null, []);
+			}
 			connection.get_connection((qb) => {
+				const numProductsMap = new Map();
 				qb.select('*')
 					.from(dbSchema.products)
 					.join(
@@ -69,6 +72,11 @@ class Cart {
 						'left',
 					);
 				data.forEach((item) => {
+					if (!numProductsMap.has(item.id_product)) {
+						numProductsMap.set(item.id_product, new Map());
+					}
+					const itemMap = numProductsMap.get(item.id_product);
+					itemMap.set(item.id_store, item.numProducts);
 					qb.or_where(`(
 						${dbSchema.productsInStore}.id_product=${item.id_product} AND
 						${dbSchema.productsInStore}.id_store=${item.id_store}
@@ -86,6 +94,10 @@ class Cart {
 					logger.info({
 						message: `Datos de carrito obtenidos del usario: ${id}`,
 						res: resQuery,
+					});
+					resQuery.forEach((item) => {
+						const itemMap = numProductsMap.get(item.id_product);
+						item.numProducts = itemMap.get(item.id_store);
 					});
 					return callback(null, resQuery);
 				});
