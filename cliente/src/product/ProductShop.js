@@ -33,6 +33,7 @@ class ProductShop extends Component {
     const products = this.state.products;
     return products.map((item, index) => {
       return (<ProductBanner
+        id_product={item.id_product}
         name={item.name}
         image={item.image}
         score={item.score}

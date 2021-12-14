@@ -6,6 +6,9 @@ const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
 const deliveriesTable = 'entregas_en';
 const productsInStoreTable = 'productos_en_tienda';
+const paymentMethodsTable = 'metodos_de_pago';
+const institutionsTable = 'instituciones';
+const usersTable = 'usuarios';
 const topLimit = 3;
 
 /**
@@ -25,6 +28,7 @@ class Store {
 		this.description = store.description;
 		this.image = store.image;
 		this.score = store.score;
+		this.ownerName = store.ownerName;
 	}
 
 	/**
@@ -94,9 +98,20 @@ class Store {
 				`${storesTable}.description`,
 				`${storesTable}.id_user`,
 				`${storesTable}.image`,
+				`users.name as ownerName`,
 				request.includeScore ? `scores.score` : '',
 			];
-			qb.select(selectList).from(storesTable);
+			const usersTmpTable = `(
+				SELECT name, id_user
+				FROM ${usersTable}
+			) users`;
+			qb.select(selectList)
+				.from(storesTable)
+				.join(
+					usersTmpTable,
+					`${storesTable}.id_user=users.id_user`,
+					'inner',
+				);
 			if (id !== 'all') {
 				qb.where(`${storesTable}.id_store`, id);
 			}
@@ -136,57 +151,45 @@ class Store {
 	}
 
 	/**
-	 * obtiene la calificación de una tienda
-	 * @param {QueryBuilder} qb - objeto de querybuilder
+	 * obtiene las calificaciones de una tienda
 	 * @param {int} id - id de la tienda
-	 * @param {Request} request - opciones de la petición
-	 * @param {Product} store - datos de la tienda
 	 * @param {func} callback - función de callback
 	 */
-	static getScore(qb, id, request, store, callback) {
-		qb.select_avg('calificacion')
-			.where('id_tienda', id)
-			.get('calificaciones_tienda', (err, res) => {
-				if (err) {
-					logger.error({
-						message: `Error al obtener calificación de la tienda: ${id}`,
-						error: err,
+	static getScoreList(id, callback) {
+		connection.get_connection((qb) => {
+			const selectList = [
+				`${storeScoresTable}.id_store`,
+				`${storeScoresTable}.id_user`,
+				`${storeScoresTable}.score`,
+				`${storeScoresTable}.description`,
+				`${usersTable}.name`,
+			];
+			qb.select(selectList)
+				.from(storeScoresTable)
+				.where('id_store', id)
+				.join(
+					usersTable,
+					`${storeScoresTable}.id_user=${usersTable}.id_user`,
+					'left',
+				)
+				.get((err, res) => {
+					qb.release();
+					if (err) {
+						logger.error({
+							message: `Error al obtener la lista de calificaciones` +
+							` de la tienda: ${id}`,
+							error: err,
+						});
+						return callback(err, null);
+					}
+					logger.info({
+						message: `Lista de calificaciones obtenida de la tienda: ${id}`,
+						result: res,
 					});
-					return callback(err, null);
-				}
-				store.score = res[0].calificacion;
-				if (request.includeScoreList) {
-					return this.getScoreList(qb, id, store, callback);
-				}
-				qb.release();
-				callback(null, product);
-			});
+					callback(null, res);
+				});
+		});
 	}
-
-	/**
-	 * obtiene todas las calificaciones de una tienda
-	 * @param {QueryBuilder} qb - objeto de querybuilder
-	 * @param {int} id - id de la tienda
-	 * @param {Product} store - datos de la tienda
-	 * @param {func} callback - función de callback
-	 */
-	static getScoreList(qb, id, store, callback) {
-		qb.select('*')
-			.where('id_tienda', id)
-			.get('calificaciones_tienda', (err, res) => {
-				qb.release();
-				if (err) {
-					logger.error({
-						message: `Error al obtener calificaciones de la tienda: ${id}`,
-						error: err,
-					});
-					return callback(err, null);
-				}
-				store.scoreList = res;
-				callback(null, store);
-			});
-	}
-
 
 	/**
 	 * actualiza los datos de una tienda
@@ -339,8 +342,15 @@ class Store {
 	static getDeliveryPoints(id, callback) {
 		connection.get_connection((qb) => {
 			qb.select('*')
+				.from(deliveriesTable)
+				.join(
+					institutionsTable,
+					`${institutionsTable}.id_institution=` +
+					`${deliveriesTable}.id_institution`,
+					'left',
+				)
 				.where('id_store', id);
-			qb.get(deliveriesTable, (err, res) => {
+			qb.get((err, res) => {
 				qb.release();
 				if (err) {
 					logger.error({
@@ -419,6 +429,37 @@ class Store {
 	}
 
 	/**
+	 * crea un nuevo método de pago
+	 * @param {int} id - id de la tienda
+	 * @param {any} description - descripción del método de pago
+	 * @param {func} callback - función de callback
+	 */
+	static createPaymentMethod(id, description, callback) {
+		const data = {
+			id_store: id,
+			description: description,
+		};
+		connection.get_connection((qb) => {
+			qb.insert(paymentMethodsTable, data, (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: 'Error creando método de ' +
+						`pago de la tienda: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Producto creado en la tienda: ${id}`,
+					result: res,
+				});
+				callback(null, res);
+			});
+		});
+	}
+
+	/**
 	 * Retorna todos los productos que existen dentro de una tienda con un id dado
 	 * @param {int} id - Id dentro de la base de datos de la tienda
 	 * @param {func} callback - Función de callback
@@ -439,6 +480,33 @@ class Store {
 				}
 				logger.info({
 					message: `Productos obtenidos de la tienda: ${id}`,
+					result: res,
+				});
+				callback(null, res);
+			});
+		});
+	}
+	/**
+	 * obtiene los métodos de pago de una tienda
+	 * @param {int} id - id de la tienda
+	 * @param {func} callback - función de callback
+	 */
+	static getPaymentMethods(id, callback) {
+		connection.get_connection((qb) => {
+			qb.select('*')
+				.where('id_store', id);
+			qb.get(paymentMethodsTable, (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: 'Error obteniendo métodos de ' +
+						`pago de la tienda: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Métodos de pago obtenidos de la tienda: ${id}`,
 					result: res,
 				});
 				callback(null, res);
@@ -475,6 +543,37 @@ class Store {
 						});
 						callback(null, res);
 				});
+		});
+	}
+
+	/**
+	 * actualiza un método de pago
+	 * @param {int} id - id del método de pago
+	 * @param {string} data - descripción del método de pago
+	 * @param {func} callback - función de callback
+	 */
+	static updatePaymentMethod(id, data, callback) {
+		connection.get_connection((qb) => {
+			qb.where('id_method', id)
+				.update(
+					paymentMethodsTable,
+					data,
+					(err, res) => {
+						qb.release();
+						if (err) {
+							logger.error({
+								message: 'Error actualizando método de ' +
+								`pago de la tienda: ${id}`,
+								error: err,
+							});
+							return callback(err, null);
+						}
+						logger.info({
+							message: `Método de pago actualizado de la tienda: ${id}`,
+							result: res,
+						});
+						callback(null, res);
+					});
 		});
 	}
 }

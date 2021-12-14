@@ -5,8 +5,12 @@ const insertScores = require('./test/insertScores.js');
 const insertPurchases = require('./test/insertPurchases.js');
 const insertInstitutions = require('./test/insertInstitutions.js');
 const insertDeliveries = require('./test/insertDeliveries.js');
+<<<<<<< HEAD
 // const insertPaymentMethods = require('./test/insertPaymentMethods.js');
 const insertProductsInStore = require('./test/insertProductsInStore.js')
+=======
+const insertPaymentMethods = require('./test/insertPaymentMethods.js');
+>>>>>>> d00aa777a4822f82e586346a25b5e5e885f149ce
 
 const init = async () => {
 	// insertar productos
@@ -30,8 +34,8 @@ const init = async () => {
 	// insertar puntos de entrega
 	insertDeliveries(storeIds, institutionIds);
 
-  // insertar métodos de pago
-	// insertPaymentMethods(storeIds);
+	// insertar métodos de pago
+	insertPaymentMethods(storeIds);
 
 	// insertar productos en tiendas
 	insertProductsInStore(storeIds, productIds);	
