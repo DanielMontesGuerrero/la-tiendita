@@ -15,7 +15,7 @@ class RegisterForm extends Component {
       email: '',
       password: '',
       id_school: '',
-      nombre: '',
+      name: '',
     };
   }
 
@@ -40,8 +40,7 @@ class RegisterForm extends Component {
       (this.state.id_school===undefined) ||
       !(this.state.name.length>0) ||
       !(this.state.email.length>0) ||
-      !(this.state.password.length>0) ||
-      !(this.state.id_school.length>0)) {
+      !(this.state.password.length>0)) {
       alert('Datos incompletos');
     } else {
       const options = {
@@ -84,7 +83,7 @@ class RegisterForm extends Component {
               <Card.Body>
                 <Form>
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
+                    <Form.Label column sm="4">
                       Nombre
                     </Form.Label>
                     <Col>
@@ -98,7 +97,7 @@ class RegisterForm extends Component {
                   </Form.Group>
 
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
+                    <Form.Label column sm="4">
                       Email
                     </Form.Label>
                     <Col>
@@ -108,8 +107,8 @@ class RegisterForm extends Component {
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
-                      Password
+                    <Form.Label column sm="4">
+                      Contraseña
                     </Form.Label>
                     <Col>
                       <Form.Control
@@ -117,12 +116,12 @@ class RegisterForm extends Component {
                         onChange={
                           (e) => this.setState({password: e.target.value})
                         }
-                        type="text"/>
+                        type="password"/>
                     </Col>
                   </Form.Group>
 
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
+                    <Form.Label column sm="4">
                       Escuela
                     </Form.Label>
                     <Col>
