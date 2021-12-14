@@ -16,41 +16,66 @@ class UserProfile {
     localStorage.setItem(AESEncrypt(key), AESEncrypt(data));
   }
 
+  static getIdStore() {
+    return this.getKey('id_store');
+  }
+
+  static getInstitutionName() {
+    return this.getKey('institutionName');
+  }
+
   static getName() {
     return this.getKey('name');
   };
 
   static getEmail() {
-    return this.getKey('emai');
+    return this.getKey('email');
   }
-  static getIdSchool() {
-    return this.getKey('id_school');
+
+  static getIdInstitution() {
+    return this.getKey('id_institution');
   }
+
   static getIdUser() {
     return this.getKey('id_user');
   }
+
   static getImage() {
     return this.getKey('image');
   }
+
   static getUserType() {
     return this.getKey('userType');
+  }
+
+  static setIdStore(id) {
+    this.setKey('id_store', id);
+  }
+
+  static setInstitutionName(name) {
+    this.setKey('institutionName', name);
   }
 
   static setName(name) {
     this.setKey('name', name);
   };
+
   static setEmail(email) {
     this.setKey('email', email);
   }
-  static setIdSchool(id) {
-    this.setKey('id_school', id);
+
+  static setIdInstitution(id) {
+    this.setKey('id_institution', id);
   }
+
   static setIdUser(id) {
     this.setKey('id_user', id);
   }
+
   static setImage(image) {
     this.setKey('image', image);
   }
+
   static setUserType(userType) {
     this.setKey('userType', userType);
   }

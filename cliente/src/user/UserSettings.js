@@ -28,7 +28,7 @@ class UserSettings extends Component {
       modalShow: false,
       user: {
         email: UserProfile.getEmail(),
-        id_school: UserProfile.getIdSchool(),
+        institutionName: UserProfile.getInstitutionName(),
         id_user: UserProfile.getIdUser(),
         image: UserProfile.getImage(),
         name: UserProfile.getName(),
@@ -80,6 +80,9 @@ class UserSettings extends Component {
       orders = res.data.response;
       orders = orders.map((item, index) => {
         return (<Order
+          id_purchase={item.id_purchase}
+          id_store={item.id_store}
+          id_user={item.id_user}
           store={item.storeName}
           product={item.productName}
           quantity={item.quantity}
@@ -95,7 +98,7 @@ class UserSettings extends Component {
 
   actualizarUser() {
     if (this.state.user.email=== UserProfile.getEmail() &&
-        this.state.user.id_school=== UserProfile.getIdSchool()&&
+        this.state.user.institutionName=== UserProfile.getInstitutionName()&&
         this.state.user.name=== UserProfile.getName()&&
         this.state.user.userType=== UserProfile.getUserType()) {
       alert('No has cambiado nada');
@@ -113,7 +116,7 @@ class UserSettings extends Component {
         localStorage.clear();
         UserProfile.setName(this.state.user.name);
         UserProfile.setEmail(this.state.user.email);
-        UserProfile.setIdSchool(this.state.user.id_school);
+        UserProfile.setInstitutionName(this.state.user.institutionName);
         UserProfile.setIdUser(this.state.user.id_user);
         UserProfile.setImage(this.state.user.image);
         UserProfile.setUserType(this.state.user.userType);
@@ -160,7 +163,7 @@ class UserSettings extends Component {
                           user: {
                             name: e.target.value,
                             email: this.state.user.email,
-                            id_school: this.state.user.id_school,
+                            institutionName: this.state.user.institutionName,
                             id_user: this.state.user.id_user,
                             image: this.state.user.image,
                             userType: this.state.user.userType,
@@ -187,14 +190,14 @@ class UserSettings extends Component {
                           user: {
                             email: e.target.value,
                             name: this.state.user.name,
-                            id_school: this.state.user.id_school,
+                            institutionName: this.state.user.institutionName,
                             id_user: this.state.user.id_user,
                             image: this.state.user.image,
                             userType: this.state.user.userType,
                           },
                         })
                       }
-                      defaultValue="email@example.com" />
+                    />
                   </Col>
                 </Form.Group>
 
@@ -208,11 +211,11 @@ class UserSettings extends Component {
                   <Col sm="8">
                     <Form.Control
                       plaintext
-                      value={this.state.user.id_school}
+                      value={this.state.user.institutionName}
                       onChange={
                         (e) => this.setState({
                           user: {
-                            id_school: e.target.value,
+                            institutionName: e.target.value,
                             name: this.state.user.name,
                             email: this.state.user.email,
                             id_user: this.state.user.id_user,
@@ -221,7 +224,7 @@ class UserSettings extends Component {
                           },
                         })
                       }
-                      defaultValue="ESCOM" />
+                    />
                   </Col>
                 </Form.Group>
 
@@ -251,11 +254,11 @@ class UserSettings extends Component {
             </Button>
           </Stack>
           <Row className="justify-content-center mb-4">
-            <Col md={5}>
+            <Col md={8}>
               <Accordion>
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>Mis pedidos</Accordion.Header>
-                  <Accordion.Body className="">
+                  <Accordion.Body>
                     {this.state.orders}
                   </Accordion.Body>
                 </Accordion.Item>

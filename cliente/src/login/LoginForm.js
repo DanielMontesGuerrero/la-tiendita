@@ -16,7 +16,9 @@ class LoginForm extends Component {
       password: '',
       user: {
         email: '',
-        id_school: null,
+        id_institution: null,
+        id_store: null,
+        institutionName: '',
         id_user: null,
         image: null,
         name: '',
@@ -55,13 +57,14 @@ class LoginForm extends Component {
       this.setState({user: res.data.response});
       if (this.state.user.id_user!==undefined) {
         window.name = 'John';
-        UserProfile.someProp = 'i am about to get cold';
-        UserProfile.setName(this.state.user.name);
-        UserProfile.setEmail(this.state.user.email);
-        UserProfile.setIdSchool(this.state.user.id_school);
-        UserProfile.setIdUser(this.state.user.id_user);
-        UserProfile.setImage(this.state.user.image);
-        UserProfile.setUserType(this.state.user.userType);
+        UserProfile.setName(res.data.response.name);
+        UserProfile.setEmail(res.data.response.email);
+        UserProfile.setIdInstitution(res.data.response.id_institution);
+        UserProfile.setIdUser(res.data.response.id_user);
+        UserProfile.setImage(res.data.response.image);
+        UserProfile.setUserType(res.data.response.userType);
+        UserProfile.setIdStore(res.data.response.id_store);
+        UserProfile.setInstitutionName(res.data.response.institutionName);
         Object.freeze(UserProfile);
         window.location.href = '/';
       } else {

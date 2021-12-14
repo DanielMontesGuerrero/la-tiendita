@@ -5,6 +5,7 @@ const crypto = require('crypto');
 
 const usersTable = 'usuarios';
 const storesTable = 'tiendas';
+const institutionsTable = 'instituciones';
 
 /**
  * Clase que interactua con la base de datos para peticiones relacionadas con
@@ -168,12 +169,18 @@ class User {
 				`${usersTable}.id_institution`,
 				`${usersTable}.userType`,
 				`${storesTable}.id_store`,
+				`${institutionsTable}.name as institutionName`,
 			];
 			qb.select(selectList)
 				.from(usersTable)
 				.join(
 					storesTable,
 					`${usersTable}.id_user=${storesTable}.id_user`,
+					'left',
+				)
+				.join(
+					institutionsTable,
+					`${institutionsTable}.id_institution=${usersTable}.id_institution`,
 					'left',
 				)
 				.where({
