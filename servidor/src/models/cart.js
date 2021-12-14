@@ -1,6 +1,8 @@
 const logger = require('../common/logger.js');
 const redis = require('redis');
 const rejson = require('redis-rejson');
+const connection = require('../db/database.js');
+const dbSchema = require('../db/schema.js');
 
 rejson(redis);
 
@@ -55,7 +57,39 @@ class Cart {
 				return callback(err, null);
 			}
 			client.quit();
-			callback(null, res);
+			const data = JSON.parse(res);
+			console.log(data);
+			connection.get_connection((qb) => {
+				qb.select('*')
+					.from(dbSchema.products)
+					.join(
+						dbSchema.productsInStore,
+						`${dbSchema.productsInStore}.id_product=` +
+						`${dbSchema.products}.id_product`,
+						'left',
+					);
+				data.forEach((item) => {
+					qb.or_where(`(
+						${dbSchema.productsInStore}.id_product=${item.id_product} AND
+						${dbSchema.productsInStore}.id_store=${item.id_store}
+					)`);
+				});
+				qb.get((errQuery, resQuery) => {
+					qb.release();
+					if (errQuery) {
+						logger.error({
+							message: `Error obteniendo datos de carrito del usuario_ ${id}`,
+							error: errQuery,
+						});
+						return callback(errQuery, null);
+					}
+					logger.info({
+						message: `Datos de carrito obtenidos del usario: ${id}`,
+						res: resQuery,
+					});
+					return callback(null, resQuery);
+				});
+			});
 		});
 	}
 }

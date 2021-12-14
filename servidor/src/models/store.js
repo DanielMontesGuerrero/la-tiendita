@@ -398,6 +398,35 @@ class Store {
 					});
 		});
 	}
+	/**
+	* Inserta dentro de la tabla 'productos en tienda' el producto que se pasa
+	* como párametro dentro de la tienda que se pasa como parametro
+	* @param {int} id - Id dentro de la base de datos de la tienda en donde
+	* se insertará
+	* @param {any} data - Información del producto en tienda
+	* @param {func} callback - Función de callback
+	*/
+	static createProductInStore(id, data, callback) {
+		data.id_store = id;
+		connection.get_connection((qb) => {
+			qb.insert(productsInStoreTable, data, (err, res) => {
+				qb.release();
+				if (err) {
+					logger.error({
+						message: 'Error creando producto ' +
+						`en la tienda: ${id}`,
+						error: err,
+					});
+					return callback(err, null);
+				}
+				logger.info({
+					message: `Producto creado en la tienda: ${id}`,
+					result: res,
+				});
+				callback(null, res);
+			});
+		});
+	}
 
 	/**
 	 * crea un nuevo método de pago
