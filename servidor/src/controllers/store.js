@@ -216,13 +216,13 @@ exports.createDeliveryPoint = (req, res) => {
 	const id = req.params.id;
 	if (data.id_institution === undefined ||
 		id === undefined) {
-		req.status(400).send({
+		res.status(400).send({
 			result: false,
 			description: 'Se necesita id de la institucion y la tienda',
 		});
 	}
 	if (data.description === undefined) {
-		req.status(400).send({
+		res.status(400).send({
 			result: false,
 			description: 'Se necesita la descripción del punto de entrega',
 		});
@@ -248,7 +248,7 @@ exports.createDeliveryPoint = (req, res) => {
 exports.getDeliveryPoints = (req, res) => {
 	const id = req.params.id;
 	if (id === undefined) {
-		req.status(400).send({
+		res.status(400).send({
 			result: false,
 			description: 'Se necesita id de la tienda',
 		});
@@ -276,13 +276,13 @@ exports.updateDeliveryPoint = (req, res) => {
 	const id = req.params.id;
 	if (data.description === undefined ||
 		id === undefined) {
-		req.status(400).send({
+		res.status(400).send({
 			result: false,
 			description: 'Se necesita id de la institucion y la tienda',
 		});
 	}
 	if (data.description === undefined) {
-		req.status(400).send({
+		res.status(400).send({
 			result: false,
 			description: 'Se necesita la descripción del punto de entrega',
 		});
@@ -301,6 +301,99 @@ exports.updateDeliveryPoint = (req, res) => {
 		res.send({
 			result: true,
 			response: response,
+		});
+	});
+};
+
+exports.createProductInStore = (req, res) => {
+	const data = req.body;
+	const id = req.params.id;
+	if (data.id_product === undefined ||
+		id === undefined) {
+		res.status(400).send({
+			result: false,
+			description: 'Se necesita el id del producto que se quiere insertar',
+		});
+	}
+	if (data.quantity === undefined) {
+		res.status(400).send({
+			result: false,
+			description: 'Se necesita la cantidad de productos en stock',
+		});
+	}
+	if (data.price === undefined) {
+		res.status(400).send({
+			result: false,
+			description: 'Se necesita el precio del producto',
+		});
+	}
+	logger.info({
+		message: `Creando producto dentro de la  tienda: ${id}`,
+		data: data,
+	});
+	Store.createProductInStore(id, data, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
+
+exports.getProductsInStore = (req, res) => {
+	const id = req.params.id;
+	if (id === undefined) {
+		return res.status(400).send({
+			result: false,
+			description: 'Se necesita id de la tienda',
+		});
+	}
+	logger.info({
+		message: `Obteniendo los productos de la tienda: ${id}`,
+		id_store: id,
+	});
+	Store.getProductsInStore(id, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};
+
+exports.updateProductInStore = (req, res) => {
+	const data = req.body;
+	const id = req.params.id;
+	if(id === undefined) {
+		return res.status(400).send({
+			result : false,
+			description : 'Se necesita el id de la tienda',
+		});
+	}
+	logger.info({
+		message: `Actualizando producto en la tienda: ${id}`,
+		id_store : id,
+	});
+	Store.updateProductInStore(id, data, (err,response) => {
+		if(err) {
+			return res.status(400).send({
+				result : false,
+				description : err.sqlMessage,
+			});
+		}
+		res.send({
+			result : true,
+			response : response,
 		});
 	});
 };
