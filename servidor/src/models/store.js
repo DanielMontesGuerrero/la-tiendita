@@ -6,6 +6,7 @@ const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
 const deliveriesTable = 'entregas_en';
 const paymentMethodsTable = 'metodos_de_pago';
+const institutionsTable = 'instituciones';
 const usersTable = 'usuarios';
 const topLimit = 3;
 
@@ -340,8 +341,15 @@ class Store {
 	static getDeliveryPoints(id, callback) {
 		connection.get_connection((qb) => {
 			qb.select('*')
+				.from(deliveriesTable)
+				.join(
+					institutionsTable,
+					`${institutionsTable}.id_institution=` +
+					`${deliveriesTable}.id_institution`,
+					'left',
+				)
 				.where('id_store', id);
-			qb.get(deliveriesTable, (err, res) => {
+			qb.get((err, res) => {
 				qb.release();
 				if (err) {
 					logger.error({
