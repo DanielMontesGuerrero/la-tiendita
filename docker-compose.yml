@@ -1,10 +1,14 @@
 # to run whole app: docker-compose up --build
 
 version: "3.9"
+volumes:
+  data:
 services:
   db:
     build: ./db/
     restart: always
+    volumes:
+      - data:/var/lib/mysql
     ports:
       - "3306:3306"
   cliente:

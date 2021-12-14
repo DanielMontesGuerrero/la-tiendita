@@ -6,6 +6,7 @@ const insertPurchases = require('./test/insertPurchases.js');
 const insertInstitutions = require('./test/insertInstitutions.js');
 const insertDeliveries = require('./test/insertDeliveries.js');
 const insertPaymentMethods = require('./test/insertPaymentMethods.js');
+const insertProductsInStore = require('./test/insertProductsInStore.js');
 
 const init = async () => {
 	// insertar productos
