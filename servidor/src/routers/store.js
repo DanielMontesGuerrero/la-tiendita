@@ -17,6 +17,12 @@ router.get('/store/delivery/:id', Store.getDeliveryPoints);
 
 router.patch('/store/delivery/:id', Store.updateDeliveryPoint);
 
+router.post('/store/productInStore/:id', Store.createProductInStore);
+
+router.patch('/store/productInStore/:id', Store.updateProductInStore);
+
+router.get('/store/productInStore/:id', Store.getProductsInStore);
+
 router.post('/store', Store.create);
 
 router.get('/store/:id', Store.get);
