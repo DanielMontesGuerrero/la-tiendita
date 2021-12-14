@@ -135,7 +135,7 @@ class StoreSettings extends Component {
                     <Form.Control
                       plaintext
                       readOnly
-                      defaultValue={UserProfile.getIdSchool()} />
+                      defaultValue={UserProfile.getIdInstitution()} />
                   </Col>
                 </Form.Group>
 
