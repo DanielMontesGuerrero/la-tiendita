@@ -61,14 +61,35 @@ class Cart {
 			if (data === null) {
 				return callback(null, []);
 			}
+			if (data.length === 0) {
+				return callback(null, []);
+			}
 			connection.get_connection((qb) => {
 				const numProductsMap = new Map();
-				qb.select('*')
+				const selectList = [
+					`${dbSchema.products}.id_product`,
+					`${dbSchema.products}.name`,
+					`${dbSchema.products}.description`,
+					`${dbSchema.products}.image`,
+					`${dbSchema.products}.quantity`,
+					`${dbSchema.products}.unity`,
+					`${dbSchema.productsInStore}.id_store`,
+					`${dbSchema.productsInStore}.price`,
+					`${dbSchema.productsInStore}.stock`,
+					`${dbSchema.stores}.name as storeName`,
+					`${dbSchema.stores}.image as storeImage`,
+				];
+				qb.select(selectList)
 					.from(dbSchema.products)
 					.join(
 						dbSchema.productsInStore,
 						`${dbSchema.productsInStore}.id_product=` +
 						`${dbSchema.products}.id_product`,
+						'left',
+					)
+					.join(
+						dbSchema.stores,
+						`${dbSchema.stores}.id_store=${dbSchema.productsInStore}.id_store`,
 						'left',
 					);
 				data.forEach((item) => {

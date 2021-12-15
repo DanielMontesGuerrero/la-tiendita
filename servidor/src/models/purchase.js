@@ -53,6 +53,9 @@ class Purchase {
 				// seconds since epoch
 				data[i].date = Date.now() / 1000;
 			}
+			if (data.length <= 0) {
+				throw new Error('No hay compras');
+			}
 		} catch (err) {
 			logger.info({
 				message: 'Compra no válida',

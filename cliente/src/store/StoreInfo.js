@@ -80,6 +80,7 @@ class StoreInfo extends Component {
       return (
         <ProductBanner
           id_product={item.id_product}
+          id_store={this.props.id_store}
           name={item.name}
           image={item.image}
           inInfo={true}
@@ -87,6 +88,7 @@ class StoreInfo extends Component {
           quantity={item.quantity}
           unity={item.unity}
           price={item.price}
+          storeName={this.props.name}
           description={item.description}
           key={index}
         />

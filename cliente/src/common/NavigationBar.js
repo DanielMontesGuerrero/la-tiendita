@@ -6,13 +6,22 @@ import UserProfile from './UserProfile';
 
 class NavigationBar extends Component {
   render() {
-    let buttonHtml=<Nav.Link href="/user">
-      <FontAwesomeIcon icon="user" size="lg"/>{' '}Perfil
-    </Nav.Link>;
+    let buttonHtml = (
+      <>
+        <Nav.Link href="/cart">
+          <FontAwesomeIcon icon="cart-plus" size="lg"/>
+        </Nav.Link>
+        <Nav.Link href="/user">
+          <FontAwesomeIcon icon="user" size="lg"/>{' '}Perfil
+        </Nav.Link>
+      </>
+    );
     if (UserProfile.getName()===null) {
-      buttonHtml = <Nav.Link href="/login">
-        <FontAwesomeIcon icon="user" size="lg"/>{' '}Ingresar
-      </Nav.Link>;
+      buttonHtml = (
+        <Nav.Link href="/login">
+          <FontAwesomeIcon icon="user" size="lg"/>{' '}Ingresar
+        </Nav.Link>
+      );
     }
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

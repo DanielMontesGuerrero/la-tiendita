@@ -7,6 +7,9 @@ import {QuantityPicker} from 'react-qty-picker';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import ProductInfo from './ProductInfo.js';
 import ScoreForm from '../common/ScoreForm.js';
+import UserProfile from '../common/UserProfile.js';
+import config from '../common/config.js';
+import axios from 'axios';
 
 class ProductBanner extends Component {
   constructor(props) {
@@ -29,6 +32,11 @@ class ProductBanner extends Component {
       inCart: PropTypes.bool,
       inInfo: PropTypes.bool,
       price: PropTypes.number,
+      numProducts: PropTypes.number,
+      onQtyPickerChange: PropTypes.func,
+      id_store: PropTypes.number,
+      storeName: PropTypes.string,
+      storeImage: PropTypes.string,
     };
   }
 
@@ -58,6 +66,51 @@ class ProductBanner extends Component {
     this.setState({modalShow: modalShow});
   }
 
+  addToCart() {
+    const options = {
+      url: `${config.host}/cart/${UserProfile.getIdUser()}`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res);
+      if (res.data.result) {
+        const indexOfProductsMap = new Map();
+        const products = res.data.response;
+        products.forEach((item, index) => {
+          indexOfProductsMap.set(`${item.id_product}.${item.id_store}`, index);
+        });
+        if (
+          !indexOfProductsMap.has(
+              `${this.props.id_product}.${this.props.id_store}`,
+          )
+        ) {
+          products.push({
+            id_product: this.props.id_product,
+            id_store: this.props.id_store,
+            numProducts: 1,
+          });
+        } else {
+          const index = indexOfProductsMap.get(
+              `${this.props.id_product}.${this.props.id_store}`,
+          );
+          products[index].numProducts++;
+        }
+        const optionsUpdate = {
+          url: `${config.host}/cart/${UserProfile.getIdUser()}`,
+          method: 'patch',
+          data: products,
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+        };
+        axios(optionsUpdate).then((resCart) => {
+          console.log(resCart);
+          alert('Añadido al carrito');
+        });
+      }
+    });
+  }
+
   render() {
     return (
       <Container>
@@ -73,7 +126,12 @@ class ProductBanner extends Component {
             <Col md={4} className="mb-2">
               {this.props.inCart ?
                 <center>
-                  <QuantityPicker smooth min={0}/>
+                  <QuantityPicker
+                    smooth
+                    min={0}
+                    value={this.props.numProducts}
+                    onChange={(value) => this.props.onQtyPickerChange(value)}
+                  />
                 </center> :
                 <Score score={this.props.score}/>
               }
@@ -82,7 +140,7 @@ class ProductBanner extends Component {
           {this.props.inCart || this.props.inInfo ?
             <Row className="justify-content-md-center mb-2">
               <Col md="auto" className="fw-bold fs-5 text-center">
-                {'$ '}{this.props.price}
+                {`Comprar en: ${this.props.storeName} a $${this.props.price}`}
               </Col>
             </Row> :
             <Row className="mb-3">
@@ -99,7 +157,7 @@ class ProductBanner extends Component {
           <Row className="mb-3 justify-content-md-center">
             {this.props.inInfo ?
               <Col md="auto">
-                <Button>
+                <Button onClick={() => this.addToCart()}>
                   <FontAwesomeIcon icon="cart-plus"/>{' '}Añadir al carrito
                 </Button>
               </Col>:
@@ -113,14 +171,18 @@ class ProductBanner extends Component {
                 <FontAwesomeIcon icon="star"/>{' '}Calificar
               </Button>
             </Col>
-            <Col md="auto">
-              <Button
-                variant="outline-dark"
-                onClick={() => this.setModalShow(true)}
-              >
-                Ver reseñas
-              </Button>
-            </Col>
+            {
+              this.props.inInfo ?
+                <Col md="auto">
+                  <Button
+                    variant="outline-dark"
+                    onClick={() => this.setModalShow(true)}
+                  >
+                    Ver reseñas
+                  </Button>
+                </Col> :
+                <></>
+            }
           </Row>
         </Card>
         <ProductInfo
