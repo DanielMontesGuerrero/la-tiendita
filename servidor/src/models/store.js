@@ -7,6 +7,7 @@ const storeScoresTable = 'calificaciones_tienda';
 const deliveriesTable = 'entregas_en';
 const paymentMethodsTable = 'metodos_de_pago';
 const institutionsTable = 'instituciones';
+const productsInStoreTable = 'productos_en_tienda';
 const usersTable = 'usuarios';
 const topLimit = 3;
 

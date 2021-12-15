@@ -28,7 +28,6 @@ app.use(cors(options));
 const user = require('./routers/user.js');
 const product = require('./routers/product.js');
 const store = require('./routers/store.js');
-const cart = require('./routers/cart.js');
 const purchase = require('./routers/purchase.js');
 const institution = require('./routers/institution.js');
 const cart = require('./routers/cart.js');
