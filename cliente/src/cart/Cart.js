@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Stack, Container, Button, Row, Col} from 'react-bootstrap';
+import {Stack, Container, Button, Row, Col, Image} from 'react-bootstrap';
 import ProductBanner from '../product/ProductBanner.js';
 import NavigationBar from '../common/NavigationBar.js';
 import config from '../common/config.js';
@@ -15,6 +15,9 @@ class Cart extends Component {
   }
 
   componentDidMount() {
+    if (UserProfile.getIdUser() === null) {
+      window.location = '/';
+    }
     const options = {
       url: `${config.host}/cart/${UserProfile.getIdUser()}`,
       method: 'get',
@@ -114,6 +117,11 @@ class Cart extends Component {
         <NavigationBar/>
         <Container className="mt-4">
           <div className="p-5">
+            {
+              this.state.products.length === 0 ?
+                <Image src="https://i.ibb.co/MsgNsxT/empty.jpg" className="mb-3" width="100%"/> :
+                <></>
+            }
             <Stack gap={3}>
               {this.getProducts()}
               <Container>
