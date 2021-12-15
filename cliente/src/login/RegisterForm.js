@@ -14,7 +14,7 @@ class RegisterForm extends Component {
     this.state = {
       email: '',
       password: '',
-      id_school: '',
+      id_institution: '',
       name: '',
     };
   }
@@ -37,7 +37,7 @@ class RegisterForm extends Component {
       (this.state.name===undefined) ||
       (this.state.email===undefined) ||
       (this.state.password===undefined) ||
-      (this.state.id_school===undefined) ||
+      (this.state.id_institution===undefined) ||
       !(this.state.name.length>0) ||
       !(this.state.email.length>0) ||
       !(this.state.password.length>0)) {
@@ -126,9 +126,9 @@ class RegisterForm extends Component {
                     </Form.Label>
                     <Col>
                       <Form.Control
-                        value={this.state.id_school}
+                        value={this.state.id_institution}
                         onChange={
-                          (e) => this.setState({id_school: e.target.value})
+                          (e) => this.setState({id_institution: e.target.value})
                         }
                         type="text"/>
                     </Col>

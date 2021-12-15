@@ -4,7 +4,7 @@ const rejson = require('redis-rejson');
 const connection = require('../db/database.js');
 const dbSchema = require('../db/schema.js');
 
-rejson(redis);
+//rejson(redis);
 
 /**
  * Clase que interactua con el servidor redis para manejar los productos en

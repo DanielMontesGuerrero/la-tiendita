@@ -21,8 +21,8 @@ class StoreSettings extends Component {
       inventoryOpen: false,
       deliveryOpen: false,
       paymentOpen: false,
-      id_store: null,
-      name: 'Tienda',
+      id_store: UserProfile.getIdStore(),
+      name: '',
       id_user: UserProfile.getIdUser(),
       description: '',
       image: '',
@@ -30,16 +30,33 @@ class StoreSettings extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log('si toy aqui');
+    if (UserProfile.getIdUser() === null) {
+      window.location = '/';
+    }
+    const options = {
+      url: `${config.host}/store/${UserProfile.getIdStore()}`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res.data.response);
+      this.setState({name: res.data.response[0].name});
+      this.setState({description: res.data.response[0].description});
+      this.setState({image: res.data.response[0].image});
+    });
+  }
+
   actualizarStore() {
+    console.log(this.state);
     const data = {
-      id_store: 1,
       name: this.state.name,
       description: this.state.description,
     };
 
     const options = {
-      url: `${config.host}/store/1`,
-      method: 'post',
+      url: `${config.host}/store/${this.state.id_store}`,
+      method: 'patch',
       params: {
         includeScore: true,
         onlyTop: true,
@@ -145,7 +162,7 @@ class StoreSettings extends Component {
           <Stack gap={2} className="col-md-5 mx-auto mb-3">
             <center>
               {/* eslint-disable-next-line max-len */}
-              <Button onClick={this.actualizarStore} variant="primary" type="button">
+              <Button onClick={() => this.actualizarStore()} variant="primary" type="button">
                 Actualizar datos
               </Button>
             </center>
