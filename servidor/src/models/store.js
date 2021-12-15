@@ -400,9 +400,10 @@ class Store {
 		});
 	}
 	/**
-	* Inserta dentro de la tabla 'productos en tienda' el producto que se pasa como párametro
-	* dentro de la tienda que se pasa como parametro
-	* @param {int} id - Id dentro de la base de datos de la tienda en donde se insertará
+	* Inserta dentro de la tabla 'productos en tienda' el producto que se pasa
+	* como párametro dentro de la tienda que se pasa como parametro
+	* @param {int} id - Id dentro de la base de datos de la tienda en
+	* donde se insertará
 	* @param {string} data - Información del producto en tienda
 	* @param {func} callback - Función de callback
 	*/
@@ -512,18 +513,19 @@ class Store {
 				callback(null, res);
 			});
 		});
-	} 
+	}
 
 	/**
 	 * Actualiza un producto que haya sido insertado en una tienda con el id dado
-	 * @param {int} id - Id dentro de la base de datos dentro de la tienda en donde se insertará
-	 * @param {string} data - Información que será actualizada
+	 * @param {int} id - Id dentro de la base de datos dentro de la tienda en
+	 * donde se insertará
+	 * @param {any} data - Información que será actualizada
 	 * @param {func} callback - Función de callback
-	 */ 
+	 */
 	static updateProductInStore(id, data, callback) {
 		id = data.id_product;
 		connection.get_connection((qb) => {
-			qb.where({'id_store': id , 'id_product': data.id_product})
+			qb.where({'id_store': id, 'id_product': data.id_product})
 				.update(
 					productsInStoreTable,
 					data,
@@ -542,7 +544,7 @@ class Store {
 							result: res,
 						});
 						callback(null, res);
-				});
+					});
 		});
 	}
 

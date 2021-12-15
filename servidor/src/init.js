@@ -34,7 +34,7 @@ const init = async () => {
 	insertPaymentMethods(storeIds);
 
 	// insertar productos en tiendas
-	insertProductsInStore(storeIds, productIds);
+	await insertProductsInStore(productIds, storeIds, userIds);
 };
 
 init();

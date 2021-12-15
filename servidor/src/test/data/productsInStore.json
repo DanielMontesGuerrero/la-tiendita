@@ -1,74 +1,1077 @@
 [
 	{
-		"id_store" : 1,
-		"id_product" : 1,
-		"quantity" : 10,
-		"price" : 15
+		"id_store": 6,
+		"id_product": 9,
+		"stock": 70,
+		"price": 20.6,
+		"inCart": [
+			{
+				"id_user": 16,
+				"numProducts": 6
+			},
+			{
+				"id_user": 10,
+				"numProducts": 8
+			},
+			{
+				"id_user": 14,
+				"numProducts": 1
+			},
+			{
+				"id_user": 17,
+				"numProducts": 6
+			}
+		]
 	},
 	{
-		"id_store" : 1,
-		"id_product" : 2,
-		"quantity" : 5,
-		"price" : 18
-	},
-	{		
-		"id_store" : 1,
-		"id_product" : 4,
-		"quantity" : 15,
-		"price" :  25.5
-	},
-	{		
-		"id_store" : 1,
-		"id_product" : 5,
-		"quantity" : 2,
-		"price" :  14
-	},	
-	{
-		"id_store" : 2,
-		"id_product" : 1,
-		"quantity" : 10,
-		"price" : 15.5
-	},
-	{
-		"id_store" : 2,
-		"id_product" : 2,
-		"quantity" : 5,
-		"price" : 16
-	},
-	{		
-		"id_store" : 2,
-		"id_product" : 4,
-		"quantity" : 15,
-		"price" :  24
-	},
-	{		
-		"id_store" : 2,
-		"id_product" : 5,
-		"quantity" : 2,
-		"price" :  16
+		"id_store": 4,
+		"id_product": 22,
+		"stock": 35,
+		"price": 6.3,
+		"inCart": [
+			{
+				"id_user": 4,
+				"numProducts": 2
+			},
+			{
+				"id_user": 14,
+				"numProducts": 7
+			},
+			{
+				"id_user": 3,
+				"numProducts": 8
+			},
+			{
+				"id_user": 8,
+				"numProducts": 8
+			}
+		]
 	},
 	{
-		"id_store" : 3,
-		"id_product" : 1,
-		"quantity" : 10,
-		"price" : 15.5
+		"id_store": 5,
+		"id_product": 24,
+		"stock": 37,
+		"price": 59.6,
+		"inCart": [
+			{
+				"id_user": 6,
+				"numProducts": 7
+			},
+			{
+				"id_user": 8,
+				"numProducts": 3
+			},
+			{
+				"id_user": 14,
+				"numProducts": 6
+			},
+			{
+				"id_user": 16,
+				"numProducts": 10
+			},
+			{
+				"id_user": 3,
+				"numProducts": 6
+			}
+		]
 	},
 	{
-		"id_store" : 3,
-		"id_product" : 2,
-		"quantity" : 5,
-		"price" : 16
+		"id_store": 6,
+		"id_product": 8,
+		"stock": 15,
+		"price": 42.8,
+		"inCart": [
+			{
+				"id_user": 11,
+				"numProducts": 2
+			},
+			{
+				"id_user": 3,
+				"numProducts": 2
+			},
+			{
+				"id_user": 3,
+				"numProducts": 2
+			}
+		]
 	},
-	{		
-		"id_store" : 3,
-		"id_product" : 4,
-		"quantity" : 15,
-		"price" :  24
+	{
+		"id_store": 6,
+		"id_product": 4,
+		"stock": 37,
+		"price": 86.8,
+		"inCart": [
+			{
+				"id_user": 7,
+				"numProducts": 5
+			}
+		]
 	},
-	{		
-		"id_store" : 3,
-		"id_product" : 5,
-		"quantity" : 2,
-		"price" :  16
+	{
+		"id_store": 3,
+		"id_product": 18,
+		"stock": 89,
+		"price": 14.5,
+		"inCart": [
+			{
+				"id_user": 11,
+				"numProducts": 2
+			},
+			{
+				"id_user": 15,
+				"numProducts": 6
+			},
+			{
+				"id_user": 12,
+				"numProducts": 9
+			},
+			{
+				"id_user": 14,
+				"numProducts": 7
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 5,
+		"stock": 14,
+		"price": 54.4,
+		"inCart": [
+			{
+				"id_user": 16,
+				"numProducts": 10
+			},
+			{
+				"id_user": 12,
+				"numProducts": 5
+			},
+			{
+				"id_user": 2,
+				"numProducts": 7
+			}
+		]
+	},
+	{
+		"id_store": 2,
+		"id_product": 12,
+		"stock": 95,
+		"price": 43.9,
+		"inCart": [
+			{
+				"id_user": 2,
+				"numProducts": 1
+			},
+			{
+				"id_user": 8,
+				"numProducts": 9
+			}
+		]
+	},
+	{
+		"id_store": 5,
+		"id_product": 10,
+		"stock": 39,
+		"price": 85.1,
+		"inCart": [
+			{
+				"id_user": 5,
+				"numProducts": 4
+			},
+			{
+				"id_user": 15,
+				"numProducts": 1
+			},
+			{
+				"id_user": 16,
+				"numProducts": 5
+			}
+		]
+	},
+	{
+		"id_store": 2,
+		"id_product": 10,
+		"stock": 52,
+		"price": 2.7,
+		"inCart": []
+	},
+	{
+		"id_store": 2,
+		"id_product": 7,
+		"stock": 87,
+		"price": 27.3,
+		"inCart": [
+			{
+				"id_user": 4,
+				"numProducts": 5
+			},
+			{
+				"id_user": 7,
+				"numProducts": 5
+			},
+			{
+				"id_user": 12,
+				"numProducts": 7
+			},
+			{
+				"id_user": 10,
+				"numProducts": 6
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 24,
+		"stock": 99,
+		"price": 39.3,
+		"inCart": [
+			{
+				"id_user": 1,
+				"numProducts": 1
+			},
+			{
+				"id_user": 8,
+				"numProducts": 8
+			},
+			{
+				"id_user": 4,
+				"numProducts": 5
+			}
+		]
+	},
+	{
+		"id_store": 2,
+		"id_product": 11,
+		"stock": 29,
+		"price": 40.4,
+		"inCart": [
+			{
+				"id_user": 16,
+				"numProducts": 2
+			},
+			{
+				"id_user": 16,
+				"numProducts": 5
+			},
+			{
+				"id_user": 10,
+				"numProducts": 9
+			},
+			{
+				"id_user": 10,
+				"numProducts": 4
+			},
+			{
+				"id_user": 13,
+				"numProducts": 6
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 7,
+		"stock": 80,
+		"price": 92.9,
+		"inCart": []
+	},
+	{
+		"id_store": 2,
+		"id_product": 3,
+		"stock": 85,
+		"price": 49,
+		"inCart": [
+			{
+				"id_user": 4,
+				"numProducts": 8
+			},
+			{
+				"id_user": 15,
+				"numProducts": 3
+			},
+			{
+				"id_user": 2,
+				"numProducts": 7
+			}
+		]
+	},
+	{
+		"id_store": 1,
+		"id_product": 21,
+		"stock": 42,
+		"price": 68,
+		"inCart": [
+			{
+				"id_user": 15,
+				"numProducts": 2
+			}
+		]
+	},
+	{
+		"id_store": 5,
+		"id_product": 23,
+		"stock": 52,
+		"price": 14.1,
+		"inCart": []
+	},
+	{
+		"id_store": 6,
+		"id_product": 20,
+		"stock": 30,
+		"price": 99.1,
+		"inCart": [
+			{
+				"id_user": 8,
+				"numProducts": 9
+			},
+			{
+				"id_user": 9,
+				"numProducts": 2
+			},
+			{
+				"id_user": 7,
+				"numProducts": 4
+			}
+		]
+	},
+	{
+		"id_store": 2,
+		"id_product": 20,
+		"stock": 96,
+		"price": 68.8,
+		"inCart": [
+			{
+				"id_user": 3,
+				"numProducts": 4
+			},
+			{
+				"id_user": 11,
+				"numProducts": 1
+			},
+			{
+				"id_user": 9,
+				"numProducts": 4
+			},
+			{
+				"id_user": 14,
+				"numProducts": 10
+			},
+			{
+				"id_user": 3,
+				"numProducts": 5
+			}
+		]
+	},
+	{
+		"id_store": 4,
+		"id_product": 15,
+		"stock": 74,
+		"price": 29.5,
+		"inCart": [
+			{
+				"id_user": 17,
+				"numProducts": 2
+			},
+			{
+				"id_user": 10,
+				"numProducts": 9
+			}
+		]
+	},
+	{
+		"id_store": 1,
+		"id_product": 14,
+		"stock": 93,
+		"price": 10.4,
+		"inCart": [
+			{
+				"id_user": 5,
+				"numProducts": 8
+			},
+			{
+				"id_user": 11,
+				"numProducts": 1
+			},
+			{
+				"id_user": 7,
+				"numProducts": 10
+			}
+		]
+	},
+	{
+		"id_store": 4,
+		"id_product": 11,
+		"stock": 38,
+		"price": 59.1,
+		"inCart": [
+			{
+				"id_user": 10,
+				"numProducts": 4
+			},
+			{
+				"id_user": 13,
+				"numProducts": 9
+			}
+		]
+	},
+	{
+		"id_store": 1,
+		"id_product": 12,
+		"stock": 89,
+		"price": 43.6,
+		"inCart": []
+	},
+	{
+		"id_store": 4,
+		"id_product": 5,
+		"stock": 65,
+		"price": 27.7,
+		"inCart": [
+			{
+				"id_user": 7,
+				"numProducts": 8
+			},
+			{
+				"id_user": 10,
+				"numProducts": 6
+			},
+			{
+				"id_user": 5,
+				"numProducts": 3
+			}
+		]
+	},
+	{
+		"id_store": 5,
+		"id_product": 3,
+		"stock": 4,
+		"price": 60.5,
+		"inCart": [
+			{
+				"id_user": 17,
+				"numProducts": 6
+			}
+		]
+	},
+	{
+		"id_store": 1,
+		"id_product": 22,
+		"stock": 80,
+		"price": 26.4,
+		"inCart": [
+			{
+				"id_user": 9,
+				"numProducts": 9
+			},
+			{
+				"id_user": 10,
+				"numProducts": 2
+			},
+			{
+				"id_user": 2,
+				"numProducts": 2
+			}
+		]
+	},
+	{
+		"id_store": 4,
+		"id_product": 8,
+		"stock": 98,
+		"price": 27.3,
+		"inCart": [
+			{
+				"id_user": 6,
+				"numProducts": 6
+			},
+			{
+				"id_user": 15,
+				"numProducts": 2
+			},
+			{
+				"id_user": 14,
+				"numProducts": 1
+			},
+			{
+				"id_user": 16,
+				"numProducts": 1
+			},
+			{
+				"id_user": 13,
+				"numProducts": 1
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 1,
+		"stock": 46,
+		"price": 6.7,
+		"inCart": [
+			{
+				"id_user": 15,
+				"numProducts": 3
+			},
+			{
+				"id_user": 10,
+				"numProducts": 5
+			},
+			{
+				"id_user": 16,
+				"numProducts": 9
+			},
+			{
+				"id_user": 16,
+				"numProducts": 3
+			},
+			{
+				"id_user": 3,
+				"numProducts": 3
+			}
+		]
+	},
+	{
+		"id_store": 1,
+		"id_product": 15,
+		"stock": 13,
+		"price": 81.1,
+		"inCart": [
+			{
+				"id_user": 15,
+				"numProducts": 7
+			},
+			{
+				"id_user": 15,
+				"numProducts": 1
+			}
+		]
+	},
+	{
+		"id_store": 5,
+		"id_product": 1,
+		"stock": 74,
+		"price": 75.5,
+		"inCart": [
+			{
+				"id_user": 16,
+				"numProducts": 7
+			},
+			{
+				"id_user": 15,
+				"numProducts": 7
+			},
+			{
+				"id_user": 16,
+				"numProducts": 5
+			},
+			{
+				"id_user": 17,
+				"numProducts": 4
+			},
+			{
+				"id_user": 1,
+				"numProducts": 3
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 12,
+		"stock": 98,
+		"price": 81.3,
+		"inCart": [
+			{
+				"id_user": 15,
+				"numProducts": 4
+			},
+			{
+				"id_user": 13,
+				"numProducts": 2
+			},
+			{
+				"id_user": 11,
+				"numProducts": 10
+			},
+			{
+				"id_user": 4,
+				"numProducts": 9
+			},
+			{
+				"id_user": 6,
+				"numProducts": 4
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 7,
+		"stock": 67,
+		"price": 27.8,
+		"inCart": [
+			{
+				"id_user": 3,
+				"numProducts": 8
+			},
+			{
+				"id_user": 5,
+				"numProducts": 1
+			},
+			{
+				"id_user": 17,
+				"numProducts": 5
+			},
+			{
+				"id_user": 4,
+				"numProducts": 10
+			},
+			{
+				"id_user": 5,
+				"numProducts": 1
+			}
+		]
+	},
+	{
+		"id_store": 5,
+		"id_product": 14,
+		"stock": 55,
+		"price": 53.5,
+		"inCart": []
+	},
+	{
+		"id_store": 5,
+		"id_product": 6,
+		"stock": 92,
+		"price": 86.1,
+		"inCart": [
+			{
+				"id_user": 9,
+				"numProducts": 7
+			}
+		]
+	},
+	{
+		"id_store": 2,
+		"id_product": 24,
+		"stock": 1,
+		"price": 86.8,
+		"inCart": []
+	},
+	{
+		"id_store": 5,
+		"id_product": 9,
+		"stock": 10,
+		"price": 3,
+		"inCart": [
+			{
+				"id_user": 3,
+				"numProducts": 1
+			},
+			{
+				"id_user": 16,
+				"numProducts": 1
+			},
+			{
+				"id_user": 10,
+				"numProducts": 5
+			},
+			{
+				"id_user": 6,
+				"numProducts": 8
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 16,
+		"stock": 9,
+		"price": 73.6,
+		"inCart": []
+	},
+	{
+		"id_store": 4,
+		"id_product": 10,
+		"stock": 61,
+		"price": 5.4,
+		"inCart": [
+			{
+				"id_user": 12,
+				"numProducts": 3
+			},
+			{
+				"id_user": 11,
+				"numProducts": 2
+			},
+			{
+				"id_user": 12,
+				"numProducts": 6
+			},
+			{
+				"id_user": 1,
+				"numProducts": 1
+			},
+			{
+				"id_user": 3,
+				"numProducts": 5
+			}
+		]
+	},
+	{
+		"id_store": 1,
+		"id_product": 11,
+		"stock": 51,
+		"price": 1.5,
+		"inCart": []
+	},
+	{
+		"id_store": 1,
+		"id_product": 2,
+		"stock": 5,
+		"price": 82.6,
+		"inCart": [
+			{
+				"id_user": 4,
+				"numProducts": 2
+			},
+			{
+				"id_user": 1,
+				"numProducts": 10
+			},
+			{
+				"id_user": 8,
+				"numProducts": 5
+			},
+			{
+				"id_user": 14,
+				"numProducts": 3
+			},
+			{
+				"id_user": 8,
+				"numProducts": 10
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 17,
+		"stock": 40,
+		"price": 46.8,
+		"inCart": [
+			{
+				"id_user": 10,
+				"numProducts": 10
+			},
+			{
+				"id_user": 9,
+				"numProducts": 2
+			},
+			{
+				"id_user": 12,
+				"numProducts": 8
+			},
+			{
+				"id_user": 2,
+				"numProducts": 9
+			},
+			{
+				"id_user": 11,
+				"numProducts": 9
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 16,
+		"stock": 62,
+		"price": 93.7,
+		"inCart": []
+	},
+	{
+		"id_store": 1,
+		"id_product": 4,
+		"stock": 30,
+		"price": 69.6,
+		"inCart": []
+	},
+	{
+		"id_store": 4,
+		"id_product": 23,
+		"stock": 42,
+		"price": 25,
+		"inCart": [
+			{
+				"id_user": 10,
+				"numProducts": 3
+			},
+			{
+				"id_user": 2,
+				"numProducts": 3
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 6,
+		"stock": 35,
+		"price": 26.9,
+		"inCart": [
+			{
+				"id_user": 12,
+				"numProducts": 3
+			},
+			{
+				"id_user": 17,
+				"numProducts": 8
+			},
+			{
+				"id_user": 6,
+				"numProducts": 7
+			},
+			{
+				"id_user": 17,
+				"numProducts": 8
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 3,
+		"stock": 55,
+		"price": 46.3,
+		"inCart": []
+	},
+	{
+		"id_store": 2,
+		"id_product": 8,
+		"stock": 33,
+		"price": 29.1,
+		"inCart": [
+			{
+				"id_user": 4,
+				"numProducts": 8
+			},
+			{
+				"id_user": 7,
+				"numProducts": 7
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 6,
+		"stock": 92,
+		"price": 57.5,
+		"inCart": [
+			{
+				"id_user": 11,
+				"numProducts": 6
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 17,
+		"stock": 52,
+		"price": 52.8,
+		"inCart": [
+			{
+				"id_user": 17,
+				"numProducts": 4
+			},
+			{
+				"id_user": 17,
+				"numProducts": 6
+			}
+		]
+	},
+	{
+		"id_store": 6,
+		"id_product": 22,
+		"stock": 96,
+		"price": 34.4,
+		"inCart": [
+			{
+				"id_user": 9,
+				"numProducts": 7
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 8,
+		"stock": 21,
+		"price": 11.8,
+		"inCart": [
+			{
+				"id_user": 5,
+				"numProducts": 7
+			},
+			{
+				"id_user": 8,
+				"numProducts": 3
+			}
+		]
+	},
+	{
+		"id_store": 5,
+		"id_product": 5,
+		"stock": 12,
+		"price": 56,
+		"inCart": [
+			{
+				"id_user": 12,
+				"numProducts": 5
+			},
+			{
+				"id_user": 4,
+				"numProducts": 3
+			}
+		]
+	},
+	{
+		"id_store": 2,
+		"id_product": 13,
+		"stock": 40,
+		"price": 27,
+		"inCart": []
+	},
+	{
+		"id_store": 4,
+		"id_product": 4,
+		"stock": 60,
+		"price": 69.6,
+		"inCart": [
+			{
+				"id_user": 11,
+				"numProducts": 1
+			},
+			{
+				"id_user": 8,
+				"numProducts": 9
+			}
+		]
+	},
+	{
+		"id_store": 2,
+		"id_product": 19,
+		"stock": 60,
+		"price": 86.9,
+		"inCart": [
+			{
+				"id_user": 1,
+				"numProducts": 7
+			},
+			{
+				"id_user": 11,
+				"numProducts": 3
+			},
+			{
+				"id_user": 2,
+				"numProducts": 1
+			}
+		]
+	},
+	{
+		"id_store": 1,
+		"id_product": 7,
+		"stock": 36,
+		"price": 95.3,
+		"inCart": [
+			{
+				"id_user": 14,
+				"numProducts": 1
+			},
+			{
+				"id_user": 10,
+				"numProducts": 2
+			}
+		]
+	},
+	{
+		"id_store": 4,
+		"id_product": 21,
+		"stock": 65,
+		"price": 41.5,
+		"inCart": [
+			{
+				"id_user": 3,
+				"numProducts": 8
+			},
+			{
+				"id_user": 5,
+				"numProducts": 5
+			},
+			{
+				"id_user": 11,
+				"numProducts": 1
+			}
+		]
+	},
+	{
+		"id_store": 3,
+		"id_product": 2,
+		"stock": 5,
+		"price": 40.2,
+		"inCart": []
+	},
+	{
+		"id_store": 1,
+		"id_product": 1,
+		"stock": 13,
+		"price": 72.1,
+		"inCart": [
+			{
+				"id_user": 11,
+				"numProducts": 8
+			},
+			{
+				"id_user": 13,
+				"numProducts": 4
+			},
+			{
+				"id_user": 2,
+				"numProducts": 2
+			},
+			{
+				"id_user": 7,
+				"numProducts": 6
+			}
+		]
+	},
+	{
+		"id_store": 4,
+		"id_product": 16,
+		"stock": 5,
+		"price": 98.1,
+		"inCart": [
+			{
+				"id_user": 15,
+				"numProducts": 4
+			},
+			{
+				"id_user": 14,
+				"numProducts": 6
+			}
+		]
+	},
+	{
+		"id_store": 5,
+		"id_product": 2,
+		"stock": 6,
+		"price": 71.8,
+		"inCart": [
+			{
+				"id_user": 5,
+				"numProducts": 5
+			},
+			{
+				"id_user": 14,
+				"numProducts": 6
+			},
+			{
+				"id_user": 9,
+				"numProducts": 2
+			},
+			{
+				"id_user": 12,
+				"numProducts": 4
+			}
+		]
 	}
 ]

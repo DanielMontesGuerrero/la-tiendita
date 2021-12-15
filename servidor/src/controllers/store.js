@@ -46,8 +46,6 @@ exports.create = (req, res) => {
 		name: data.name,
 		description: data.description,
 		image: data.imageURL || undefined,
-		quantity: data.quantity || '',
-		unity: data.unity || '',
 		id_user: data.id_user,
 	});
 	insertStoreToDB(store, res);
@@ -128,7 +126,7 @@ exports.update = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
 	if (id === undefined) {
-		res.status(400).send({
+		return res.status(400).send({
 			result: false,
 			message: 'Se necesita un id',
 		});
@@ -216,13 +214,13 @@ exports.createDeliveryPoint = (req, res) => {
 	const id = req.params.id;
 	if (data.id_institution === undefined ||
 		id === undefined) {
-		res.status(400).send({
+		return res.status(400).send({
 			result: false,
 			description: 'Se necesita id de la institucion y la tienda',
 		});
 	}
 	if (data.description === undefined) {
-		res.status(400).send({
+		return res.status(400).send({
 			result: false,
 			description: 'Se necesita la descripción del punto de entrega',
 		});
@@ -248,7 +246,7 @@ exports.createDeliveryPoint = (req, res) => {
 exports.getDeliveryPoints = (req, res) => {
 	const id = req.params.id;
 	if (id === undefined) {
-		res.status(400).send({
+		return res.status(400).send({
 			result: false,
 			description: 'Se necesita id de la tienda',
 		});
@@ -281,7 +279,7 @@ exports.updateDeliveryPoint = (req, res) => {
 		});
 	}
 	if (data.description === undefined) {
-		res.status(400).send({
+		return res.status(400).send({
 			result: false,
 			description: 'Se necesita la descripción del punto de entrega',
 		});
@@ -309,19 +307,19 @@ exports.createProductInStore = (req, res) => {
 	const id = req.params.id;
 	if (data.id_product === undefined ||
 		id === undefined) {
-		res.status(400).send({
+		return res.status(400).send({
 			result: false,
 			description: 'Se necesita el id del producto que se quiere insertar',
 		});
 	}
-	if (data.quantity === undefined) {
-		res.status(400).send({
+	if (data.stock === undefined) {
+		return res.status(400).send({
 			result: false,
 			description: 'Se necesita la cantidad de productos en stock',
 		});
 	}
 	if (data.price === undefined) {
-		res.status(400).send({
+		return res.status(400).send({
 			result: false,
 			description: 'Se necesita el precio del producto',
 		});
@@ -331,7 +329,7 @@ exports.createProductInStore = (req, res) => {
 		data: data,
 	});
 	Store.createProductInStore(id, data, (err, response) => {
-	if (err) {
+		if (err) {
 			return res.status(400).send({
 				result: false,
 				description: err.sqlMessage,
@@ -343,6 +341,7 @@ exports.createProductInStore = (req, res) => {
 		});
 	});
 };
+
 exports.createPaymentMethod = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
@@ -401,6 +400,7 @@ exports.getProductsInStore = (req, res) => {
 		});
 	});
 };
+
 exports.getPaymentMethods = (req, res) => {
 	const id = req.params.id;
 	if (id === undefined) {
@@ -430,29 +430,30 @@ exports.getPaymentMethods = (req, res) => {
 exports.updateProductInStore = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
-	if(id === undefined) {
+	if (id === undefined) {
 		return res.status(400).send({
-			result : false,
-			description : 'Se necesita el id de la tienda',
+			result: false,
+			description: 'Se necesita el id de la tienda',
 		});
 	}
 	logger.info({
 		message: `Actualizando producto en la tienda: ${id}`,
-		id_store : id,
+		id_store: id,
 	});
 	Store.updateProductInStore(id, data, (err,response) => {
-		if(err) {
+		if (err) {
 			return res.status(400).send({
-				result : false,
-				description : err.sqlMessage,
+				result: false,
+				description: err.sqlMessage,
 			});
 		}
 		res.send({
-			result : true,
-			response : response,
+			result: true,
+			response: response,
 		});
 	});
 };
+
 exports.updatePaymentMethod = (req, res) => {
 	const data = req.body;
 	const id = req.params.id;
