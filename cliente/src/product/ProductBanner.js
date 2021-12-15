@@ -172,7 +172,7 @@ class ProductBanner extends Component {
               </Button>
             </Col>
             {
-              this.props.inInfo ?
+              !this.props.inCart ?
                 <Col md="auto">
                   <Button
                     variant="outline-dark"
