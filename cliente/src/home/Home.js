@@ -51,6 +51,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Inicio';
     const options = {
       url: `${config.host}/product/all`,
       method: 'get',

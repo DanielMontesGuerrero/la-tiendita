@@ -31,6 +31,7 @@ class StoreSettings extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Mi Tienda';
     console.log('si toy aqui');
     if (UserProfile.getIdUser() === null) {
       window.location = '/';

@@ -20,6 +20,7 @@ class RegisterForm extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Registrarse';
     if (UserProfile.getName()!==null) {
       window.location.href = '/';
       console.log(UserProfile.getName());

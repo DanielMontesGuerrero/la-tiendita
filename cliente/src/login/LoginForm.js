@@ -28,6 +28,7 @@ class LoginForm extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Login';
     if (UserProfile.getName()!==null) {
       window.location.href = '/';
       console.log('is'+UserProfile.getEmail());

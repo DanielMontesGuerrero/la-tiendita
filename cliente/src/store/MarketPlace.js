@@ -14,6 +14,7 @@ class MarketPlace extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Tienditas';
     const options = {
       url: `${config.host}/store/all`,
       method: 'get',

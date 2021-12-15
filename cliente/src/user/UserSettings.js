@@ -39,6 +39,7 @@ class UserSettings extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Mi perfil';
     if (!this.state.orders) {
       this.getOrders().then((data) => this.setState({orders: data}))
           .catch((err) => console.log('s'));

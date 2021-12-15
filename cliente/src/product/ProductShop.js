@@ -14,6 +14,7 @@ class ProductShop extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Productos';
     const options = {
       url: `${config.host}/product/all`,
       method: 'get',
