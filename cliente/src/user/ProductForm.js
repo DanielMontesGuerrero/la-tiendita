@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {Form, Modal, Button, FloatingLabel, Row, Col} from 'react-bootstrap';
+import {
+  Form,
+  Modal,
+  Button,
+  FloatingLabel,
+  Row,
+  Col,
+  ListGroup} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import config from '../common/config.js';
 import axios from 'axios';
@@ -20,6 +27,11 @@ class ProductForm extends Component {
       'pza',
     ];
     this.imageFile = null;
+    this.state = {
+      products: [],
+      name: '',
+      selectedProduct: {},
+    };
   }
 
   static get propTypes() {
@@ -30,7 +42,33 @@ class ProductForm extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getProducts();
+  }
+
+  getProducts() {
+    const options = {
+      url: `${config.host}/product/all`,
+      method: 'get',
+      params: {
+        includeScore: true,
+      },
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({products: res.data.response});
+      }
+    });
+  }
+
   createPaymentMethod() {
+    if (this.state.selectedProduct.id_product !== undefined) {
+      return this.addProductToStore(this.state.selectedProduct.id_product);
+    }
     if (this.name.length === 0) {
       return alert('Se necesita un nombre');
     }
@@ -106,6 +144,26 @@ class ProductForm extends Component {
     });
   }
 
+  renderProductList() {
+    const products = this.state.products.filter((item) => {
+      const containsInput = item.name.includes(this.state.name);
+      return this.state.name === '' || containsInput;
+    });
+    return products.map((item, index) => {
+      return (
+        <ListGroup.Item
+          key={index}
+          action
+          href="#"
+          onClick={() => this.setState({selectedProduct: item})}
+          active={item.name === this.state.selectedProduct.name}
+        >
+          {item.name}
+        </ListGroup.Item>
+      );
+    });
+  }
+
   render() {
     return (
       <Modal
@@ -174,13 +232,22 @@ class ProductForm extends Component {
                 onChange={(e) => this.imageFile = e.target.files[0]}
               />
             </Form.Group>
+            <p>O puedes añadir un producto existente</p>
+            <Form.Group className="mb-3">
+              <Form.Label>Producto</Form.Label>
+              <Form.Control
+                placeholder="Buscar producto"
+                onChange={(e) => this.setState({name: e.target.value})}
+              />
+            </Form.Group>
+            <ListGroup>{this.renderProductList()}</ListGroup>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
           <Button
             variant="secondary"
-            onClick={this.props.onHide}>
+            onClick={() => this.props.onHide()}>
             Cancelar
           </Button>
           <Button variant="primary" onClick={() => this.createPaymentMethod()}>
