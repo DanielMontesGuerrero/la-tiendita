@@ -32,6 +32,7 @@ class ProductForm extends Component {
       name: '',
       selectedProduct: {},
     };
+    this.searchProductInput = React.createRef();
   }
 
   static get propTypes() {
@@ -140,7 +141,14 @@ class ProductForm extends Component {
       if (res.data.result) {
         alert('Producto insertado en tienda');
         this.props.onHide();
+      } else {
+        alert(`No se puede añadir el producto: ${res.data.description}`);
       }
+    }).catch((err) => {
+      console.log(err);
+      alert(
+          `No se puede añadir el producto: ${err.response.data.description}`,
+      );
     });
   }
 
@@ -155,7 +163,10 @@ class ProductForm extends Component {
           key={index}
           action
           href="#"
-          onClick={() => this.setState({selectedProduct: item})}
+          onClick={() => {
+            this.setState({selectedProduct: item});
+            this.searchProductInput.current.value = item.name;
+          }}
           active={item.name === this.state.selectedProduct.name}
         >
           {item.name}
@@ -238,6 +249,7 @@ class ProductForm extends Component {
               <Form.Control
                 placeholder="Buscar producto"
                 onChange={(e) => this.setState({name: e.target.value})}
+                ref={this.searchProductInput}
               />
             </Form.Group>
             <ListGroup>{this.renderProductList()}</ListGroup>
