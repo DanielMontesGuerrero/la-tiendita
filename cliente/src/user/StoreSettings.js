@@ -13,6 +13,8 @@ import Score from '../common/Score.js';
 import UserProfile from '../common/UserProfile';
 import config from '../common/config';
 import axios from 'axios';
+import ProductBanner from '../product/ProductBanner.js';
+import PaymentMethodForm from './PaymentMethodForm.js';
 
 class StoreSettings extends Component {
   constructor(props) {
@@ -24,9 +26,11 @@ class StoreSettings extends Component {
       id_store: UserProfile.getIdStore(),
       name: '',
       id_user: UserProfile.getIdUser(),
+      showPaymentMethodsModal: false,
       description: '',
-      image: '',
-      score: null,
+      store: {},
+      products: [],
+      paymentMethods: [],
     };
   }
 
@@ -39,29 +43,31 @@ class StoreSettings extends Component {
     const options = {
       url: `${config.host}/store/${UserProfile.getIdStore()}`,
       method: 'get',
+      params: {
+        includeScore: true,
+      },
     };
     axios(options).then((res) => {
-      console.log(res.data.response);
-      this.setState({name: res.data.response[0].name});
-      this.setState({description: res.data.response[0].description});
-      this.setState({image: res.data.response[0].image});
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({
+          store: res.data.response[0],
+          description: res.data.response[0].description},
+        );
+      }
     });
+    this.getProductsInStore();
+    this.getPaymentMethods();
   }
 
-  actualizarStore() {
-    console.log(this.state);
+  updateStore() {
     const data = {
-      name: this.state.name,
       description: this.state.description,
     };
 
     const options = {
-      url: `${config.host}/store/${this.state.id_store}`,
+      url: `${config.host}/store/${UserProfile.getIdStore()}`,
       method: 'patch',
-      params: {
-        includeScore: true,
-        onlyTop: true,
-      },
       data: data,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -70,6 +76,106 @@ class StoreSettings extends Component {
     axios(options).then((res) => {
       console.log(res);
       alert('Datos actualizados');
+    });
+  }
+
+  getProductsInStore() {
+    const options = {
+      url: `${config.host}/store/productInStore/${UserProfile.getIdStore()}`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({products: res.data.response});
+      }
+    });
+  }
+
+  getPaymentMethods() {
+    const options = {
+      url: `${config.host}/store/payment/${UserProfile.getIdStore()}`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({paymentMethods: res.data.response});
+      }
+    });
+  }
+
+  renderProducts() {
+    return this.state.products.map((item, index) => {
+      return (
+        <ProductBanner
+          id_product={item.id_product}
+          id_store={item.id_store}
+          name={item.name}
+          image={item.image}
+          score={item.score}
+          description={item.description}
+          quantity={item.quantity}
+          unity={item.unity}
+          price={item.price}
+          storeName={item.storeName}
+          storeImage={item.storeImage}
+          numProducts={item.stock}
+          inInventory={true}
+          key={index}
+        />
+      );
+    });
+  }
+
+  changePaymentDesciption(index, description) {
+    this.setState((prevState) => {
+      const methods = JSON.parse(JSON.stringify(prevState.paymentMethods));
+      methods[index].description = description;
+      return {paymentMethods: methods};
+    });
+  }
+
+  updatePaymentMethod(index) {
+    const item = this.state.paymentMethods[index];
+    const options = {
+      url: `${config.host}/store/payment/${item.id_method}`,
+      method: 'patch',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      data: {
+        description: item.description,
+      },
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        alert('Método de pago actualizado');
+      }
+    }).catch((err) => {
+      console.log('Error:', err);
+    });
+  }
+
+  renderPaymentMethods() {
+    return this.state.paymentMethods.map((item, index) => {
+      return (
+        <Form.Group className="mb-3" key={index}>
+          <Form.Label>Método de pago #{index + 1}</Form.Label>
+          <Form.Control
+            placeholder="Descripción"
+            defaultValue={this.state.paymentMethods[index].description}
+            onChange={
+              (e) => this.changePaymentDesciption(index, e.target.value)
+            }
+          />
+          <Button
+            variant="outline-dark"
+            onClick={() => this.updatePaymentMethod(index)}
+          >Actualizar método</Button>
+        </Form.Group>
+      );
     });
   }
 
@@ -82,12 +188,12 @@ class StoreSettings extends Component {
               <Stack gap={2}>
                 <Badge
                   bg="dark">
-                  {this.state.name}
+                  {this.state.store.name}
                 </Badge>
                 <center>
                   <FontAwesomeIcon icon="store" size="10x"/>
                 </center>
-                <Score score={this.state.score}/>
+                <Score score={this.state.store.score}/>
               </Stack>
             </Col>
             <Col md="auto">
@@ -103,9 +209,25 @@ class StoreSettings extends Component {
                   <Col sm="8">
                     <Form.Control
                       plaintext
-                      value={this.state.name}
+                      readOnly
+                      value={this.state.store.name}
                       onChange={(e) => this.setState({name: e.target.value})}
                       defaultValue="Tienda de fulano" />
+                  </Col>
+                </Form.Group>
+
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="institucion">
+                  <Form.Label column sm="4">
+                    Institución
+                  </Form.Label>
+                  <Col sm="8">
+                    <Form.Control
+                      plaintext
+                      readOnly
+                      defaultValue={UserProfile.getInstitutionName()} />
                   </Col>
                 </Form.Group>
 
@@ -123,37 +245,7 @@ class StoreSettings extends Component {
                       onChange={
                         (e) => this.setState({description: e.target.value})
                       }
-                      defaultValue="Bueno bonito y barato ;)" />
-                  </Col>
-                </Form.Group>
-
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="boleta">
-                  <Form.Label column sm="4">
-                    Boleta
-                  </Form.Label>
-                  <Col sm="8">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      defaultValue="" />
-                  </Col>
-                </Form.Group>
-
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="institucion">
-                  <Form.Label column sm="4">
-                    Institución
-                  </Form.Label>
-                  <Col sm="8">
-                    <Form.Control
-                      plaintext
-                      readOnly
-                      defaultValue={UserProfile.getIdInstitution()} />
+                    />
                   </Col>
                 </Form.Group>
 
@@ -162,9 +254,12 @@ class StoreSettings extends Component {
           </Row>
           <Stack gap={2} className="col-md-5 mx-auto mb-3">
             <center>
-              {/* eslint-disable-next-line max-len */}
-              <Button onClick={() => this.actualizarStore()} variant="primary" type="button">
-                Actualizar datos
+              <Button
+                onClick={() => this.updateStore()}
+                variant="primary"
+                type="button"
+              >
+                Actualizar descripción
               </Button>
             </center>
           </Stack>
@@ -192,24 +287,39 @@ class StoreSettings extends Component {
             >Métodos de pago</Button>
           </Stack>
           <Collapse in={this.state.inventoryOpen}>
-            <div id="inventoryCollapse">
-              <center>Aquí van las opciones para el
-              manejar el inventario de la tienda</center>
+            <div id="inventoryCollapse" className="mb-5">
+              <center>
+                <Stack gap={2}>
+                  {this.renderProducts()}
+                </Stack>
+              </center>
             </div>
           </Collapse>
           <Collapse in={this.state.deliveryOpen}>
-            <div id="deliveryCollapse">
+            <div id="deliveryCollapse" className="mb-5">
               <center>Aquí van las opciones para el
-              manejar los métodos de entrega de la tienda</center>
+                manejar los métodos de entrega de la tienda</center>
             </div>
           </Collapse>
           <Collapse in={this.state.paymentOpen}>
             <div id="paymentCollapse">
-              <center>Aquí van las opciones para el
-              manejar los métodos de pago de la tienda</center>
+              <center>
+                <Stack gap={2} className="col-md-10">
+                  {this.renderPaymentMethods()}
+                </Stack>
+                <Button
+                  variant="link"
+                  onClick={() => this.setState({showPaymentMethodsModal: true})}
+                >Agregar nuevo método de pago</Button>
+              </center>
             </div>
           </Collapse>
         </Card>
+        <PaymentMethodForm
+          id_store={UserProfile.getIdStore()}
+          show={this.state.showPaymentMethodsModal}
+          onHide={() => this.setState({showPaymentMethodsModal: false})}
+        />
       </div>
     );
   }

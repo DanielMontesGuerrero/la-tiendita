@@ -22,7 +22,7 @@ exports.uploadImage = (buffer, callback) => {
 				message: `Error insertando imagen: ${error}`,
 				error: error,
 			});
-			return call(error, null);
+			return callback(error, null);
 		}
 		if (response.body.success) {
 			logger.info({

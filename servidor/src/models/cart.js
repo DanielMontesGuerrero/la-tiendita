@@ -4,8 +4,6 @@ const rejson = require('redis-rejson');
 const connection = require('../db/database.js');
 const dbSchema = require('../db/schema.js');
 
-//rejson(redis);
-
 /**
  * Clase que interactua con el servidor redis para manejar los productos en
  * el carrito de compras de los usuarios
@@ -18,6 +16,7 @@ class Cart {
 	 * @param {func} callback - función de callback
 	 */
 	static update(id, cart, callback) {
+		rejson(redis);
 		const client = redis.createClient();
 		client.json_del(id, (err) => {
 			if (err) {
@@ -47,6 +46,7 @@ class Cart {
 	 * @param {func} callback - función de callback
 	 */
 	static get(id, callback) {
+		rejson(redis);
 		const client = redis.createClient();
 		client.json_get(id, (err, res) => {
 			if (err) {
