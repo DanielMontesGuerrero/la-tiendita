@@ -14,8 +14,9 @@ class RegisterForm extends Component {
     this.state = {
       email: '',
       password: '',
-      id_institution: '',
+      id_institution: null,
       name: '',
+      institutions: [],
     };
   }
 
@@ -25,6 +26,7 @@ class RegisterForm extends Component {
       window.location.href = '/';
       console.log(UserProfile.getName());
     }
+    this.getInstititions();
   }
 
   static get propTypes() {
@@ -70,6 +72,30 @@ class RegisterForm extends Component {
         }
       });
     }
+  }
+
+  getInstititions() {
+    const options = {
+      url: `${config.host}/institution/all`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({institutions: res.data.response});
+        if (res.data.response.length > 0) {
+          this.setState({id_institution: res.data.response[0].id_institution});
+        }
+      }
+    });
+  }
+
+  renderInstitutions() {
+    return this.state.institutions.map((item, index) => {
+      return (
+        <option value={item.id_institution} key={index}>{item.name}</option>
+      );
+    });
   }
 
   render() {
@@ -122,16 +148,15 @@ class RegisterForm extends Component {
                   </Form.Group>
 
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="4">
-                      Escuela
-                    </Form.Label>
+                    <Form.Label column sm="4">Institución</Form.Label>
                     <Col>
-                      <Form.Control
-                        value={this.state.id_institution}
+                      <Form.Select
                         onChange={
                           (e) => this.setState({id_institution: e.target.value})
                         }
-                        type="text"/>
+                      >
+                        {this.renderInstitutions()}
+                      </Form.Select>
                     </Col>
                   </Form.Group>
 
