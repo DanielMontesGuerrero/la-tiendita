@@ -82,7 +82,10 @@ class Institution {
 	 */
 	static getById(id, callback) {
 		connection.get_connection((qb) => {
-			qb.select('*').where({id_institution: id});
+			qb.select('*');
+			if (id !== 'all') {
+				where({id_institution: id});
+			}
 			qb.get(institutionsTable, (err, res) => {
 				qb.release();
 				if (err) {

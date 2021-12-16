@@ -16,6 +16,7 @@ import axios from 'axios';
 import ProductBanner from '../product/ProductBanner.js';
 import PaymentMethodForm from './PaymentMethodForm.js';
 import ProductForm from './ProductForm.js';
+import DeliveryPointForm from './DeliveryPointForm.js';
 
 class StoreSettings extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class StoreSettings extends Component {
       store: {},
       products: [],
       paymentMethods: [],
+      deliveryPoints: [],
     };
   }
 
@@ -60,6 +62,7 @@ class StoreSettings extends Component {
     });
     this.getProductsInStore();
     this.getPaymentMethods();
+    this.getDeliveryPoints();
   }
 
   updateStore() {
@@ -103,6 +106,19 @@ class StoreSettings extends Component {
       console.log(res.data);
       if (res.data.result) {
         this.setState({paymentMethods: res.data.response});
+      }
+    });
+  }
+
+  getDeliveryPoints() {
+    const options = {
+      url: `${config.host}/store/delivery/${UserProfile.getIdStore()}`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({deliveryPoints: res.data.response});
       }
     });
   }
@@ -176,6 +192,62 @@ class StoreSettings extends Component {
             className="mt-1"
             variant="outline-dark"
             onClick={() => this.updatePaymentMethod(index)}
+          >Actualizar método</Button>
+        </Form.Group>
+      );
+    });
+  }
+
+  changeDeliveryDescription(index, description) {
+    this.setState((prevState) => {
+      const deliveryPoints = JSON.parse(
+          JSON.stringify(prevState.deliveryPoints),
+      );
+      deliveryPoints[index].description = description;
+      return {deliveryPoints: deliveryPoints};
+    });
+  }
+
+  updateDeliveryPoint(index) {
+    const item = this.state.deliveryPoints[index];
+    const options = {
+      url: `${config.host}/store/delivery/${item.id_delivery}`,
+      method: 'patch',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      data: {
+        description: item.description,
+      },
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        alert('Punto de entrega actualizado');
+      }
+    }).catch((err) => {
+      console.log('Error:', err);
+    });
+  }
+
+  renderDeliveryPoints() {
+    return this.state.deliveryPoints.map((item, index) => {
+      return (
+        <Form.Group className="mb-3" key={index}>
+          <Form.Label>
+            Punto de entrega #{index + 1} en <b>{item.name}</b>
+          </Form.Label>
+          <Form.Control
+            placeholder="Descripción"
+            defaultValue={item.description}
+            onChange={
+              (e) => this.changeDeliveryDescription(index, e.target.value)
+            }
+          />
+          <Button
+            className="mt-1"
+            variant="outline-dark"
+            onClick={() => this.updateDeliveryPoint(index)}
           >Actualizar método</Button>
         </Form.Group>
       );
@@ -305,8 +377,13 @@ class StoreSettings extends Component {
           <Collapse in={this.state.deliveryOpen}>
             <div id="deliveryCollapse" className="mb-5">
               <center>
-                Aquí van las opciones para el
-                manejar los métodos de entrega de la tienda
+                <Stack gap={2} className="col-md-10">
+                  {this.renderDeliveryPoints()}
+                </Stack>
+                <Button
+                  variant="link"
+                  onClick={() => this.setState({showDeliveryPointsModal: true})}
+                >Agregar nuevo punto de entrega</Button>
               </center>
             </div>
           </Collapse>
@@ -333,6 +410,11 @@ class StoreSettings extends Component {
           id_store={UserProfile.getIdStore()}
           show={this.state.showProductsModal}
           onHide={() => this.setState({showProductsModal: false})}
+        />
+        <DeliveryPointForm
+          id_store={UserProfile.getIdStore()}
+          show={this.state.showDeliveryPointsModal}
+          onHide={() => this.setState({showDeliveryPointsModal: false})}
         />
       </div>
     );
