@@ -8,9 +8,12 @@ services:
   #   docker run -d -p 6379:6379 redislabs/rejson
   redis:
     image: redislabs/rejson
+    container_name: cache
     restart: always
-    ports:
-      - "6379:6379"
+    # ports:
+    #   - "6379:6379"
+    expose:
+      - 6379
   db:
     build: ./db/
     restart: always
@@ -31,6 +34,7 @@ services:
     restart: always
     environment:
       - DATABASE_HOST=db
+      - REDIS_URL=redis://cache
     ports:
       - "8080:8080"
     depends_on:

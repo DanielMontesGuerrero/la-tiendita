@@ -17,7 +17,7 @@ class Cart {
 	 */
 	static update(id, cart, callback) {
 		rejson(redis);
-		const client = redis.createClient();
+		const client = redis.createClient(process.env.REDIS_URL);
 		client.json_del(id, (err) => {
 			if (err) {
 				logger.error({
@@ -47,7 +47,7 @@ class Cart {
 	 */
 	static get(id, callback) {
 		rejson(redis);
-		const client = redis.createClient();
+		const client = redis.createClient(process.env.REDIS_URL);
 		client.json_get(id, (err, res) => {
 			if (err) {
 				logger.error({
