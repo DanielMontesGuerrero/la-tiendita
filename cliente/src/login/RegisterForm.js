@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import UserProfile from '../common/UserProfile';
 import config from '../common/config';
 import axios from 'axios';
+import InstitutionForm from '../common/InstitutionForm.js';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class RegisterForm extends Component {
       id_institution: null,
       name: '',
       institutions: [],
+      institutionModalShow: false,
     };
   }
 
@@ -159,24 +161,37 @@ class RegisterForm extends Component {
                       </Form.Select>
                     </Col>
                   </Form.Group>
-
                   <center>
                     <Button
                       onClick={() => this.registerUser()}
                       variant="primary"
-                      type="button">
+                      type="submit">
                       Registrarse
                     </Button>
-                    <Form.Text>¿Ya tienes cuenta?{' '}
-                      <button className="button-link"
-                        onClick={this.props.toggleAction}>Ingresar</button>
-                    </Form.Text>
                   </center>
                 </Form>
+
+                <center className="mt-1">
+                  <Form.Text>¿Ya tienes cuenta?{' '}
+                    <button type="button" className="button-link"
+                      onClick={this.props.toggleAction}>Ingresar</button>
+                  </Form.Text>
+                  <Form.Text>¿No encuentras tu Institución?{' '}
+                    <button className="button-link"
+                      onClick={
+                        () => this.setState({institutionModalShow: true})
+                      }>
+                      Registrar Institución</button>
+                  </Form.Text>
+                </center>
               </Card.Body>
             </Card>
           </Col>
         </Row>
+        <InstitutionForm
+          show={this.state.institutionModalShow}
+          onHide={() => this.setState({institutionModalShow: false})}
+        />
       </Container>
     );
   }

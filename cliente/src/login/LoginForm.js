@@ -111,7 +111,7 @@ class LoginForm extends Component {
                     <Button
                       onClick={() => this.loginSession()}
                       variant="primary"
-                      type="button"
+                      type="submit"
                     >
                       Ingresar
                     </Button>
