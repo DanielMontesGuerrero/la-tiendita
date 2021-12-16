@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import React from 'react';
-import {Container, Row, Col, Card, Form, Button} from 'react-bootstrap';
+import {Container, Row, Col, Card, Form, Button, Alert} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import './Login.css';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      formError: '',
       email: '',
       password: '',
       id_institution: null,
@@ -46,7 +47,8 @@ class RegisterForm extends Component {
       !(this.state.name.length>0) ||
       !(this.state.email.length>0) ||
       !(this.state.password.length>0)) {
-      alert('Datos incompletos');
+      // alert('Datos incompletos');
+      this.setState({formError: 'Hay datos incompletos'});
     } else {
       const options = {
         url: `${config.host}/user`,
@@ -66,12 +68,8 @@ class RegisterForm extends Component {
           window.location.href = '/login';
         }
       }).catch((error)=>{
-        if (error.response) {
-          alert(error.response.data.description);
-        } else {
-          console.log(error.response.data); // => the response payload
-          alert('Hay un error favor de intentarlo mas tarde');
-        }
+        // alert(error.response.data.description);
+        this.setState({formError: error.response.data.description});
       });
     }
   }
@@ -110,7 +108,12 @@ class RegisterForm extends Component {
                 <FontAwesomeIcon icon="user" size="10x"/>
               </center>
               <Card.Body>
-                <Form>
+                {
+                  this.state.formError !== '' ?
+                    <Alert variant="danger">{this.state.formError}</Alert> :
+                    <></>
+                }
+                <Form onSubmit={(e) => e.preventDefault()}>
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm="4">
                       Nombre

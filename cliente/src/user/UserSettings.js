@@ -184,6 +184,7 @@ class UserSettings extends Component {
                   </Form.Label>
                   <Col sm="8">
                     <Form.Control
+                      readOnly
                       plaintext
                       defaultValue="No user name"
                       value={this.state.user.name}
@@ -213,6 +214,7 @@ class UserSettings extends Component {
                   </Form.Label>
                   <Col sm="8">
                     <Form.Control
+                      readOnly
                       plaintext
                       value={this.state.user.email}
                       onChange={
@@ -263,13 +265,18 @@ class UserSettings extends Component {
             </Col>
           </Row>
           <Stack gap={2} className="col-md-5 mx-auto mb-3">
-            <Button
-              onClick={() => this.actualizarUser()}
-              variant="primary"
-              type="button"
-            >
-              Actualizar datos
-            </Button>
+            {
+              // Desactivando botón temporalmente para evitar errores
+              false ?
+              <Button
+                onClick={() => this.actualizarUser()}
+                variant="primary"
+                type="button"
+              >
+                Actualizar datos
+              </Button> :
+                <></>
+            }
             <Button
               variant="primary"
               onClick={() => this.setModalShow(true)}

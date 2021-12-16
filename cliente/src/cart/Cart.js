@@ -106,8 +106,13 @@ class Cart extends Component {
         };
         axios(optionsUpdateCart).then((res) => {
           console.log('Carrito actualizado');
+          window.location.href = '/cart';
         });
+      } else {
+        alert('No se pudo confirmar la compra');
       }
+    }).catch((err) => {
+      alert('No se pudo confirmar la compra');
     });
   }
 

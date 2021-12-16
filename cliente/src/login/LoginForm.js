@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import React from 'react';
-import {Container, Card, Button, Row, Col, Form} from 'react-bootstrap';
+import {Container, Card, Button, Row, Col, Form, Alert} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import './Login.css';
 import PropTypes from 'prop-types';
@@ -24,6 +24,7 @@ class LoginForm extends Component {
         name: '',
         userType: '',
       },
+      formError: '',
     };
   }
 
@@ -73,7 +74,7 @@ class LoginForm extends Component {
         Object.freeze(UserProfile);
         window.location.href = '/';
       } else {
-        alert('El usuario o contraseña son erroneos');
+        this.setState({formError: 'El usuario o contraseña son erroneos'});
       }
     });
   }
@@ -88,7 +89,12 @@ class LoginForm extends Component {
                 <FontAwesomeIcon icon="user" size="10x"/>
               </center>
               <Card.Body>
-                <Form>
+                {
+                  this.state.formError !== '' ?
+                    <Alert variant="danger">{this.state.formError}</Alert> :
+                    <></>
+                }
+                <Form onSubmit={(e) => e.preventDefault()}>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Control
                       type="email"

@@ -53,7 +53,7 @@ class StoreSettings extends Component {
     };
     axios(options).then((res) => {
       console.log(res.data);
-      if (res.data.result) {
+      if (res.data.result && res.data.response.length > 0) {
         this.setState({
           store: res.data.response[0],
           description: res.data.response[0].description},

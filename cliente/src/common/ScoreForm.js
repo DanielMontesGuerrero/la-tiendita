@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Modal, Button, FloatingLabel} from 'react-bootstrap';
+import {Form, Modal, Button, FloatingLabel, Alert} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import UserProfile from '../common/UserProfile.js';
 import config from '../common/config.js';
@@ -8,8 +8,11 @@ import axios from 'axios';
 class ScoreForm extends Component {
   constructor(props) {
     super(props);
-    this.score = 0;
+    this.score = 5;
     this.description = '';
+    this.state = {
+      formError: '',
+    };
   }
 
   static get propTypes() {
@@ -37,9 +40,13 @@ class ScoreForm extends Component {
     if (!isValidScore(this.score) ||
       !(this.props.scoreType === 'product' ||
         this.props.scoreType === 'store')) {
-      alert('La calificación debe estar en el rango [0,5]');
+      this.setState({
+        formError: 'La calificación debe estar en el rango [0,5]'},
+      );
     } else if (UserProfile.getIdUser() === null) {
-      alert('Necesitas iniciar sesión');
+      this.setState({
+        formError: 'Necesitas iniciar sesión'},
+      );
     } else {
       const id = this.props.scoreType === 'store' ?
         this.props.id_store : this.props.id_product;
@@ -59,7 +66,7 @@ class ScoreForm extends Component {
         console.log(res);
         if (res.data.response) {
           alert('Calificación enviada');
-          this.props.onHide();
+          window.location.href = `/${this.props.scoreType}s`;
         }
       });
     }
@@ -79,6 +86,11 @@ class ScoreForm extends Component {
             un servicio de calidad
           </p>
           <p>Ingresa tu reseña de: <b>{this.props.name}</b></p>
+          {
+            this.state.formError !== '' ?
+              <Alert variant="danger">{this.state.formError}</Alert> :
+              <></>
+          }
           <FloatingLabel
             controlId="score"
             label="Calificación"
@@ -86,6 +98,7 @@ class ScoreForm extends Component {
           >
             <Form.Control
               type="number"
+              defaultValue="5"
               onChange={(evt) => this.score = evt.target.value}
             />
           </FloatingLabel>
