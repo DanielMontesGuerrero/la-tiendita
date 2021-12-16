@@ -523,7 +523,6 @@ class Store {
 	 * @param {func} callback - Función de callback
 	 */
 	static updateProductInStore(id, data, callback) {
-		id = data.id_product;
 		connection.get_connection((qb) => {
 			qb.where({'id_store': id, 'id_product': data.id_product})
 				.update(
