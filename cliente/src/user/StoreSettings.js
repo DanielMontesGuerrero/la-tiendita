@@ -15,6 +15,7 @@ import config from '../common/config';
 import axios from 'axios';
 import ProductBanner from '../product/ProductBanner.js';
 import PaymentMethodForm from './PaymentMethodForm.js';
+import ProductForm from './ProductForm.js';
 
 class StoreSettings extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class StoreSettings extends Component {
       name: '',
       id_user: UserProfile.getIdUser(),
       showPaymentMethodsModal: false,
+      showProductsModal: false,
       description: '',
       store: {},
       products: [],
@@ -171,6 +173,7 @@ class StoreSettings extends Component {
             }
           />
           <Button
+            className="mt-1"
             variant="outline-dark"
             onClick={() => this.updatePaymentMethod(index)}
           >Actualizar método</Button>
@@ -292,13 +295,19 @@ class StoreSettings extends Component {
                 <Stack gap={2}>
                   {this.renderProducts()}
                 </Stack>
+                <Button
+                  variant="link"
+                  onClick={() => this.setState({showProductsModal: true})}
+                >Agregar nuevo producto</Button>
               </center>
             </div>
           </Collapse>
           <Collapse in={this.state.deliveryOpen}>
             <div id="deliveryCollapse" className="mb-5">
-              <center>Aquí van las opciones para el
-                manejar los métodos de entrega de la tienda</center>
+              <center>
+                Aquí van las opciones para el
+                manejar los métodos de entrega de la tienda
+              </center>
             </div>
           </Collapse>
           <Collapse in={this.state.paymentOpen}>
@@ -319,6 +328,11 @@ class StoreSettings extends Component {
           id_store={UserProfile.getIdStore()}
           show={this.state.showPaymentMethodsModal}
           onHide={() => this.setState({showPaymentMethodsModal: false})}
+        />
+        <ProductForm
+          id_store={UserProfile.getIdStore()}
+          show={this.state.showProductsModal}
+          onHide={() => this.setState({showProductsModal: false})}
         />
       </div>
     );
