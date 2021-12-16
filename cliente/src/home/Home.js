@@ -97,6 +97,7 @@ class Home extends Component {
       return (
         <StoreCard
           itemId={index}
+          id_store={item.id_store}
           name={item.name}
           description={item.description}
           score={item.score}
