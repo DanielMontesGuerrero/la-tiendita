@@ -57,7 +57,7 @@ class DeliveryPointForm extends Component {
 
   getInstititions() {
     const options = {
-      url: `${config.host}/institution/all`,
+      url: `${config.host}/institution/get/all`,
       method: 'get',
     };
     axios(options).then((res) => {
