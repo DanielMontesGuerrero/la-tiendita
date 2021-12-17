@@ -46,18 +46,6 @@ class UserSettings extends Component {
     this.setState({modalShow: modalShow});
   }
 
-  getBadge() {
-    let color = 'secondary';
-    if (this.state.user.userType === UserTypes.vendor) {
-      color = 'success';
-    } else if (this.state.user.userType === UserTypes.admin) {
-      color = 'danger';
-    }
-    return (
-      <Badge bg={color} className="mt-3">{this.state.user.userType}</Badge>
-    );
-  }
-  
   getInstititions() {
     const options = {
       url: `${config.host}/institution/all`,
@@ -118,11 +106,11 @@ class UserSettings extends Component {
   }
 
   actualizarUser() {
-    if (this.state.user.email=== UserProfile.getEmail() &&
-        this.state.user.id_institution=== UserProfile.getIdInstitution() &&
-        this.state.user.institutionName=== UserProfile.getInstitutionName()&&
-        this.state.user.name=== UserProfile.getName()&&
-        this.state.user.userType=== UserProfile.getUserType()) {
+    if (this.state.user.email === UserProfile.getEmail() &&
+        this.state.user.id_institution === UserProfile.getIdInstitution() &&
+        this.state.user.institutionName === UserProfile.getInstitutionName() &&
+        this.state.user.name === UserProfile.getName() &&
+        this.state.user.userType === UserProfile.getUserType()) {
       alert('No has cambiado nada');
     } else {
       const options = {
@@ -258,18 +246,13 @@ class UserSettings extends Component {
             </Col>
           </Row>
           <Stack gap={2} className="col-md-5 mx-auto mb-3">
-            {
-              // Desactivando botón temporalmente para evitar errores
-              false ?
-              <Button
-                onClick={() => this.actualizarUser()}
-                variant="primary"
-                type="button"
-              >
-                Actualizar datos
-              </Button> :
-                <></>
-            }
+            <Button
+              onClick={() => this.actualizarUser()}
+              variant="primary"
+              type="button"
+            >
+              Actualizar datos
+            </Button>
             <Button
               variant="primary"
               onClick={() => this.setModalShow(true)}
