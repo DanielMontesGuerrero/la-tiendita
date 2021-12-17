@@ -39,7 +39,9 @@ class MarketPlace extends Component {
     };
     axios(options).then((res) => {
       console.log(res.data);
-      this.setState({stores: res.data.response});
+      if (res.data.result) {
+        this.setState({stores: res.data.response});
+      }
     });
   }
 

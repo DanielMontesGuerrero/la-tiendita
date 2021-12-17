@@ -64,11 +64,15 @@ class Home extends Component {
       },
     };
     axios(options).then((res) => {
-      this.setState({products: res.data.response});
+      if (res.data.result) {
+        this.setState({products: res.data.response});
+      }
     });
     options.url = `${config.host}/store/all`;
     axios(options).then((res) => {
-      this.setState({stores: res.data.response});
+      if (res.data.result) {
+        this.setState({stores: res.data.response});
+      }
     });
   }
 

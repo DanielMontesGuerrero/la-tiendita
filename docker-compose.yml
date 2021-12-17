@@ -10,8 +10,6 @@ services:
     image: redislabs/rejson
     container_name: cache
     restart: always
-    # ports:
-    #   - "6379:6379"
     expose:
       - 6379
   db:
@@ -19,27 +17,34 @@ services:
     restart: always
     volumes:
       - data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-  cliente:
-    build: ./cliente/
-    restart: always
-    ports:
-      - "3000:3000"
-    depends_on:
-      - servidor
-      - redis
+    expose:
+      - 3306
   servidor:
     build: ./servidor/
     restart: always
     environment:
       - DATABASE_HOST=db
       - REDIS_URL=redis://cache
-    ports:
-      - "8080:8080"
+      - PORT=8080
+    expose:
+      - 8080
     depends_on:
       - db
-  # misma funcion de phpMyAdmin
+      - redis
+  cliente:
+    build:
+      context: ./cliente/
+      args:
+        - REACT_APP_MODE=PRODUCTION
+    restart: always
+    links:
+      - "servidor:servidor"
+    # expose:
+    #   - 3000
+    ports:
+      - "8080:3000"
+    depends_on:
+      - servidor
   adminer:
     image: adminer
     restart: always

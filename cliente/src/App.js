@@ -7,7 +7,7 @@ import ProductShop from './product/ProductShop.js';
 import MarketPlace from './store/MarketPlace.js';
 import Cart from './cart/Cart.js';
 import PageNotFound from './common/PageNotFound.js';
-import Hemlet from 'react-helmet';
+import {Helmet, HelmetProvider} from 'react-helmet-async';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faUser,
   faStore,
@@ -31,13 +31,12 @@ library.add(faUser,
     faArrowDown,
     faCartPlus);
 
-
 function App() {
   return (
-    <div>
-      <Hemlet>
+    <HelmetProvider>
+      <Helmet>
         <style>{'body { background-color: #fafafa; }'}</style>
-      </Hemlet>
+      </Helmet>
       <Router>
         <Routes>
           <Route path="/" element={<Home/>}/>
@@ -49,7 +48,7 @@ function App() {
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
       </Router>
-    </div>
+    </HelmetProvider>
   );
 }
 

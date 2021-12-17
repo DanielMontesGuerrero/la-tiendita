@@ -38,7 +38,9 @@ class ProductShop extends Component {
       },
     };
     axios(options).then((res) => {
-      this.setState({products: res.data.response});
+      if (res.data.result) {
+        this.setState({products: res.data.response});
+      }
     });
   }
 

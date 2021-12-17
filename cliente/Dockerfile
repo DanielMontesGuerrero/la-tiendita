@@ -11,11 +11,26 @@ FROM node
 
 WORKDIR '/usr/app'
 
+ARG REACT_APP_HOST_SERVER
+ENV REACT_APP_HOST_SERVER $REACT_APP_HOST_SERVER
+
 COPY ./package.json ./
 COPY ./package-lock.json ./
+COPY ./create-env-file.sh ./create-env-file.sh
 
+RUN npm i -g serve
 RUN npm install
+
+ARG REACT_APP_MODE
+
+RUN sh create-env-file.sh REACT_APP_MODE=${REACT_APP_MODE}
 
 COPY ./ ./
 
 CMD ["npm", "run", "start-prod"]
+
+# RUN npm run build
+
+# COPY ./serve.json ./build/serve.json
+
+# CMD ["serve", "-s", "build"]

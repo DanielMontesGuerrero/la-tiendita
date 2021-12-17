@@ -76,7 +76,7 @@ class RegisterForm extends Component {
 
   getInstititions() {
     const options = {
-      url: `${config.host}/institution/all`,
+      url: `${config.host}/institution/get/all`,
       method: 'get',
     };
     axios(options).then((res) => {
@@ -87,6 +87,8 @@ class RegisterForm extends Component {
           this.setState({id_institution: res.data.response[0].id_institution});
         }
       }
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
