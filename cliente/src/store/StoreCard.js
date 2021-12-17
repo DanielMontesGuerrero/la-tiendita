@@ -23,8 +23,6 @@ class StoreCard extends Component {
     };
   }
   async componentDidMount() {
-    console.log(this.props.id_store);
-    console.log(this.props.name);
     const options = {
       url: `${config.host}/store/productInStore/${this.props.id_store}`,
       method: 'get',
