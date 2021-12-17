@@ -29,6 +29,8 @@ class Store {
 		this.image = store.image;
 		this.score = store.score;
 		this.ownerName = store.ownerName;
+		this.ownerImage = store.ownerImage;
+		this.userType = store.userType;
 	}
 
 	/**
@@ -99,10 +101,12 @@ class Store {
 				`${storesTable}.id_user`,
 				`${storesTable}.image`,
 				`users.name as ownerName`,
+				'users.image as ownerImage',
+				'users.userType',
 				request.includeScore ? `scores.score` : '',
 			];
 			const usersTmpTable = `(
-				SELECT name, id_user
+				SELECT name, id_user, image, userType
 				FROM ${usersTable}
 			) users`;
 			qb.select(selectList)

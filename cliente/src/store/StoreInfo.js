@@ -6,6 +6,8 @@ import {
   Collapse,
   ButtonGroup,
   ListGroup,
+  Row,
+  Col,
   ToggleButton} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Score from '../common/Score.js';
@@ -16,6 +18,8 @@ import ScoreBanner from '../common/ScoreBanner.js';
 import config from '../common/config.js';
 import axios from 'axios';
 import ScoreForm from '../common/ScoreForm.js';
+import UserIcon from '../common/UserIcon.js';
+import StoreIconBig from '../common/StoreIconBig.js';
 
 class StoreInfo extends Component {
   constructor(props) {
@@ -70,6 +74,9 @@ class StoreInfo extends Component {
       name: PropTypes.string,
       score: PropTypes.number,
       description: PropTypes.string,
+      image: PropTypes.string,
+      userType: PropTypes.string,
+      ownerImage: PropTypes.string,
     };
   }
 
@@ -168,6 +175,22 @@ class StoreInfo extends Component {
           <Score score={this.props.score}/>
         </Modal.Header>
         <Modal.Body>
+          <Row className="justify-content-center px-4 mb-3">
+            <Col md="auto">
+              <UserIcon
+                name={this.props.ownerName}
+                userType={this.props.userType}
+                image={this.props.ownerImage}
+              />
+            </Col>
+            <Col md="auto">
+              <StoreIconBig
+                image={this.props.image}
+                name={this.props.name}
+                score={this.props.score}
+              />
+            </Col>
+          </Row>
           <p>Dueño de la tienda: {this.props.ownerName}</p>
           <p>{this.props.description}</p>
           <p>Productos disponibles: </p>

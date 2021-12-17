@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Stack, Card, Container, Col, Row, Button} from 'react-bootstrap';
+import {Stack, Card, Container, Col, Row, Button, Image} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import Score from '../common/Score.js';
@@ -25,6 +25,9 @@ class ProductBanner extends Component {
       name: PropTypes.string,
       score: PropTypes.number,
       description: PropTypes.string,
+      image: PropTypes.string,
+      ownerImage: PropTypes.string,
+      userType: PropTypes.userType,
     };
   }
 
@@ -49,7 +52,13 @@ class ProductBanner extends Component {
           <Row className="align-items-center pt-2">
             <Col md={2}>
               <center>
-                <FontAwesomeIcon icon="store" size="5x"/>
+                {
+                  this.props.image !== null && this.props.image !== undefined ?
+                    <Image src={this.props.image} style={{maxWidth: 100}}
+                      rounded
+                    /> :
+                    <FontAwesomeIcon icon="store" size="5x"/>
+                }
               </center>
             </Col>
             <Col className="mx-3 mt-2">
@@ -84,6 +93,9 @@ class ProductBanner extends Component {
           name={this.props.name}
           description={this.props.description}
           score={this.props.score}
+          ownerImage={this.props.ownerImage}
+          userType={this.props.userType}
+          image={this.props.image}
           onHide={() => this.setModalShow(false)}
         />
       </Container>

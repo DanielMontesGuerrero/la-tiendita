@@ -4,22 +4,15 @@ import {
   Col,
   Form,
   Card,
-  Badge,
   Stack,
   Button,
   Accordion} from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import RequestForm from './RequestForm.js';
 import Order from './Order.js';
 import config from '../common/config';
 import axios from 'axios';
 import UserProfile from '../common/UserProfile';
-
-const UserTypes = {
-  user: 'usuario',
-  vendor: 'vendedor',
-  admin: 'admin',
-};
+import UserIcon from '../common/UserIcon.js';
 
 class UserSettings extends Component {
   constructor(props) {
@@ -64,6 +57,7 @@ class UserSettings extends Component {
       <Badge bg={color} className="mt-3">{this.state.user.userType}</Badge>
     );
   }
+  
   getInstititions() {
     const options = {
       url: `${config.host}/institution/all`,
@@ -165,12 +159,11 @@ class UserSettings extends Component {
         <Card className="pt-3 mb-2">
           <Row className="justify-content-center px-4 mb-3">
             <Col md="auto">
-              <Stack>
-                <center>
-                  <FontAwesomeIcon icon="user" size="10x"/>
-                </center>
-                {this.getBadge()}
-              </Stack>
+              <UserIcon
+                userType={this.state.user.userType}
+                image={this.state.user.image}
+                name={this.state.user.name}
+              />
             </Col>
             <Col md="auto">
               <Form>

@@ -53,6 +53,11 @@ class User {
 	* @return {void} void
 	*/
 	static create(data, callback) {
+		if (data.userType === null ||
+			data.userType === undefined ||
+			data.userType === '') {
+			data.userType = 'usuario';
+		}
 		try {
 			this.isValid(data);
 		} catch (err) {

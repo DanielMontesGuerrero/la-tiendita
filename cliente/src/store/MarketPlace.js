@@ -73,6 +73,9 @@ class MarketPlace extends Component {
         ownerName={item.ownerName}
         description={item.description}
         score={item.score}
+        image={item.image}
+        ownerImage={item.ownerImage}
+        userType={item.userType}
         key={index}/>);
     });
   }

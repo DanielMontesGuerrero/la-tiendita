@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import React from 'react';
-import {Navbar, Container, Nav} from 'react-bootstrap';
+import {Navbar, Container, Nav, Image} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import UserProfile from './UserProfile';
 
@@ -12,7 +12,16 @@ class NavigationBar extends Component {
           <FontAwesomeIcon icon="cart-plus" size="lg"/>
         </Nav.Link>
         <Nav.Link href="/user">
-          <FontAwesomeIcon icon="user" size="lg"/>{' '}Perfil
+          {
+            UserProfile.getImage() !== null ?
+              <Image
+                src={UserProfile.getImage()}
+                roundedCircle
+                style={{maxWidth: 30, maxHeight: 30}}
+              /> :
+            <FontAwesomeIcon icon="user" size="lg"/>
+          }
+          {' '}Perfil
         </Nav.Link>
       </>
     );

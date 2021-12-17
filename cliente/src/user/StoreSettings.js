@@ -6,10 +6,7 @@ import {
   Card,
   Stack,
   Button,
-  Collapse,
-  Badge} from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import Score from '../common/Score.js';
+  Collapse} from 'react-bootstrap';
 import UserProfile from '../common/UserProfile';
 import config from '../common/config';
 import axios from 'axios';
@@ -17,6 +14,7 @@ import ProductBanner from '../product/ProductBanner.js';
 import PaymentMethodForm from './PaymentMethodForm.js';
 import ProductForm from './ProductForm.js';
 import DeliveryPointForm from './DeliveryPointForm.js';
+import StoreIconBig from '../common/StoreIconBig.js';
 
 class StoreSettings extends Component {
   constructor(props) {
@@ -260,16 +258,11 @@ class StoreSettings extends Component {
         <Card className="pt-3">
           <Row className="justify-content-center px-4">
             <Col md="auto">
-              <Stack gap={2}>
-                <Badge
-                  bg="dark">
-                  {this.state.store.name}
-                </Badge>
-                <center>
-                  <FontAwesomeIcon icon="store" size="10x"/>
-                </center>
-                <Score score={this.state.store.score}/>
-              </Stack>
+              <StoreIconBig
+                name={this.state.store.name}
+                score={this.state.store.score}
+                image={this.state.store.image}
+              />
             </Col>
             <Col md="auto">
               <Form>
