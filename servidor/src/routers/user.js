@@ -2,6 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const logger = require('../common/logger.js');
 const User = require('../controllers/user.js');
+const config = require('../common/config.js');
+
 const router = new express.Router();
 
 router.post('/user/image/:id',
@@ -9,47 +11,14 @@ router.post('/user/image/:id',
 	User.uploadImage,
 );
 
-router.post('/user/request', (req, res) => {
-	const data = req.body;
-	logger.info({
-		message: `Creando petición para usuario con id: ${data.id_usuario}`,
-		data: data,
-	});
-	res.send({
-		result: true,
-	});
-});
+router.post('/user/request/:id',
+	multer({dest : 'uploads/'}).single('file'),
+	User.createRequest
+)
 
-router.get('/user/request', (req, res) => {
-	const data = req.body;
-	logger.info({
-		message: 'Obteniendo las peticiones',
-		data: data,
-	});
-	res.send({
-		result: true,
-		data: {
-			peticiones: [
-				{
-					id_peticion: 1,
-					id_usuario: 2,
-					estado: 'pendiente',
-				},
-			],
-		},
-	});
-});
+router.get('/user/request/:id', User.getRequest);
 
-router.patch('/user/request/:id', (req, res) => {
-	const data = req.body;
-	logger.info({
-		message: `Modificando petición con id: ${req.params.id}`,
-		data: data,
-	});
-	res.send({
-		result: true,
-	});
-});
+router.patch('/user/request/:id', User.updateRequest);
 
 router.post('/user/login', User.login);
 

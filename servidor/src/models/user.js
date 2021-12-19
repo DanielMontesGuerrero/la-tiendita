@@ -2,10 +2,30 @@ const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
 const validator = require('validator');
 const crypto = require('crypto');
+const { Readable } = require('stream');
+
+const dropboxV2Api = require('dropbox-v2-api');
+const dropbox = dropboxV2Api.authenticate({
+	token : 'NAFId7B39IMAAAAAAAAAAbQn5P5n6qpvgliJGN5JSVqkmTXMhVYxyVnkMTU_LuQO'
+});
 
 const usersTable = 'usuarios';
 const storesTable = 'tiendas';
 const institutionsTable = 'instituciones';
+const requestsTable = 'peticiones';
+
+function stringToStream(text) {
+	const stream = Readable.from(text);	
+	return stream;
+}
+function streamToString (stream) {
+	const chunks = [];
+	return new Promise((resolve, reject) => {
+		stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+		stream.on('error', (err) => reject(err));
+		stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+	})
+}
 
 /**
  * Clase que interactua con la base de datos para peticiones relacionadas con
@@ -207,6 +227,86 @@ class User {
 				});
 		});
 	}
+	/**
+	 * Crea una nueva peticion dentro de la base de datos
+	 * @param {string} data - Información acerca de la petición
+	 * @param {function} callback - función de callback
+	 */
+	static createRequest(data, callback) {
+		connection.get_connection((qb) => {
+			qb.insert(
+				requestsTable,
+				data,
+				(err, res) => {
+					qb.release();
+					if (err) {
+						logger.error({
+							message: `Error al insertar la peticion: ${err.sqlMessage}`,
+							error: err,
+						});
+						return callback(err, null);
+					}
+					logger.info({
+						message: `Peticion insertada con id: ${res.insert_id} en la DB`,
+						result: res,
+					});
+					callback(null, res);
+				});
+		});
+	};
+
+	/**
+	 * Actualiza la información de una petición dentro de la base de datos
+	 * @param {int} id - id de la petición que será modificada
+	 * @param {string} data - Información acerca de la petición
+	 * @param {function} callback - función de callback
+	 */
+	static updateRequest(id, data, callback) {
+		connection.get_connection((qb) => {
+			qb.where('id_petition', id)
+				.update(
+					requestsTable,
+					data,
+					(err,res) => {
+						if(err) {
+							logger.error({
+								message : `Error al actualizar los datos de la peticion ${id} dentro de la BD`,
+								error : err,
+							});
+						}
+						logger.info({
+							message : `Datos de la petición ${id} actualizados correctamente dentro de la BD`,
+							result : res,
+						});
+						callback(null, res);
+					}
+				);
+		});
+	};
+	/**
+	 * Devuelve la información de la petición solicitada
+	 * @param {int} id - id de la petición de la que obtendremos información 
+	 * @param {function} callback - función de callback
+	 */
+	static getRequest(id, callback) {
+		connection.get_connection((qb) => {
+			qb.select('*').where('id_petition', id);
+			qb.get(requestsTable, (err, res) => {
+				qb.release();
+				if(err) {
+					logger.error({
+						message :  `Error al obtener la peticion con id ${id}`,
+						error : err,
+					}); 
+				}
+				logger.info({
+					message : `Se obtuvo la información de la petición con id ${id} correctamente`,
+					result : res,
+				});
+				callback(null,res[0]);
+			});
+		});
+	};
 }
 
 module.exports = User;

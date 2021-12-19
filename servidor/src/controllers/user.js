@@ -1,6 +1,7 @@
 const User = require('../models/user.js');
 const logger = require('../common/logger.js');
 const utils = require('../common/utils.js');
+const { response } = require('express');
 
 const insertUserToDB = (user, res) => {
 	User.create(user, (err, result) => {
@@ -170,6 +171,100 @@ exports.login = (req, res) => {
 		res.send({
 			result: true,
 			response: result,
+		});
+	});
+};
+
+exports.createRequest = (req, res) => {
+	if(req.params.id === undefined) {
+		return res.status(400).send({
+			result : false,
+			description : 'Se necesita el id del usuario',
+		})
+	}
+	if(req.file === undefined) {
+		return res.status(400).send({
+			result : false,
+			description : 'Se necesita que la peticion tenga un comprobante',
+		});
+	}
+	utils.uploadFile(req.file, (err, result) => {
+		if(err) {
+			return res.status(400).send({
+				result : false,
+				description : 'Hubo un error al tratar de subir el archivo a dropbox ',
+			});
+		}
+		const newData = {
+			'voucher' : result.id,
+			'id_user' : req.params.id
+		};
+		User.createRequest(newData, (err,result) => {
+			if(err) {
+				return res.status(400).send({
+					result : false,
+					description : err.sqlMessage
+				});
+			}
+			res.send({
+				result : true,
+				response : result,
+			});
+		});
+	});
+	
+};
+
+exports.updateRequest = (req, res) => {
+	const id = req.params.id;
+	const data = req.body;
+	if(id === undefined) {
+		return res.status(400).send({
+			result : false,
+			description : 'Se necesita el id de la petición que se quiere modificar',
+		});
+	}
+	User.updateRequest(id, data, (err, result) => {
+		if(err) {
+			res.status(400).send({
+				result : false,
+				description : err.sqlMessage,
+			});
+		}
+		res.send({
+			result : true,
+			response : result,
+		});
+	});
+};
+
+exports.getRequest = (req, res) => {
+	const id = req.params.id;
+	if(id === undefined) {
+		return res.status(400).send({
+			result : false,
+			description : 'Se necesita el id de la petición para obtener la informacion',
+		});
+	}
+	User.getRequest(id, (err, result) => {
+		if(err) {
+			res.status(400).send({
+				result : false,
+				description : err.sqlMessage,
+			});
+		}
+		utils.getUrlFile(result.voucher, (err, resultU) => {
+			if(err) {
+				res.status(400).send({
+					result : false,
+					description : err,
+				});
+			}
+			resultU.body = JSON.parse(resultU.body);
+			res.send({
+				result : true,
+				response : resultU.body.link,
+			});
 		});
 	});
 };
