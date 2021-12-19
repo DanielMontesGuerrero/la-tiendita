@@ -4,10 +4,6 @@ const rejson = require('redis-rejson');
 const connection = require('../db/database.js');
 const dbSchema = require('../db/schema.js');
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4b5217089a471f4752529c1560008b2327dec639
 /**
  * Clase que interactua con el servidor redis para manejar los productos en
  * el carrito de compras de los usuarios
@@ -21,11 +17,7 @@ class Cart {
 	 */
 	static update(id, cart, callback) {
 		rejson(redis);
-<<<<<<< HEAD
-		const client = redis.createClient();
-=======
 		const client = redis.createClient(process.env.REDIS_URL);
->>>>>>> 4b5217089a471f4752529c1560008b2327dec639
 		client.json_del(id, (err) => {
 			if (err) {
 				logger.error({
@@ -55,11 +47,7 @@ class Cart {
 	 */
 	static get(id, callback) {
 		rejson(redis);
-<<<<<<< HEAD
-		const client = redis.createClient();
-=======
 		const client = redis.createClient(process.env.REDIS_URL);
->>>>>>> 4b5217089a471f4752529c1560008b2327dec639
 		client.json_get(id, (err, res) => {
 			if (err) {
 				logger.error({
