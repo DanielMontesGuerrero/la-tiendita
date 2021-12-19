@@ -11,7 +11,7 @@ router.post('/institution/image/:id',
 
 router.post('/institution', Institution.create);
 
-router.get('/institution/:id', Institution.get);
+router.get('/institution/get/:id', Institution.get);
 
 router.patch('/institution/:id', Institution.update);
 

@@ -4,30 +4,47 @@ version: "3.9"
 volumes:
   data:
 services:
+  # Para correr individualmente:
+  #   docker run -d -p 6379:6379 redislabs/rejson
+  redis:
+    image: redislabs/rejson
+    container_name: cache
+    restart: always
+    expose:
+      - 6379
   db:
     build: ./db/
     restart: always
     volumes:
       - data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-  cliente:
-    build: ./cliente/
-    restart: always
-    ports:
-      - "3000:3000"
-    depends_on:
-      - servidor
+    expose:
+      - 3306
   servidor:
     build: ./servidor/
     restart: always
     environment:
       - DATABASE_HOST=db
-    ports:
-      - "8080:8080"
+      - REDIS_URL=redis://cache
+      - PORT=8080
+    expose:
+      - 8080
     depends_on:
       - db
-  # misma funcion de phpMyAdmin
+      - redis
+  cliente:
+    build:
+      context: ./cliente/
+      args:
+        - REACT_APP_MODE=PRODUCTION
+    restart: always
+    links:
+      - "servidor:servidor"
+    # expose:
+    #   - 3000
+    ports:
+      - "8080:3000"
+    depends_on:
+      - servidor
   adminer:
     image: adminer
     restart: always

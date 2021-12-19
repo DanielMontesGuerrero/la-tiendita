@@ -1,18 +1,29 @@
 import {AESDecrypt, AESEncrypt} from './Crypto-Helper';
 
 class UserProfile {
-  static getKey(key) {
+  static getKeyItem(key) {
     const keys = Object.keys(localStorage);
     const len = keys.length;
     for (let i = 0; i < len; i++) {
       if ( AESDecrypt(keys[i]) === key) {
-        return AESDecrypt(localStorage.getItem(keys[i]));
+        return keys[i];
       }
+    }
+    return null;
+  }
+  static getKey(key) {
+    const keyCript = this.getKeyItem(key);
+    if ( keyCript !== null) {
+      return AESDecrypt(localStorage.getItem(keyCript));
     }
     return null;
   }
 
   static setKey(key, data) {
+    const keyCript = this.getKeyItem(key);
+    if ( keyCript !== null) {
+      localStorage.removeItem(keyCript);
+    }
     localStorage.setItem(AESEncrypt(key), AESEncrypt(data));
   }
 

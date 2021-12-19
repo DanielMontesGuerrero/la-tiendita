@@ -38,6 +38,7 @@ class Order extends Component {
     };
     axios(options).then((res) => {
       console.log(res);
+      window.location.href = '/user';
     });
   }
 

@@ -78,7 +78,7 @@ CREATE TABLE productos_en_tienda (
 	id_store BIGINT(20) NOT NULL,
 	id_product BIGINT(20) NOT NULL,
 	price DECIMAL(10, 2) NOT NULL,
-	quantity SMALLINT(5) NOT NULL,
+	stock SMALLINT(5) NOT NULL,
 	PRIMARY KEY (id_store, id_product)
 );
 CREATE TABLE tiendas (
@@ -95,7 +95,7 @@ CREATE TABLE usuarios (
 	email VARCHAR(30) NOT NULL UNIQUE,
 	`image` VARCHAR(255),
 	id_institution BIGINT(20) NULL,
-	userType ENUM('admin', 'vendendor', 'usuario') NOT NULL DEFAULT 'usuario',
+	userType ENUM('admin', 'venddor', 'usuario') NOT NULL DEFAULT 'usuario',
 	password VARCHAR(256) NOT NULL,
 	PRIMARY KEY (id_user, name)
 );

@@ -4,22 +4,15 @@ import {
   Col,
   Form,
   Card,
-  Badge,
   Stack,
   Button,
   Accordion} from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import RequestForm from './RequestForm.js';
 import Order from './Order.js';
 import config from '../common/config';
 import axios from 'axios';
 import UserProfile from '../common/UserProfile';
-
-const UserTypes = {
-  user: 'usuario',
-  vendor: 'vendedor',
-  admin: 'admin',
-};
+import UserIcon from '../common/UserIcon.js';
 
 class UserSettings extends Component {
   constructor(props) {
@@ -33,15 +26,19 @@ class UserSettings extends Component {
         image: UserProfile.getImage(),
         name: UserProfile.getName(),
         userType: UserProfile.getUserType(),
+        id_institution: UserProfile.getIdInstitution(),
       },
+      institutions: [],
       orders: null,
     };
   }
 
   componentDidMount() {
+    document.title = 'Mi perfil';
     if (!this.state.orders) {
       this.getOrders().then((data) => this.setState({orders: data}))
           .catch((err) => console.log('s'));
+      this.getInstititions();
     }
   }
 
@@ -49,16 +46,28 @@ class UserSettings extends Component {
     this.setState({modalShow: modalShow});
   }
 
-  getBadge() {
-    let color = 'secondary';
-    if (this.state.user.userType === UserTypes.vendor) {
-      color = 'success';
-    } else if (this.state.user.userType === UserTypes.admin) {
-      color = 'danger';
-    }
-    return (
-      <Badge bg={color} className="mt-3">{this.state.user.userType}</Badge>
-    );
+  getInstititions() {
+    const options = {
+      url: `${config.host}/institution/get/all`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({institutions: res.data.response});
+        if (res.data.response.length > 0) {
+          this.setState({id_institution: res.data.response[0].id_institution});
+        }
+      }
+    });
+  }
+
+  renderInstitutions() {
+    return this.state.institutions.map((item, index) => {
+      return (
+        <option value={item.id_institution} key={index}>{item.name}</option>
+      );
+    });
   }
 
   async getOrders() {
@@ -97,10 +106,11 @@ class UserSettings extends Component {
   }
 
   actualizarUser() {
-    if (this.state.user.email=== UserProfile.getEmail() &&
-        this.state.user.institutionName=== UserProfile.getInstitutionName()&&
-        this.state.user.name=== UserProfile.getName()&&
-        this.state.user.userType=== UserProfile.getUserType()) {
+    if (this.state.user.email === UserProfile.getEmail() &&
+        this.state.user.id_institution === UserProfile.getIdInstitution() &&
+        this.state.user.institutionName === UserProfile.getInstitutionName() &&
+        this.state.user.name === UserProfile.getName() &&
+        this.state.user.userType === UserProfile.getUserType()) {
       alert('No has cambiado nada');
     } else {
       const options = {
@@ -112,14 +122,15 @@ class UserSettings extends Component {
         },
       };
       axios(options).then((res) => {
-        console.log(res);
-        localStorage.clear();
         UserProfile.setName(this.state.user.name);
         UserProfile.setEmail(this.state.user.email);
-        UserProfile.setInstitutionName(this.state.user.institutionName);
-        UserProfile.setIdUser(this.state.user.id_user);
+        const newInstitutoName = this.state.institutions.filter(
+            (element, index)=>{
+              return element.id_institution==this.state.user.id_institution;
+            });
+        UserProfile.setIdInstitution(this.state.user.id_institution);
+        UserProfile.setInstitutionName(newInstitutoName[0].name);
         UserProfile.setImage(this.state.user.image);
-        UserProfile.setUserType(this.state.user.userType);
         alert('Datos actualizados');
       });
     }
@@ -136,12 +147,11 @@ class UserSettings extends Component {
         <Card className="pt-3 mb-2">
           <Row className="justify-content-center px-4 mb-3">
             <Col md="auto">
-              <Stack>
-                <center>
-                  <FontAwesomeIcon icon="user" size="10x"/>
-                </center>
-                {this.getBadge()}
-              </Stack>
+              <UserIcon
+                userType={this.state.user.userType}
+                image={this.state.user.image}
+                name={this.state.user.name}
+              />
             </Col>
             <Col md="auto">
               <Form>
@@ -155,6 +165,7 @@ class UserSettings extends Component {
                   </Form.Label>
                   <Col sm="8">
                     <Form.Control
+                      readOnly
                       plaintext
                       defaultValue="No user name"
                       value={this.state.user.name}
@@ -164,6 +175,7 @@ class UserSettings extends Component {
                             name: e.target.value,
                             email: this.state.user.email,
                             institutionName: this.state.user.institutionName,
+                            id_institution: this.state.user.id_institution,
                             id_user: this.state.user.id_user,
                             image: this.state.user.image,
                             userType: this.state.user.userType,
@@ -183,6 +195,7 @@ class UserSettings extends Component {
                   </Form.Label>
                   <Col sm="8">
                     <Form.Control
+                      readOnly
                       plaintext
                       value={this.state.user.email}
                       onChange={
@@ -191,6 +204,7 @@ class UserSettings extends Component {
                             email: e.target.value,
                             name: this.state.user.name,
                             institutionName: this.state.user.institutionName,
+                            id_institution: this.state.user.id_institution,
                             id_user: this.state.user.id_user,
                             image: this.state.user.image,
                             userType: this.state.user.userType,
@@ -209,22 +223,22 @@ class UserSettings extends Component {
                     Institución
                   </Form.Label>
                   <Col sm="8">
-                    <Form.Control
-                      plaintext
-                      value={this.state.user.institutionName}
+                    <Form.Select
+                      value={this.state.user.id_institution}
                       onChange={
-                        (e) => this.setState({
-                          user: {
-                            institutionName: e.target.value,
-                            name: this.state.user.name,
-                            email: this.state.user.email,
-                            id_user: this.state.user.id_user,
-                            image: this.state.user.image,
-                            userType: this.state.user.userType,
-                          },
-                        })
+                        (e) => this.setState({user: {
+                          institutionName: this.state.user.institutionName,
+                          id_institution: e.target.value,
+                          name: this.state.user.name,
+                          email: this.state.user.email,
+                          id_user: this.state.user.id_user,
+                          image: this.state.user.image,
+                          userType: this.state.user.userType,
+                        }})
                       }
-                    />
+                    >
+                      {this.renderInstitutions()}
+                    </Form.Select>
                   </Col>
                 </Form.Group>
 

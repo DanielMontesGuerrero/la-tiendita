@@ -51,6 +51,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Inicio';
     const options = {
       url: `${config.host}/product/all`,
       method: 'get',
@@ -63,11 +64,15 @@ class Home extends Component {
       },
     };
     axios(options).then((res) => {
-      this.setState({products: res.data.response});
+      if (res.data.result) {
+        this.setState({products: res.data.response});
+      }
     });
     options.url = `${config.host}/store/all`;
     axios(options).then((res) => {
-      this.setState({stores: res.data.response});
+      if (res.data.result) {
+        this.setState({stores: res.data.response});
+      }
     });
   }
 
@@ -96,6 +101,7 @@ class Home extends Component {
       return (
         <StoreCard
           itemId={index}
+          id_store={item.id_store}
           name={item.name}
           description={item.description}
           score={item.score}

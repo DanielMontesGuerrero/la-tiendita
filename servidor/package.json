@@ -19,7 +19,11 @@
     "mysql2": "^2.3.3",
     "node-querybuilder": "^2.1.1",
     "postman-request": "^2.88.1-postman.30",
+<<<<<<< HEAD
     "redis": "^4.0.1",
+=======
+    "redis": "^3.1.2",
+>>>>>>> 4b5217089a471f4752529c1560008b2327dec639
     "redis-rejson": "^1.0.0",
     "validator": "^13.7.0",
     "winston": "^3.3.3"

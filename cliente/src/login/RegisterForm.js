@@ -1,29 +1,35 @@
 import {Component} from 'react';
 import React from 'react';
-import {Container, Row, Col, Card, Form, Button} from 'react-bootstrap';
+import {Container, Row, Col, Card, Form, Button, Alert} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import './Login.css';
 import PropTypes from 'prop-types';
 import UserProfile from '../common/UserProfile';
 import config from '../common/config';
 import axios from 'axios';
+import InstitutionForm from '../common/InstitutionForm.js';
 
 class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      formError: '',
       email: '',
       password: '',
-      id_school: '',
+      id_institution: null,
       name: '',
+      institutions: [],
+      institutionModalShow: false,
     };
   }
 
   componentDidMount() {
+    document.title = 'Registrarse';
     if (UserProfile.getName()!==null) {
       window.location.href = '/';
       console.log(UserProfile.getName());
     }
+    this.getInstititions();
   }
 
   static get propTypes() {
@@ -37,11 +43,12 @@ class RegisterForm extends Component {
       (this.state.name===undefined) ||
       (this.state.email===undefined) ||
       (this.state.password===undefined) ||
-      (this.state.id_school===undefined) ||
+      (this.state.id_institution===undefined) ||
       !(this.state.name.length>0) ||
       !(this.state.email.length>0) ||
       !(this.state.password.length>0)) {
-      alert('Datos incompletos');
+      // alert('Datos incompletos');
+      this.setState({formError: 'Hay datos incompletos'});
     } else {
       const options = {
         url: `${config.host}/user`,
@@ -61,14 +68,36 @@ class RegisterForm extends Component {
           window.location.href = '/login';
         }
       }).catch((error)=>{
-        if (error.response) {
-          alert(error.response.data.description);
-        } else {
-          console.log(error.response.data); // => the response payload
-          alert('Hay un error favor de intentarlo mas tarde');
-        }
+        // alert(error.response.data.description);
+        this.setState({formError: error.response.data.description});
       });
     }
+  }
+
+  getInstititions() {
+    const options = {
+      url: `${config.host}/institution/get/all`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res.data);
+      if (res.data.result) {
+        this.setState({institutions: res.data.response});
+        if (res.data.response.length > 0) {
+          this.setState({id_institution: res.data.response[0].id_institution});
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  renderInstitutions() {
+    return this.state.institutions.map((item, index) => {
+      return (
+        <option value={item.id_institution} key={index}>{item.name}</option>
+      );
+    });
   }
 
   render() {
@@ -81,7 +110,12 @@ class RegisterForm extends Component {
                 <FontAwesomeIcon icon="user" size="10x"/>
               </center>
               <Card.Body>
-                <Form>
+                {
+                  this.state.formError !== '' ?
+                    <Alert variant="danger">{this.state.formError}</Alert> :
+                    <></>
+                }
+                <Form onSubmit={(e) => e.preventDefault()}>
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm="4">
                       Nombre
@@ -121,36 +155,48 @@ class RegisterForm extends Component {
                   </Form.Group>
 
                   <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="4">
-                      Escuela
-                    </Form.Label>
+                    <Form.Label column sm="4">Institución</Form.Label>
                     <Col>
-                      <Form.Control
-                        value={this.state.id_school}
+                      <Form.Select
                         onChange={
-                          (e) => this.setState({id_school: e.target.value})
+                          (e) => this.setState({id_institution: e.target.value})
                         }
-                        type="text"/>
+                      >
+                        {this.renderInstitutions()}
+                      </Form.Select>
                     </Col>
                   </Form.Group>
-
                   <center>
                     <Button
                       onClick={() => this.registerUser()}
                       variant="primary"
-                      type="button">
+                      type="submit">
                       Registrarse
                     </Button>
-                    <Form.Text>¿Ya tienes cuenta?{' '}
-                      <button className="button-link"
-                        onClick={this.props.toggleAction}>Ingresar</button>
-                    </Form.Text>
                   </center>
                 </Form>
+
+                <center className="mt-1">
+                  <Form.Text>¿Ya tienes cuenta?{' '}
+                    <button type="button" className="button-link"
+                      onClick={this.props.toggleAction}>Ingresar</button>
+                  </Form.Text>
+                  <Form.Text>¿No encuentras tu Institución?{' '}
+                    <button className="button-link"
+                      onClick={
+                        () => this.setState({institutionModalShow: true})
+                      }>
+                      Registrar Institución</button>
+                  </Form.Text>
+                </center>
               </Card.Body>
             </Card>
           </Col>
         </Row>
+        <InstitutionForm
+          show={this.state.institutionModalShow}
+          onHide={() => this.setState({institutionModalShow: false})}
+        />
       </Container>
     );
   }
