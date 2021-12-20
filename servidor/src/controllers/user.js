@@ -268,3 +268,18 @@ exports.getRequest = (req, res) => {
 		});
 	});
 };
+
+exports.getAllrequests = (req, res) => {
+	User.getAllRequests((err, result) => {
+		if(err) {
+			res.status(400).send({
+				result : false,
+				description : err.sqlMessage,
+			});
+		}
+		res.send({
+			result : true,
+			response : result,
+		});
+	});
+}

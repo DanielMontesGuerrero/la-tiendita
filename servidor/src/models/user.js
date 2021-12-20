@@ -312,6 +312,25 @@ class User {
 			});
 		});
 	};
+	static getAllRequests(callback) {
+		connection.get_connection((qb) => {
+			qb.select('*');
+			qb.get(requestsTable, (err, res) => {
+				qb.release();
+				if(err) {
+					logger.error({
+						message : `Error al obtener todas las peticiones`,
+						error : err,
+					});
+				}
+				logger.info({
+					message : `Se obtuvieron todas las peticiones`,
+					result : res
+				});
+				callback(null, res);
+			});
+		});
+	};
 }
 
 module.exports = User;

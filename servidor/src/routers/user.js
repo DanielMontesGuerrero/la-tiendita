@@ -16,6 +16,8 @@ router.post('/user/request/:id',
 	User.createRequest
 )
 
+router.get('/user/get_all_requests', User.getAllRequests);
+
 router.get('/user/request/:id', User.getRequest);
 
 router.patch('/user/request/:id', User.updateRequest);
