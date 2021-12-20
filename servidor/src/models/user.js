@@ -320,15 +320,15 @@ class User {
 			qb.select('*');
 			qb.get(requestsTable, (err, res) => {
 				qb.release();
-				if(err) {
+				if (err) {
 					logger.error({
-						message : `Error al obtener todas las peticiones`,
-						error : err,
+						message: `Error al obtener todas las peticiones`,
+						error: err,
 					});
 				}
 				logger.info({
-					message : `Se obtuvieron todas las peticiones`,
-					result : res
+					message: `Se obtuvieron todas las peticiones`,
+					result: res,
 				});
 				callback(null, res);
 			});

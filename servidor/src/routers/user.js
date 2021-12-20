@@ -1,8 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const logger = require('../common/logger.js');
 const User = require('../controllers/user.js');
-const config = require('../common/config.js');
 
 const router = new express.Router();
 
