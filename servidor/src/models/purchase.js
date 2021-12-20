@@ -130,8 +130,9 @@ class Purchase {
 					'left');
 			if (request.id_user !== undefined) {
 				qb.where(`${purchaseTable}.id_user`, request.id_user);
-			} else {
-				qb.where(`${purchaseTable}.id_store`, request.id_store);
+			}
+			if (request.id_store !== undefined) {
+				qb.or_where(`${purchaseTable}.id_store`, request.id_store);
 			}
 			qb.order_by('date', 'DESC');
 			qb.get((err, res) => {

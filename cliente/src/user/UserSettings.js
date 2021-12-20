@@ -78,8 +78,7 @@ class UserSettings extends Component {
       url: `${config.host}/purchase?id_user=${UserProfile.getIdUser()}`,
       method: 'get',
       params: {
-        includeScore: true,
-        onlyTop: true,
+        id_store: UserProfile.getIdStore(),
       },
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
