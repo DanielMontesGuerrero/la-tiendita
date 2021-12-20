@@ -13,6 +13,7 @@ class Request extends Component {
   }
   static get propTypes() {
     return {
+      status: PropTypes.string,
       id: PropTypes.number,
       id_user: PropTypes.number,
       voucher: PropTypes.text,
@@ -31,6 +32,7 @@ class Request extends Component {
         'Content-Type': 'application/json;charset=utf-8',
       },
     };
+
     axios(options).then((res) => {
       options.url = `${config.host}/user/${this.props.id}`;
       options.data = {
@@ -73,18 +75,32 @@ class Request extends Component {
   render() {
     return (
       <Card>
-        <Card.Header as="h5">Petición de: {this.props.user}</Card.Header>
+        <Card.Header as="h5">
+          Petición de: {
+            this.props.user +
+              (this.props.status !== 'pendiente' ?
+                ' Estado: ' + this.props.status :
+                ''
+              )
+          }
+        </Card.Header>
         <Card.Body>
           <Card.Text>
-            Descarga el comprobante de Fulano{' '}
+            Descarga el comprobante de {this.props.user + ' '}
             <a href={this.props.downloadLink}>aquí.
             </a>
           </Card.Text>
           <Stack gap={2} direction="horizontal">
-            {/* eslint-disable-next-line max-len */}
-            <Button disabled={this.state.status} variant="success" onClick={()=>this.aceptarSolicitud()}>Aceptar</Button>
-            {/* eslint-disable-next-line max-len */}
-            <Button disabled={this.state.status} variant="danger" onClick={()=>this.rechazarSolicitud()}>Rechazar</Button>
+            <Button
+              disabled={this.state.status || this.props.status !== 'pendiente'}
+              variant="success"
+              onClick={()=>this.aceptarSolicitud()}
+            >Aceptar</Button>
+            <Button
+              disabled={this.state.status || this.props.status !== 'pendiente'}
+              variant="danger"
+              onClick={()=>this.rechazarSolicitud()}
+            >Rechazar</Button>
           </Stack>
         </Card.Body>
       </Card>

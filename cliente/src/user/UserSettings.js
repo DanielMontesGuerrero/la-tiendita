@@ -19,6 +19,7 @@ class UserSettings extends Component {
     super(props);
     this.state = {
       modalShow: false,
+      showStoreForm: false,
       user: {
         email: UserProfile.getEmail(),
         institutionName: UserProfile.getInstitutionName(),
@@ -148,6 +149,7 @@ class UserSettings extends Component {
           <Row className="justify-content-center px-4 mb-3">
             <Col md="auto">
               <UserIcon
+                inSettings={true}
                 userType={this.state.user.userType}
                 image={this.state.user.image}
                 name={this.state.user.name}
@@ -253,12 +255,16 @@ class UserSettings extends Component {
             >
               Actualizar datos
             </Button>
-            <Button
-              variant="primary"
-              onClick={() => this.setModalShow(true)}
-            >
-              Solicitar cuenta de vendor
-            </Button>
+            {
+              UserProfile.getUserType() === 'usuario' ?
+                <Button
+                  variant="primary"
+                  onClick={() => this.setModalShow(true)}
+                >
+                  Solicitar cuenta de vendor
+                </Button> :
+                  <></>
+            }
             <Button
               onClick={() => this.cerrarSesion()}
               variant="danger"

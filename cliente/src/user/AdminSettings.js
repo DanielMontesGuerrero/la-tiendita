@@ -49,6 +49,7 @@ class AdminSettings extends Component {
         id_user={item.id_user}
         voucher={item.voucher}
         id ={item.id_petition}
+        status={item.state}
         key={index}/>);
     });
   }

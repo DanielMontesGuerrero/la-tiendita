@@ -41,7 +41,7 @@ class User {
 		this.id_user = user.id_user;
 		this.name = user.name;
 		this.email = user.email;
-		this.image = user.image;
+		this.image = user.image || user.imageURL;
 		this.userType = user.userType;
 		this.id_institution = user.id_institution;
 		this.password = user.password;
@@ -274,7 +274,6 @@ class User {
 					requestsTable,
 					data,
 					(err, res) => {
-						qb.release();
 						if (err) {
 							logger.error({
 								message: `Error al actualizar los datos de la peticion ${id} dentro de la BD`,
@@ -286,6 +285,32 @@ class User {
 							message: `Datos de la petición ${id} actualizados correctamente dentro de la BD`,
 							result: res,
 						});
+						if (data.state === 'aceptado') {
+							return qb.select('*').where('id_petition', id)
+								.get(requestsTable, (error, response) => {
+									qb.release();
+									if (error || response.length === 0) {
+										logger.error({
+											message: 'Error al obtener usuario',
+											error: error,
+										});
+										return callback(error, null);
+									}
+									this.update({
+										data: {
+											userType: 'vendedor',
+										},
+										id: response[0].id_user,
+									}, (errUser, resUser) => {
+										if (errUser) {
+											logger.error('Error al actualizar usuario');
+											return callback(errUser, null);
+										}
+										return callback(null, resUser);
+									});
+								});
+						}
+						qb.release();
 						callback(null, res);
 					},
 				);

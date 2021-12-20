@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Badge, Image, Stack} from 'react-bootstrap';
+import {Badge, Image, Stack, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import UserForm from '../user/UserForm';
 
 const UserTypes = {
   user: 'usuario',
@@ -10,8 +11,16 @@ const UserTypes = {
 };
 
 class UserIcon extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false,
+    };
+  }
+
   static get propTypes() {
     return {
+      inSettings: PropTypes.bool,
       userType: PropTypes.string,
       image: PropTypes.string,
       name: PropTypes.string,
@@ -45,7 +54,19 @@ class UserIcon extends Component {
                 <FontAwesomeIcon icon="user" size="10x"/>
           }
         </center>
+        {
+          this.props.inSettings ?
+            <Button
+              variant="link"
+              onClick={() => this.setState({showModal: true})}
+            >Actualizar</Button> :
+              <></>
+        }
         {this.getBadge()}
+        <UserForm
+          show={this.state.showModal}
+          onHide={() => this.setState({showModal: false})}
+        />
       </Stack>
     );
   }

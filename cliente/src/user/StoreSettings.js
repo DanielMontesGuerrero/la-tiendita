@@ -259,6 +259,7 @@ class StoreSettings extends Component {
           <Row className="justify-content-center px-4">
             <Col md="auto">
               <StoreIconBig
+                inSettings={true}
                 name={this.state.store.name}
                 score={this.state.store.score}
                 image={this.state.store.image}

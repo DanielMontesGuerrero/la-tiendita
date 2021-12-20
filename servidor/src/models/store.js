@@ -27,7 +27,7 @@ class Store {
 		this.id_user = store.id_user;
 		this.name = store.name;
 		this.description = store.description;
-		this.image = store.image;
+		this.image = store.image || store.imageURL;
 		this.score = store.score;
 		this.ownerName = store.ownerName;
 		this.ownerImage = store.ownerImage;
