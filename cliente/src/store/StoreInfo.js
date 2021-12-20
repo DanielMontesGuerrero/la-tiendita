@@ -37,11 +37,10 @@ class StoreInfo extends Component {
 
   componentDidMount() {
     let options = {
-      url: `${config.host}/product/all`,
+      url: `${config.host}/store/productInStore/${this.props.id_store}`,
       method: 'get',
       params: {
         includeScore: true,
-        onStore: this.props.id_store,
       },
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -193,7 +192,6 @@ class StoreInfo extends Component {
           </Row>
           <p>Dueño de la tienda: {this.props.ownerName}</p>
           <p>{this.props.description}</p>
-          <p>Productos disponibles: </p>
           <center>
             <ButtonGroup>
               <ToggleButton
@@ -235,6 +233,7 @@ class StoreInfo extends Component {
                 <></>
               )
           }
+          <p>Productos disponibles: </p>
           <Stack gap={3} className="mb-3">
             {this.getProductInfo()}
           </Stack>

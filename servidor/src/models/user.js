@@ -2,11 +2,11 @@ const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
 const validator = require('validator');
 const crypto = require('crypto');
-const { Readable } = require('stream');
+const {Readable} = require('stream');
 
 const dropboxV2Api = require('dropbox-v2-api');
 const dropbox = dropboxV2Api.authenticate({
-	token : 'NAFId7B39IMAAAAAAAAAAbQn5P5n6qpvgliJGN5JSVqkmTXMhVYxyVnkMTU_LuQO'
+	token: 'NAFId7B39IMAAAAAAAAAAbQn5P5n6qpvgliJGN5JSVqkmTXMhVYxyVnkMTU_LuQO',
 });
 
 const usersTable = 'usuarios';
@@ -15,16 +15,16 @@ const institutionsTable = 'instituciones';
 const requestsTable = 'peticiones';
 
 function stringToStream(text) {
-	const stream = Readable.from(text);	
+	const stream = Readable.from(text);
 	return stream;
 }
-function streamToString (stream) {
+function streamToString(stream) {
 	const chunks = [];
 	return new Promise((resolve, reject) => {
 		stream.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
 		stream.on('error', (err) => reject(err));
 		stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
-	})
+	});
 }
 
 /**
@@ -211,6 +211,7 @@ class User {
 					password: user.password,
 				})
 				.get((err, res) => {
+					qb.release();
 					if (err) {
 						logger.error({
 							message: `Error obteniendo login de usuario: ` +
@@ -272,25 +273,27 @@ class User {
 				.update(
 					requestsTable,
 					data,
-					(err,res) => {
-						if(err) {
+					(err, res) => {
+						qb.release();
+						if (err) {
 							logger.error({
-								message : `Error al actualizar los datos de la peticion ${id} dentro de la BD`,
-								error : err,
+								message: `Error al actualizar los datos de la peticion ${id} dentro de la BD`,
+								error: err,
 							});
+							return callback(err, null);
 						}
 						logger.info({
-							message : `Datos de la petición ${id} actualizados correctamente dentro de la BD`,
-							result : res,
+							message: `Datos de la petición ${id} actualizados correctamente dentro de la BD`,
+							result: res,
 						});
 						callback(null, res);
-					}
+					},
 				);
 		});
 	};
 	/**
 	 * Devuelve la información de la petición solicitada
-	 * @param {int} id - id de la petición de la que obtendremos información 
+	 * @param {int} id - id de la petición de la que obtendremos información
 	 * @param {function} callback - función de callback
 	 */
 	static getRequest(id, callback) {
@@ -298,17 +301,17 @@ class User {
 			qb.select('*').where('id_petition', id);
 			qb.get(requestsTable, (err, res) => {
 				qb.release();
-				if(err) {
+				if (err) {
 					logger.error({
-						message :  `Error al obtener la peticion con id ${id}`,
-						error : err,
-					}); 
+						message: `Error al obtener la peticion con id ${id}`,
+						error: err,
+					});
 				}
 				logger.info({
-					message : `Se obtuvo la información de la petición con id ${id} correctamente`,
-					result : res,
+					message: `Se obtuvo la información de la petición con id ${id} correctamente`,
+					result: res,
 				});
-				callback(null,res[0]);
+				callback(null, res[0]);
 			});
 		});
 	};

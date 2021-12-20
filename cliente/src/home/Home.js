@@ -83,6 +83,7 @@ class Home extends Component {
     return products.map((item, index) => {
       return (<ProductCard
         itemId={index}
+        id_product={item.id_product}
         name={item.name}
         image={item.image}
         score={item.score}

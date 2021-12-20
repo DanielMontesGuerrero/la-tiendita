@@ -47,4 +47,4 @@ const insertPaymentMethods = (storeIds) => {
 };
 
 module.exports = insertPaymentMethods;
- 
+

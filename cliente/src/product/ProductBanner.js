@@ -27,7 +27,26 @@ class ProductBanner extends Component {
       formShow: false,
       price: props.price,
       stock: props.numProducts,
+      stores: [],
     };
+  }
+
+  componentDidMount() {
+    if (!this.props.inCart &&
+        !this.props.inInfo &&
+        !this.props.inInventory &&
+        false) {
+      const options = {
+        url: `${config.host}/product/stores/${this.props.id_product}`,
+        method: 'get',
+      };
+      axios(options).then((res) => {
+        console.log(res);
+        if (res.data.result) {
+          this.setState({stores: res.data.response});
+        }
+      });
+    }
   }
 
   static get propTypes() {
@@ -60,13 +79,13 @@ class ProductBanner extends Component {
   }
 
   getStores() {
-    const data = require('../common/stores.json');
-    const stores = data.stores;
+    // const data = require('../common/stores.json');
+    const stores = this.state.stores;
     return stores.map((item, index) => {
       return (
         <StoreIcon
           name={item.name}
-          price={item.price}
+          image={item.image}
           key={index}
         />
       );

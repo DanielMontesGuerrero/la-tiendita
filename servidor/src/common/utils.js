@@ -59,9 +59,9 @@ exports.uploadFile = (file, callback) => {
 	const aux = fs.createReadStream(`${filepath}/${filename}`);
 	const url = 'https://content.dropboxapi.com/2/files/upload';
 	const headers = {
-		'Authorization' : 'Bearer NAFId7B39IMAAAAAAAAAAbQn5P5n6qpvgliJGN5JSVqkmTXMhVYxyVnkMTU_LuQO',
+		'Authorization': 'Bearer NAFId7B39IMAAAAAAAAAAbQn5P5n6qpvgliJGN5JSVqkmTXMhVYxyVnkMTU_LuQO',
 		'Dropbox-API-Arg': `{"path": "/la-tiendita/${filename}.pdf","mode": "add","autorename": true,"mute": true,"strict_conflict": false}`,
-    'Content-Type': 'application/octet-stream'
+		'Content-Type': 'application/octet-stream',
 	};
 	logger.info({
 		message: 'Subiendo archivo a dropbox',
@@ -69,8 +69,8 @@ exports.uploadFile = (file, callback) => {
 	});
 	const options = {
 		url: url,
-		headers : headers,
-		body : aux,
+		headers: headers,
+		body: aux,
 	};
 	request.post(options, (error, response) => {
 		if (error) {
@@ -96,20 +96,20 @@ exports.uploadFile = (file, callback) => {
 			callback(response.body, null);
 		}
 	});
-}
+};
 exports.getUrlFile = (id, callback) => {
-	const url = "https://api.dropboxapi.com/2/files/get_temporary_link";
+	const url = 'https://api.dropboxapi.com/2/files/get_temporary_link';
 	const headers = {
-		'Authorization' : 'Bearer NAFId7B39IMAAAAAAAAAAbQn5P5n6qpvgliJGN5JSVqkmTXMhVYxyVnkMTU_LuQO',
-    'Content-Type': 'application/json'
-	}
+		'Authorization': 'Bearer NAFId7B39IMAAAAAAAAAAbQn5P5n6qpvgliJGN5JSVqkmTXMhVYxyVnkMTU_LuQO',
+		'Content-Type': 'application/json',
+	};
 	const options = {
-		url : url,
+		'url': url,
 		'method': 'POST',
-		headers : headers,
-		body : JSON.stringify ({
-			"path" : id,
-		})	
+		'headers': headers,
+		'body': JSON.stringify({
+			'path': id,
+		}),
 	};
 	request.post(options, (error, response) => {
 		if (error) {
@@ -121,4 +121,4 @@ exports.getUrlFile = (id, callback) => {
 		}
 		callback(null, response);
 	});
-}
+};

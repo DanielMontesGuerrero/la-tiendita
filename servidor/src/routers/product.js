@@ -9,6 +9,8 @@ router.post('/product/image/:id',
 	Product.uploadImage,
 );
 
+router.get('/product/stores/:id', Product.getStores);
+
 router.post('/product/score/:id', Product.score);
 
 router.get('/product/score/:id', Product.getScoreList);

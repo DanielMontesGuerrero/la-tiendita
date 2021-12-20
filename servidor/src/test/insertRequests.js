@@ -7,7 +7,7 @@ const config = require('../common/config');
 const fileFolderPath = '/data/file/';
 
 const insertRequests = (userIds) => {
-	let raw = fs.readFileSync(
+	const raw = fs.readFileSync(
 		path.join(__dirname, '/data/requests.json'));
 	const data = JSON.parse(raw);
 
@@ -16,14 +16,14 @@ const insertRequests = (userIds) => {
 	data.forEach((item) => {
 		item.id_user = userIds[item.id_user];
 		const filePath = path.join(__dirname, fileFolderPath, item.filename);
-		let url = `${config.host}/user/request/${item.id_user}`;
+		const url = `${config.host}/user/request/${item.id_user}`;
 		const options = {
 			url: url,
 			json: true,
-			method : 'POST',
-			formData : {
-				file : fs.createReadStream(filePath),
-			}
+			method: 'POST',
+			formData: {
+				file: fs.createReadStream(filePath),
+			},
 		};
 		request.post(options, (error, response) => {
 			if (error) {
@@ -42,7 +42,7 @@ const insertRequests = (userIds) => {
 				});
 			} else {
 				logger.error({
-					message: `Error insertando request para usario ${item.id_user}`, 
+					message: `Error insertando request para usario ${item.id_user}`,
 					error: respData,
 				});
 			}

@@ -1,6 +1,7 @@
 const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
 const validator = require('validator');
+const dbSchema = require('../db/schema.js');
 
 const storesTable = 'tiendas';
 const storeScoresTable = 'calificaciones_tienda';
@@ -282,7 +283,6 @@ class Store {
 	 * @param {func} callback - función de callback
 	 */
 	static updateScore(qb, data, callback) {
-		qb.release();
 		const ids = {
 			id_store: data.id_store,
 			id_user: data.id_user,
@@ -294,6 +294,7 @@ class Store {
 			data,
 			ids,
 			(err, res) => {
+				qb.release();
 				if (err) {
 					logger.error({
 						message: `Error al insertar calificación` +
@@ -471,9 +472,37 @@ class Store {
 	 */
 	static getProductsInStore(id, callback) {
 		connection.get_connection((qb)=> {
-			qb.select('*')
-				.where('id_store', id);
-			qb.get(productsInStoreTable, (err, res) => {
+			const scoreTmpTable = `(
+					SELECT AVG(score) AS score, id_product
+					FROM ${dbSchema.productScores}
+					GROUP BY id_product
+				) scores`;
+			const selectList = [
+				`${productsInStoreTable}.price`,
+				`${productsInStoreTable}.stock`,
+				`${productsInStoreTable}.id_store`,
+				`${productsInStoreTable}.id_product`,
+				`${dbSchema.products}.name`,
+				`${dbSchema.products}.description`,
+				`${dbSchema.products}.image`,
+				`${dbSchema.products}.quantity`,
+				`${dbSchema.products}.unity`,
+				'scores.score',
+			];
+			qb.select(selectList)
+				.from(productsInStoreTable)
+				.join(
+					dbSchema.products,
+					`${dbSchema.products}.id_product=${productsInStoreTable}.id_product`,
+					'left',
+				)
+				.join(
+					scoreTmpTable,
+					`${dbSchema.products}.id_product=scores.id_product`,
+					'left',
+				)
+				.where(`${productsInStoreTable}.id_store`, id);
+			qb.get((err, res) => {
 				qb.release();
 				if (err) {
 					logger.error({

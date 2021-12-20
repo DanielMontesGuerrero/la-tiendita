@@ -440,7 +440,7 @@ exports.updateProductInStore = (req, res) => {
 		message: `Actualizando producto en la tienda: ${id}`,
 		id_store: id,
 	});
-	Store.updateProductInStore(id, data, (err,response) => {
+	Store.updateProductInStore(id, data, (err, response) => {
 		if (err) {
 			return res.status(400).send({
 				result: false,

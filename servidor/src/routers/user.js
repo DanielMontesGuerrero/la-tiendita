@@ -12,9 +12,9 @@ router.post('/user/image/:id',
 );
 
 router.post('/user/request/:id',
-	multer({dest : 'uploads/'}).single('file'),
-	User.createRequest
-)
+	multer({dest: 'uploads/'}).single('file'),
+	User.createRequest,
+);
 
 router.get('/user/get_all_requests', User.getAllRequests);
 

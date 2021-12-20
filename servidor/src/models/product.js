@@ -1,6 +1,7 @@
 const connection = require('../db/database.js');
 const logger = require('../common/logger.js');
 const validator = require('validator');
+const dbSchema = require('../db/schema.js');
 
 const productsTable = 'productos';
 const productScoresTable = 'calificaciones_producto';
@@ -227,7 +228,6 @@ class Product {
 	 * @param {func} callback - función de callback
 	 */
 	static updateScore(qb, data, callback) {
-		qb.release();
 		const ids = {
 			id_product: data.id_product,
 			id_user: data.id_user,
@@ -239,6 +239,7 @@ class Product {
 			data,
 			ids,
 			(err, res) => {
+				qb.release();
 				if (err) {
 					logger.error({
 						message: `Error al insertar calificación` +
@@ -290,6 +291,39 @@ class Product {
 					logger.info({
 						message: `Lista de calificaciones obtenida del producto: ${id}`,
 						result: res,
+					});
+					callback(null, res);
+				});
+		});
+	}
+
+	/**
+	 * Retorna las tiendas que venden cierto producto
+	 * @param {int} id - id del producto
+	 * @param {func} callback - función de callback
+	 */
+	static getStoresForProduct(id, callback) {
+		connection.get_connection((qb) => {
+			qb.select('*')
+				.from(dbSchema.productsInStore)
+				.where('id_product', id)
+				.join(
+					dbSchema.stores,
+					`${dbSchema.stores}.id_store=${dbSchema.productsInStore}.id_store`,
+					'left',
+				)
+				.get((err, res) => {
+					qb.release();
+					if (err) {
+						logger.error({
+							message: `Error al obtener las tiendas del producto: ${id}`,
+							id: id,
+						});
+						return callback(null, err);
+					}
+					logger.info({
+						message: `Tiendas obtenidas del producto: ${id}`,
+						data: res,
 					});
 					callback(null, res);
 				});

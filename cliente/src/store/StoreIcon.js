@@ -18,7 +18,7 @@ class ProductIcon extends Component {
       <Badge pill bg="light" text="dark" className="storeIcon align-middle">
         {
           this.props.image !== null && this.props.image !== undefined ?
-            <Image src={this.props.image} style={{maxWidth: 50}}
+            <Image src={this.props.image} style={{maxWidth: 35, maxHeight: 35}}
               roundedCircle/> :
             <FontAwesomeIcon icon="store" size="2x"/>
         }

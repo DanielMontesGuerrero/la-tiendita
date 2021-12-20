@@ -4,10 +4,33 @@ import PropTypes from 'prop-types';
 import Score from '../common/Score.js';
 import StoreIcon from '../store/StoreIcon.js';
 import './ProductCard.css';
+import config from '../common/config.js';
+import axios from 'axios';
 
 class ProductCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stores: [],
+    };
+  }
+
+  componentDidMount() {
+    const options = {
+      url: `${config.host}/product/stores/${this.props.id_product}`,
+      method: 'get',
+    };
+    axios(options).then((res) => {
+      console.log(res);
+      if (res.data.result) {
+        this.setState({stores: res.data.response});
+      }
+    });
+  }
+
   static get propTypes() {
     return {
+      id_product: PropTypes.number,
       name: PropTypes.string,
       score: PropTypes.number,
       image: PropTypes.string,
@@ -27,12 +50,13 @@ class ProductCard extends Component {
   }
 
   getStores() {
-    const data = require('../common/stores.json');
-    const stores = data.stores;
+    // const data = require('../common/stores.json');
+    const stores = this.state.stores;
     return stores.map((item, index) => {
       return (
         <StoreIcon
           name={item.name}
+          image={item.image}
           key={index}
         />
       );

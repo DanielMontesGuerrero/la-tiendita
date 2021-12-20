@@ -224,3 +224,25 @@ exports.getScoreList = (req, res) => {
 		});
 	});
 };
+
+exports.getStores = (req, res) => {
+	const id = req.params.id;
+	if (id === undefined) {
+		return res.status(400).send({
+			result: false,
+			description: 'Se necesita el id del producto',
+		});
+	}
+	Product.getStoresForProduct(id, (err, response) => {
+		if (err) {
+			return res.status(400).send({
+				result: false,
+				description: err.sqlMessage,
+			});
+		}
+		res.send({
+			result: true,
+			response: response,
+		});
+	});
+};

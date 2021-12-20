@@ -76,6 +76,8 @@ class LoginForm extends Component {
       } else {
         this.setState({formError: 'El usuario o contraseña son erroneos'});
       }
+    }).catch((err) => {
+      console.log(err);
     });
   }
 
